@@ -1,0 +1,17 @@
+<canvas id="tools_sketch" width="250" height="250" style="border:1px solid #000000;">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
+<script type="text/javascript" charset="utf-8">
+    var canvas = document.getElementById("tools_sketch");
+    var ctx = canvas.getContext("2d");
+    var socket = io("http://localhost:8080/camera?token=04fe34ccblll9fe11ec8d24b729ca335d3b");
+    var image = new Image();
+    socket.on('connect', function() {
+        socket.emit('cameras_video', {data: 'I\'m connected!'});
+        socket.on("get_cameras_video",data=>{
+            image.onload = function() {
+                ctx.drawImage(image, 0, 0);
+            };
+            image.src =`data:image/jpg;base64,${data}`
+        })
+    });
+</script>

@@ -3,11 +3,9 @@ import sys
 from readers.src.camera.camera import Camera
 
 class DetectionObjects:
-    def __init__(self,previous: bool = False,type_read = "") -> None:
+    def __init__(self) -> None:
         self.Conf_threshold = 0.4    
         self.NMS_threshold = 0.4
-        self.camera = Camera(type_read)
-        self.previous = previous
 
         self.IA_DETECTION_OBJECTS_DATA_PATH = f"{sys.path[0]}/ia/ias/ia_detection_objects_data" 
         self.OBJECTS_NAME_PATH_TO_DETECT = f"{self.IA_DETECTION_OBJECTS_DATA_PATH}/object_to_detect/coco.names"
@@ -34,17 +32,13 @@ class DetectionObjects:
         model.setInputParams(size=(416, 416), scale=1/255, swapRB=True)
         return model
     
-    def detection(self):
+    def detection(self,ret,frame):
         model = self.get_model()
-        ret,frame = self.camera.reads()
         if not ret:
             return None,"We can not open camera"
-        if self.previous: 
-            stop_read = self.camera.show_frame(frame)
-            if stop_read: return stop_read
-            
+
         _,_ ,boxes = model.detect(frame, self.Conf_threshold, self.NMS_threshold)
-        return {"frame": frame,"position_of_square": boxes},None
+        return {"position_of_square": boxes},None
 
     
 if __name__ == "__main__":
