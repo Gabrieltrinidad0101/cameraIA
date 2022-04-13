@@ -18,10 +18,13 @@ class CameraSocket(Namespace):
 
     def on_cameras_video(self, message):
         while True:
-            ret,frame = camera.reads()
-            data,error = detectionObjects.detection(ret,frame)
-            frame_str = camera.frame_to_str(frame)
-            emit("get_cameras_video",frame_str)
+            list_frames = []
+            frames = camera.reads()
+            for ret,frame in frames: 
+                data,error = detectionObjects.detection(ret,frame)
+                frame_str = camera.frame_to_str(frame)
+                list_frames.append(frame_str)
+            emit("get_cameras_video",list_frames)
 
 
 

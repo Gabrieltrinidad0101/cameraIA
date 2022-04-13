@@ -15,7 +15,7 @@ class Camera:
         return  cap
     
     def reads(self):
-        return self.cap.read()
+        return [self.cap.read(),self.cap.read()]
     
     def frame_to_str(self,frame):
         res, frame = cv2.imencode(".jpg",frame)
