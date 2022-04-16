@@ -37,9 +37,11 @@ class DetectionObjects:
         if not ret:
             return None,"We can not open camera"
 
-        _,_ ,boxes = model.detect(frame, self.Conf_threshold, self.NMS_threshold)
-        return {"position_of_square": boxes},None
-
+        classes,_ ,boxes = model.detect(frame, self.Conf_threshold, self.NMS_threshold)
+        for (classid, box) in zip(classes, boxes):
+            label = self.name_of_the_objects_to_detect[classid]
+            return {"label": label,"position_of_square": box},None
+        return None,None
     
 if __name__ == "__main__":
     detectionObject = DetectionObjects()
