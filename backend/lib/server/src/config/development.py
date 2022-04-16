@@ -4,4 +4,4 @@ from xml.dom.minidom import parseString
 from .config_basis import Config
 class Development(Config):
     ENV = "development"
-    DEBUG=True
+    FLASK_DEBUG = True

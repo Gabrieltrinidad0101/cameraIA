@@ -5,7 +5,7 @@ from ia.src.ia_detection_objects.ia_detection_objects import DetectionObjects
 import server.src.services.db as db
 camera = Camera("video")
 detectionObjects = DetectionObjects()
-
+import time
 class CameraSocket(Namespace):
     def on_connect(self):
         token = request.args["token"]
