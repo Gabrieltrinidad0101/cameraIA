@@ -7,26 +7,36 @@
     <title>Document</title>
 </head>
 <body>
-    <canvas id="tools_sketch" width="250" height="250" style="border:1px solid #000000;">
+    <canvas id="tools_sketch" width="700" height="700" style="border:1px solid #000000;">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
     <script type="text/javascript" charset="utf-8">
         var canvas = document.getElementById("tools_sketch");
         var ctx = canvas.getContext("2d");
-        var socket = io("http://localhost:8080/alarms?token=4fe34ccblll9fe11ec8d24b729ca335d3b");
+        var socket = io("http://localhost:8080/camera?token=4fe34ccblll9fe11ec8d24b729ca335d3b");
         var image = new Image();
         socket.on('connect', async function() {
-            // socket.emit('cameras_video', {data: 'I\'m connected!'});
-            // socket.on("get_cameras_video",data=>{
-            //     image.onload = function() {
-            //         ctx.drawImage(image, 0, 0);
-            //     };
-            //     image.src =`data:image/jpg;base64,${data[0]}`
-            // })
-            socket.emit("add_new_alarm",{"second": 10,"id": "ten"})
-            socket.emit("add_new_alarm",{"second": 30,"id": "thirty"})
-            socket.emit("add_new_alarm",{"second": 20,"id": "twenty"})
-            socket.on("alarm_is_over",(message)=>{
-                alert(message)
+            socket.emit('cameras_video', {data: 'I\'m connected!'});
+            socket.on("get_cameras_video",data=>{
+                image.onload = function() {
+                    ctx.drawImage(image, 0, 0);
+                };
+                image.src =`data:image/jpg;base64,${data[0]}`
+            })
+            socket.emit("add_new_alarm",{
+                time: {
+                    start_alarm: {
+                        "second": 0,
+                        "minute": 25
+                    },
+                    end_alarm:{
+                        "second": 0,
+                        "minute": 26
+                    }
+                },
+                object: ["person"],
+            })
+            socket.on("camera_detect_obejct",(message)=>{
+                console.log(message)
             })
         });
     </script>

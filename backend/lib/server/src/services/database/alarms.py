@@ -1,0 +1,22 @@
+from pymongo import MongoClient
+from bson.objectid import ObjectId
+
+import json
+
+class DatabaseAlarm:
+    def __init__(self) -> None:
+        cluster = MongoClient('mongodb://localhost:27017/')
+        db = cluster["cameraia"]
+        self.alarms_db = db["alarms"]
+
+    def save(self,alarm):
+        self.alarms_db.insert_one({"alarm": json.dumps(alarm)})
+
+    def delete(self,id):
+        self.alarms_db.delete_one({"_id": ObjectId(id)})
+
+    def edit(self,id,alarm):
+        self.alarms_db.update_one({"_id": ObjectId(id)},{"$set": {"alarm":json.dumps(alarm)}})
+    
+    def get_all(self):
+        return list(self.alarms_db.find({"alarm": {"$exists": 1}}))

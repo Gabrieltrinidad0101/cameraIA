@@ -12,7 +12,7 @@ class Alarm:
         current_date_in_second = time.mktime(current_date.timetuple())
         return current_date_in_second
     
-    def _get_time_from_alarm(self,time):
+    def get_time_from_alarm(self,time):
         second = time.get("second")
         minute = time.get("minute")
         return second,minute
@@ -21,8 +21,8 @@ class Alarm:
         start_alarm = alarm.get("start_alarm")
         end_alarm = alarm.get("end_alarm")
         
-        start_alarm_second,start_alarm_minute = self._get_time_from_alarm(start_alarm)
-        end_alarm_second,end_alarm_minute = self._get_time_from_alarm(end_alarm)
+        start_alarm_second,start_alarm_minute = self.get_time_from_alarm(start_alarm)
+        end_alarm_second,end_alarm_minute = self.get_time_from_alarm(end_alarm)
         
         current_time_in_second = self.get_time()
         start_alarm_time_in_second = self.get_time(second=start_alarm_second,minute=start_alarm_minute)
