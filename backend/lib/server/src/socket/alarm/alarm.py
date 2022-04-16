@@ -2,14 +2,13 @@ from flask_socketio import Namespace,emit
 from flask import request,current_app,copy_current_request_context
 import server.src.services.db as db
 from .utils.process_time import ProcessTime
-from threading import Thread,current_thread
+from threading import Thread
 
 class AlarmSocket(Namespace):
     def __init__(self, namespace=None):
         super().__init__(namespace)
         self.alarms = {}
         self.processTime = ProcessTime()
-        print(f" sss ssss ssss {current_thread()}")
         
     def on_connect(self):
         token = request.args["token"]
