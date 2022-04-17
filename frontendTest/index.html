@@ -12,7 +12,7 @@
     <script type="text/javascript" charset="utf-8">
         var canvas = document.getElementById("tools_sketch");
         var ctx = canvas.getContext("2d");
-        var socket = io("http://localhost:8080/camera?token=4fe34ccblll9fe11ec8d24b729ca335d3b");
+        var socket = io("http://localhost:8080/camera?token=04fe34ccb9fe11ec8d24b729ca335d3b");
         var image = new Image();
         socket.on('connect', async function() {
             socket.emit('cameras_video', {data: 'I\'m connected!'});
@@ -21,19 +21,6 @@
                     ctx.drawImage(image, 0, 0);
                 };
                 image.src =`data:image/jpg;base64,${data[0]}`
-            })
-            socket.emit("add_new_alarm",{
-                time: {
-                    start_alarm: {
-                        "second": 0,
-                        "minute": 25
-                    },
-                    end_alarm:{
-                        "second": 0,
-                        "minute": 26
-                    }
-                },
-                object: ["person"],
             })
             socket.on("camera_detect_obejct",(message)=>{
                 console.log(message)

@@ -20,7 +20,6 @@ class Alarm:
     def check_if_current_time_is_between_start_alarm_and_end_alarm(self,alarm):
         start_alarm = alarm.get("start_alarm")
         end_alarm = alarm.get("end_alarm")
-        
         start_alarm_second,start_alarm_minute = self.get_time_from_alarm(start_alarm)
         end_alarm_second,end_alarm_minute = self.get_time_from_alarm(end_alarm)
         
@@ -31,13 +30,11 @@ class Alarm:
         if current_time_in_second >= start_alarm_time_in_second and current_time_in_second <= end_alarm_time_in_second:
             return True
         return False
-    
-    def process(self,alarms):
+
+    def process(self,alarm):
         alarm_is_not_processing = False 
-        for id in alarms:
-            alarm = alarms.get(id,False)
-            if not alarm: return alarm_is_not_processing
-            alarm_is_processing = self.check_if_current_time_is_between_start_alarm_and_end_alarm(alarm)
-            return alarm_is_processing
+        if not alarm: return alarm_is_not_processing
+        alarm_is_processing = self.check_if_current_time_is_between_start_alarm_and_end_alarm(alarm)
+        return alarm_is_processing
 
 

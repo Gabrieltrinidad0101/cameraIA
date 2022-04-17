@@ -12,6 +12,7 @@ def if_exists_return_old_token_otherwise_save_it(token: str) -> str:
     return token
 
 def verify_token(token):
-    config_data = configs.find({"token": token})
+    config_data = configs.find_one({"token": token})
+    print(config_data)
     if config_data: return False
     return True
