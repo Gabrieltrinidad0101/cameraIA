@@ -7,7 +7,7 @@ import bson.json_util as json_util
 class DatabaseAlarm:
     def __init__(self) -> None:
         cluster = MongoClient('mongodb://localhost:27017/')
-        db = cluster[current_app.config["current_app"]]
+        db = cluster[current_app.config["DATABASE_NAME"]]
         self.alarms_db = db["alarms"]
 
     def _parse_json(self,data):
