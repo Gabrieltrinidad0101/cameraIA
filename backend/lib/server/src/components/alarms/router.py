@@ -3,6 +3,7 @@ from flask_expects_json import expects_json
 from .utils.add_new_alarm_scheme_json import alarm_schema_json
 from server.src.services.database.alarms import DatabaseAlarm
 from server.src.middlewares.auth import token_requires
+from .dto import dto_alarm
 alarm = Blueprint("alarm",__name__,url_prefix='/alarm')
 database_alarm = DatabaseAlarm()
 
@@ -15,7 +16,8 @@ def add_new_alarm():
         objects = alarm_data.get("objects")
         for object_name in objects:
             if type(object_name) != str: return jsonify({"error": "Error type in objects"}),500
-        database_alarm.save(alarm_data)
+        alarm_data_filter = dto_alarm(alarm_data)
+        database_alarm.save(alarm_data_filter)
         return jsonify({"message": "Alarm add succcessful"}), 200
     except:
         return jsonify({"error": "Internal server error try again later"}), 500

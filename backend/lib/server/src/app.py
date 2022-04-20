@@ -7,14 +7,14 @@ from flask_cors import CORS
 from .socket.camera.camera_socket import CameraSocket
 from .routes.router import router
 from .scripts.qr_code.qr_code import QrCode
-qr_code = QrCode()
-qr_code.make()
 
-app = Flask(__name__) 
-
-CORS(app)    
-app.config.from_object(ConfigServer.config())
-load_dotenv()
-app.register_blueprint(router)
-socket = SocketIO(app,cors_allowed_origins="*",always_connect=True, async_mode="threading")
-socket.on_namespace(CameraSocket("/camera"))
+def create_app(enviroment=""):
+    qr_code = QrCode()
+    qr_code.make()
+    app = Flask(__name__) 
+    app.config.from_object(ConfigServer.config(enviroment))
+    CORS(app)   
+    app.register_blueprint(router)
+    socket = SocketIO(app,cors_allowed_origins="*")
+    socket.on_namespace(CameraSocket("/camera"))
+    return app,socket

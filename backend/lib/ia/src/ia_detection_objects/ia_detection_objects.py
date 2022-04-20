@@ -38,10 +38,16 @@ class DetectionObjects:
             return None,"We can not open camera"
 
         classes,_ ,boxes = model.detect(frame, self.Conf_threshold, self.NMS_threshold)
+        ia_datas = {
+            "labels": [],
+            "boxes": []
+        }
         for (classid, box) in zip(classes, boxes):
             label = self.name_of_the_objects_to_detect[classid]
-            return {"label": label,"position_of_square": box},None
-        return None,None
+            ia_datas["labels"].append(label)
+            ia_datas["boxes"].append(box)
+        return ia_datas,None
+        
     
 if __name__ == "__main__":
     detectionObject = DetectionObjects()

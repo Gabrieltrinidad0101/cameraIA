@@ -1,12 +1,11 @@
-import sys
 from .development import Development
 from .production import Production
 from .test import Test
+
 class ConfigServer:
     @staticmethod
-    def config() -> None:
+    def config(environment):
         try:
-            environment = sys.argv[1]
             if environment == "development":
                 return Development()
             elif environment == "production":

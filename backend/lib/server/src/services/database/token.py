@@ -1,8 +1,8 @@
 from pymongo import MongoClient
-
+from flask import current_app
 
 cluster = MongoClient('mongodb://localhost:27017/')
-db = cluster["cameraia"]
+db = cluster[current_app.config["DATABASE_NAME"]]
 configs = db["configs"]
 
 def if_exists_return_old_token_otherwise_save_it(token: str) -> str:

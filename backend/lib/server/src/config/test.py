@@ -1,3 +1,3 @@
 from .config_basis import Config
 class Test(Config):
-    pass
+    DATABASE_NAME = "camera_ia_test"
