@@ -1,13 +1,12 @@
 from pymongo import MongoClient
 from bson.objectid import ObjectId
-from flask import current_app
 import json
 import bson.json_util as json_util
-
+from server.src.config.config_server import ConfigServer
 class DatabaseAlarm:
     def __init__(self) -> None:
         cluster = MongoClient('mongodb://localhost:27017/')
-        db = cluster[current_app.config["DATABASE_NAME"]]
+        db = cluster[ConfigServer.get().DATABASE_NAME]
         self.alarms_db = db["alarms"]
 
     def _parse_json(self,data):
