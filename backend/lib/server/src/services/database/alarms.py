@@ -21,5 +21,8 @@ class DatabaseAlarm:
     def edit(self,id,alarm):
         self.alarms_db.update_one({"_id": ObjectId(id)},{"$set": {"alarm":json.dumps(alarm)}})
 
+    def find_one(self,id):
+        return self._parse_json(self.alarms_db.find_one({"_id": ObjectId(id)}))
+
     def get_all(self):
         return self._parse_json(self.alarms_db.find({"alarm": {"$exists": 1}}))

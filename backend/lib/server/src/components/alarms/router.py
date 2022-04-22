@@ -19,8 +19,8 @@ def add_new_alarm():
         alarm_data_filter = dto_alarm(alarm_data)
         database_alarm.save(alarm_data_filter)
         return jsonify({"message": "Alarm add succcessful"}), 200
-    except:
-        return jsonify({"error": "Internal server error try again later"}), 500
+    except Exception as e:
+        return jsonify({"error": e}), 500
 
 @alarm.route("/get",methods=["GET"])
 @token_requires
@@ -28,6 +28,16 @@ def get_all_alarms():
     try:
         alarms = database_alarm.get_all()
         return jsonify(alarms),200
+    except Exception as e:
+        print(e)
+        return jsonify({"error": "Internal server error try again later"}), 500
+
+@alarm.route("/get_one/<id>",methods=["GET"])
+@token_requires
+def get_one_alarm(id):
+    try:
+        alarm = database_alarm.find_one(id)
+        return jsonify(alarm),200
     except Exception as e:
         print(e)
         return jsonify({"error": "Internal server error try again later"}), 500

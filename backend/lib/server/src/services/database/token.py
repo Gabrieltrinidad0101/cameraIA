@@ -1,8 +1,9 @@
 from pymongo import MongoClient
+from server.src.config.config_server import ConfigServer
 
 
 cluster = MongoClient('mongodb://localhost:27017/')
-db = cluster["cameraia"]
+db = cluster[ConfigServer.get().DATABASE_NAME]
 configs = db["configs"]
 
 def if_exists_return_old_token_otherwise_save_it(token: str) -> str:
@@ -13,6 +14,5 @@ def if_exists_return_old_token_otherwise_save_it(token: str) -> str:
 
 def verify_token(token):
     config_data = configs.find_one({"token": token})
-    print(config_data)
     if config_data: return False
     return True

@@ -6,7 +6,6 @@ from .socket.camera.camera_socket import CameraSocket
 from .routes.router import router
 from .scripts.qr_code.qr_code import QrCode
 def create_app(enviroment):
-    print("okkkk")
     qr_code = QrCode()
     qr_code.make()
     app = Flask(__name__) 

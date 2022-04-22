@@ -8,7 +8,6 @@ def token_requires(fun):
         if not token:
             return jsonify({'error': "you don't have token"}),500
         token_is_not_correct = DatabaseToken.verify_token(token)
-        print(token_is_not_correct)
         if token_is_not_correct: return jsonify({'error': "the token is incorrent"}),500
         return fun(**kwargs)
     return wrapped_view
