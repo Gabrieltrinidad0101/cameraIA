@@ -9,7 +9,7 @@ database_alarm = DatabaseAlarm()
 
 @alarm.route("/add",methods=["POST"])
 @token_requires
-@expects_json(alarm_schema_json)
+@expects_json(alarm_schema_json,fill_defaults=True)
 def add_new_alarm():
     try:
         alarm_data = request.get_json()

@@ -7,12 +7,12 @@
     <title>Document</title>
 </head>
 <body>
-    <canvas id="tools_sketch" width="700" height="700" style="border:1px solid #000000;">
+    <canvas id="tools_sketch" width="1000" height="700" style="border:1px solid #000000;">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
     <script type="text/javascript" charset="utf-8">
         var canvas = document.getElementById("tools_sketch");
         var ctx = canvas.getContext("2d");
-        var socket = io("http://localhost:8080/camera?token=04fe34ccb9fe11ec8d24b729ca335d3b");
+        var socket = io("http://localhost:8080/camera?token=ace42558c1c311ec81a8b9c262b83047");
         var image = new Image();
         socket.on('connect', async function() {
             socket.emit('cameras_video', {data: 'I\'m connected!'});
