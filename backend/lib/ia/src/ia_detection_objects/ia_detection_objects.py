@@ -1,6 +1,5 @@
 import cv2
 import sys
-from readers.src.camera.camera import Camera
 
 class DetectionObjects:
     def __init__(self) -> None:

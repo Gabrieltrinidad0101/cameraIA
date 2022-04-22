@@ -8,7 +8,7 @@ from  .utils.return_repeat_elements import return_repeat_elements
 import server.src.services.database.token as DatabaseToken
 import json
 
-camera = Camera("video")
+camera = Camera("video","/test_video/night_video.mp4")
 detectionObjects = DetectionObjects()
 databaseAlarm = DatabaseAlarm()
 

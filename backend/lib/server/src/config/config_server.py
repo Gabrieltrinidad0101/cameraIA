@@ -10,17 +10,14 @@ class ConfigServer:
         global env
         try:
             if environment == "development":
-                dev = Development()
-                env = dev
-                return dev
+                env = Development()
+                return env
             elif environment == "production":
-                pro = Production()
-                env = pro
-                return pro
+                env = Production()
+                return env
             elif environment == "test":
-                test = Test()
-                env = test
-                return test
+                env = Test()
+                return env
             else:
                 raise Exception("the environment is incorrect")
         except IndexError:
