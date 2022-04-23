@@ -1,17 +1,14 @@
-from signal import alarm
 from server.src.config.config_server import ConfigServer
 test = ConfigServer.config("test")
 from server.src.app import create_app
 import pytest
 from .utils.headers_token_content_json import headers_token_content_json
+from .utils.import_json_file import import_json_file
 import json
 
-alarm_data = open("test/utils/data/alarm_data.json")
-alarm_data_dict = json.load(alarm_data)
-
-
-alarm_data_modify_json = open("test/utils/data/alarm_data_modify.json")
-alarm_data_modify = json.load(alarm_data_modify_json)
+alarm_data = import_json_file("alarm_data.json")
+alarm_data_modify = import_json_file("alarm_data_modify.json")
+alarm_data_error = import_json_file("alarm_data_error.json")
 
 @pytest.fixture
 def client():
@@ -21,13 +18,12 @@ def client():
 
 
 def test_add_alarm(client):
-    for key in alarm_data_dict:
+    for key in alarm_data:
         response = client.post("api/alarm/add",
-            data = json.dumps(alarm_data_dict[key]),
+            data = json.dumps(alarm_data[key]),
             headers=headers_token_content_json
         )
         assert(response.status_code == 200)
-
 
 def test_get_alarm(client):
     response = client.get("api/alarm/get",
@@ -84,3 +80,11 @@ def test_error_token(client):
         headers={"token": "ssssss",'Content-Type': 'application/json'}
     )
     assert(get_alarms.json["error"] == "the token is incorrent" and get_alarms.status_code == 500)
+
+def test_error_add_alarm(client):
+    for i in range(0,len(alarm_data_error)):
+        response = client.post("api/alarm/add",
+            data = json.dumps(alarm_data_error[i]),
+            headers=headers_token_content_json
+        )
+        assert(response.status_code == 400)
