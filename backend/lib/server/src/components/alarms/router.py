@@ -1,4 +1,4 @@
-from flask import Blueprint,request,Response,jsonify
+from flask import Blueprint,request,jsonify
 from flask_expects_json import expects_json
 from .utils.add_new_alarm_scheme_json import alarm_schema_json
 from server.src.services.database.alarms import DatabaseAlarm
@@ -20,7 +20,7 @@ def add_new_alarm():
         database_alarm.save(alarm_data_filter)
         return jsonify({"message": "Alarm add succcessful"}), 200
     except Exception as e:
-        return jsonify({"error": e}), 500
+        return jsonify({"error": "Error adding alarm"}), 500
 
 @alarm.route("/get",methods=["GET"])
 @token_requires
@@ -47,8 +47,9 @@ def get_one_alarm(id):
 @expects_json(alarm_schema_json)
 def update_alarm(id):
     try:
-        data = request.get_json()
-        database_alarm.edit(id,data)
+        alarm_data = request.get_json()
+        alarm_data_filter = dto_alarm(alarm_data)
+        database_alarm.edit(id,alarm_data_filter)
         return jsonify({"message": "Alarm is update successful"}), 200
     except Exception as e:
         print(e)
