@@ -26,7 +26,13 @@ class CameraSocket(Namespace):
     def on_disconnect(self):
         pass
 
+    def on_a(self,a):
+        print(a)
+
     def on_cameras_video(self, message):
+        print("ok")
+        emit("get_cameras_video","list_frames")
+        return
         while True:
             list_frames = []
             frames = camera.reads()

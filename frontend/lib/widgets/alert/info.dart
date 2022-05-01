@@ -5,11 +5,11 @@ alert_info({required context, required title, required description}) {
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
-        title: new Text(title),
-        content: new Text(description),
+        title: Text(title),
+        content: Text(description),
         actions: <Widget>[
-          new FlatButton(
-            child: new Text("accept"),
+          TextButton(
+            child: const Text("accept"),
             onPressed: () {
               Navigator.of(context).pop();
             },

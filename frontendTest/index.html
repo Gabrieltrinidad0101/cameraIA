@@ -12,7 +12,7 @@
     <script type="text/javascript" charset="utf-8">
         var canvas = document.getElementById("tools_sketch");
         var ctx = canvas.getContext("2d");
-        var socket = io("http://localhost:8080/camera?token=ace42558c1c311ec81a8b9c262b83047");
+        var socket = io("https://heavy-points-love-148-255-74-142.loca.lt/camera?token=ace42558c1c311ec81a8b9c262b83047");
         var image = new Image();
         socket.on('connect', async function() {
             socket.emit('cameras_video', {data: 'I\'m connected!'});

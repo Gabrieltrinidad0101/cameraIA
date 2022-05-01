@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/screens/qr_scanner/qr_scanner.dart';
+import 'package:frontend/screens/home/home.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,6 +18,7 @@ class MyApp extends StatelessWidget {
       initialRoute: "/",
       routes: {
         "/": (context) => const QrScanner(),
+        "/home": (context) => const Home(),
       },
     );
   }
