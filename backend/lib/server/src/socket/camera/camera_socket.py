@@ -1,21 +1,30 @@
+import time
 from flask_socketio import Namespace,emit
-from flask import request
+from flask import request,copy_current_request_context
 from readers.src.camera.camera import Camera
 from ia.src.ia_detection_objects.ia_detection_objects import DetectionObjects
 from .utils.alarm import Alarm
 from server.src.services.database.alarms import DatabaseAlarm
 from  .utils.return_repeat_elements import return_repeat_elements
 import server.src.services.database.token as DatabaseToken
+from threading import Lock
 import json
 
 camera = Camera("video","/test_video/night_video.mp4")
 detectionObjects = DetectionObjects()
 databaseAlarm = DatabaseAlarm()
 
+
+thread = None
+thread_lock = Lock()
+
 class CameraSocket(Namespace):
-    def __init__(self, namespace=None):
+    def __init__(self, namespace=None,start_background_task=None,sleep=None):
         super().__init__(namespace)
         self.alarm = Alarm()
+        self.start_background_task = start_background_task
+        self.sleep = sleep
+
 
     def on_connect(self):
         token = request.args["token"]
@@ -26,13 +35,8 @@ class CameraSocket(Namespace):
     def on_disconnect(self):
         pass
 
-    def on_a(self,a):
-        print(a)
 
     def on_cameras_video(self, message):
-        print("ok")
-        emit("get_cameras_video","list_frames")
-        return
         while True:
             list_frames = []
             frames = camera.reads()
@@ -42,7 +46,9 @@ class CameraSocket(Namespace):
                 if ai_data["labels"]: self.emit_alarm(ai_data)
                 frame_str = camera.frame_to_str(frame)
                 list_frames.append(frame_str)
+            self.sleep(.5)
             emit("get_cameras_video",list_frames)
+
     
     def emit_alarm(self,ai_data):
         datas = databaseAlarm.get_all()

@@ -13,5 +13,5 @@ def create_app(enviroment):
     CORS(app)   
     app.register_blueprint(router)
     socket = SocketIO(app,cors_allowed_origins="*")
-    socket.on_namespace(CameraSocket("/camera"))
+    socket.on_namespace(CameraSocket("/camera",socket.start_background_task,socket.sleep))
     return app,socket
