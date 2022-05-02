@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import './qr_scanner_controllers.dart';
+import 'qrScannerControllers.dart';
 import 'package:frontend/screens/home/home.dart';
 
 class QrScanner extends StatefulWidget {

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/screens/qr_scanner/qr_scanner.dart';
+import 'package:frontend/screens/qrScanner/qrScanner.dart';
 import 'package:frontend/screens/home/home.dart';
-import 'package:frontend/screens/Alarms/alarms.dart';
+import 'package:frontend/screens/alarms/alarms.dart';
+import 'package:frontend/screens/addOrEditAlarm/addOrEditAlarm.dart';
 
 void main() {
   runApp(const MyApp());
@@ -21,6 +22,7 @@ class MyApp extends StatelessWidget {
         "/": (context) => const QrScanner(),
         "/home": (context) => const Home(),
         "/alarms": (context) => const Alarms(),
+        "/addOrEditAlarm": (context) => const AddOrEditAlarm(),
       },
     );
   }

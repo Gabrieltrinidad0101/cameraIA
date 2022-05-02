@@ -3,7 +3,7 @@ import 'dart:ffi';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:frontend/widgets/alert/info.dart';
 import 'package:flutter/material.dart' show Navigator, Widget;
-import 'package:frontend/services/local_storage/toke.dart';
+import 'package:frontend/services/localStorage/toke.dart';
 
 class QrScannerControllers {
   static Future scanQRCode(bool mounted, context) async {

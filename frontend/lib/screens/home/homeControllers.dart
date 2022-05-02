@@ -1,5 +1,5 @@
 // ignore: library_prefixes
-import 'package:frontend/constants/socket_path_url.dart';
+import 'package:frontend/constants/socketPathUrl.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:flutter/material.dart' show Navigator;
 

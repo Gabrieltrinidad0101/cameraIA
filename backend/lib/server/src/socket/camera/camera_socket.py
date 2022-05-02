@@ -1,6 +1,5 @@
-import time
 from flask_socketio import Namespace,emit
-from flask import request,copy_current_request_context
+from flask import request
 from readers.src.camera.camera import Camera
 from ia.src.ia_detection_objects.ia_detection_objects import DetectionObjects
 from .utils.alarm import Alarm
