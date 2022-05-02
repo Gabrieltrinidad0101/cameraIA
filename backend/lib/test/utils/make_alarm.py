@@ -1,8 +1,5 @@
 import datetime
 
-
-
-
 def reset_time(hour,minute):
     while minute < 0:
         minute += 59
