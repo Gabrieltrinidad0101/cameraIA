@@ -1,10 +1,10 @@
 base_start_and_end_time = {
     "type": "object",
     "properties": {
-        "second": {"type": "number"},
+        "hour": {"type": "number"},
         "minute": {"type": "number"}
     },
-    "required": ["second","minute"]
+    "required": ["hour","minute"]
 }
 
 alarm_schema_json = {

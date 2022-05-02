@@ -87,4 +87,4 @@ def test_error_add_alarm(client):
             data = json.dumps(alarm_data_error[i]),
             headers=headers_token_content_json
         )
-        assert(response.status_code == 400)
+        assert(response.status_code == 500)

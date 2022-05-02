@@ -2,11 +2,11 @@
     {
             "time": {
                 "start_alarm": {
-                    "second": 0,
+                    "hour": 0,
                     "minute": 29
                 },
                 "end_alarm":{
-                    "second": 0,
+                    "hour": 0,
                     "minute": 35
                 }
             },
@@ -15,11 +15,11 @@
     {
             "time": {
                 "start_alarm": {
-                    "second": 0,
+                    "hour": 0,
                     "minute": 11
                 },
                 "end_alarm":{
-                    "second": 0,
+                    "hour": 0,
                     "minute": 44
                 }
             },
@@ -28,11 +28,11 @@
     {
         "time": {
             "start_alarm": {
-                "second": 12,
+                "hour": 12,
                 "minute": 20
             },
             "end_alarm":{
-                "second": 0,
+                "hour": 0,
                 "minute": 23
             }
         },
@@ -41,11 +41,11 @@
     {
         "time": {
             "start_alarm": {
-                "second": 12,
+                "hour": 12,
                 "minute": 42
             },
             "end_alarm":{
-                "second": 0,
+                "hour": 0,
                 "minute": 45
             }
         },
@@ -54,11 +54,11 @@
     {
         "time": {
             "start_alarm": {
-                "second": 12,
+                "hour": 12,
                 "minute": 2
             },
             "end_alarm":{
-                "second": 0,
+                "hour": 0,
                 "minute": 26
             }
         },

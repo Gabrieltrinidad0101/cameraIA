@@ -15,7 +15,16 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Home")),
+      appBar: AppBar(
+        title: Text("Home"),
+        actions: [
+          IconButton(
+              onPressed: () {
+                homeController.go_to_alarms(context);
+              },
+              icon: Icon(Icons.alarm))
+        ],
+      ),
       body: Text("ok"),
     );
   }

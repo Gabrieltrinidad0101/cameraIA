@@ -1,6 +1,7 @@
 // ignore: library_prefixes
 import 'package:frontend/constants/socket_path_url.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
+import 'package:flutter/material.dart' show Navigator;
 
 class HomeController {
   getCamerasVideos(cb) async {
@@ -19,5 +20,9 @@ class HomeController {
     socket.on("get_cameras_video", (frames) {
       cb(frames);
     });
+  }
+
+  go_to_alarms(context) {
+    Navigator.of(context).pushNamed("/alarms");
   }
 }
