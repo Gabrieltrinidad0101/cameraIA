@@ -1,18 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/screens/selectDays/selectDaysController.dart';
 
-class SelectDays extends StatelessWidget {
-  List<String> ListOfDay = [
-    "Domingo",
-    "Lunes",
-    "Marte",
-    "miércoles,",
-    "Jueve",
-    "Viernes",
-    "Sábado",
-  ];
-  SelectDaysController selectDaysController = SelectDaysController();
+class SelectDays extends StatefulWidget {
   SelectDays({Key? key}) : super(key: key);
+
+  @override
+  State<SelectDays> createState() => _SelectDaysState();
+}
+
+class _SelectDaysState extends State<SelectDays> {
+  Map makeDay(day, bool status) => {"day": day, "status": status};
+
+  List<Map> ListOfDay = [
+    {"day": "Domigo", "status": false},
+    {"day": "Lunes", "status": false},
+    {"day": "Marte", "status": false},
+    {"day": "miércoles", "status": false},
+    {"day": "Jueve", "status": false},
+    {"day": "Viernes", "status": false},
+    {"day": "Sábado", "status": false},
+  ];
+
+  SelectDaysController selectDaysController = SelectDaysController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,7 +37,7 @@ class SelectDays extends StatelessWidget {
               heightFactor: 0.7,
               child: ElevatedButton(
                 onPressed: () {
-                  // Add your onPressed code here!
+                  selectDaysController.gotToAddOrEditAlarm(context, ListOfDay);
                 },
                 child: Text("Guardar"),
                 style: ButtonStyle(
@@ -42,8 +52,14 @@ class SelectDays extends StatelessWidget {
           itemCount: ListOfDay.length,
           itemBuilder: (context, index) {
             return ListTile(
-              title: Text(ListOfDay[index]),
-              trailing: Checkbox(value: false, onChanged: (value) {}),
+              title: Text(ListOfDay[index]["day"]),
+              trailing: Checkbox(
+                  value: ListOfDay[index]["status"],
+                  onChanged: (value) {
+                    setState(() {
+                      ListOfDay[index]["status"] = value;
+                    });
+                  }),
             );
           },
         ));

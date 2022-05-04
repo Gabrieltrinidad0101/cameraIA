@@ -1,14 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:frontend/screens/clock/clock.dart';
 
 class AddOrEditAlarmController {
-  go(context, name) {
-    Navigator.of(context).pushNamed(name);
+  goToBack(context) {
+    Navigator.pop(context);
   }
 
-  goToSelectDays(context) {
-    go(context, "/selectDays");
+  go(context, name) async {
+    return await Navigator.of(context).pushNamed(name);
+  }
+
+  Future? goToSelectDays(context) async {
+    List? alarmDays = await go(context, "/selectDays");
+    return alarmDays;
   }
 
   goToObjectToDetect(context) {
@@ -25,5 +29,11 @@ class AddOrEditAlarmController {
       initialTime: initialTime ?? TimeOfDay.now(),
     );
     return time;
+  }
+
+  String alarmDaysProcess(List alarmDays) {
+    String days = " ";
+    alarmDays.forEach((day) => days += "$day ");
+    return days;
   }
 }

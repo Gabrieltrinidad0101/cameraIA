@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/screens/addOrEditAlarm/addOrEditAlarmController.dart';
 import 'package:frontend/widgets/buttons/timeButton.dart';
-import 'package:flutter_time_picker_spinner/flutter_time_picker_spinner.dart';
 
 class AddOrEditAlarm extends StatefulWidget {
   const AddOrEditAlarm({Key? key}) : super(key: key);
@@ -14,6 +13,7 @@ class _AddOrEditAlarmState extends State<AddOrEditAlarm> {
   String appBarTitle = "Agregar Alarma";
   TimeOfDay? timeStart;
   TimeOfDay? timeEnd;
+  List<String> alarmDays = [];
   AddOrEditAlarmController addOrEditAlarmController =
       AddOrEditAlarmController();
   DateTime _dateTime = DateTime.now();
@@ -22,6 +22,21 @@ class _AddOrEditAlarmState extends State<AddOrEditAlarm> {
     return Scaffold(
       appBar: AppBar(
         title: Text(appBarTitle),
+        actions: [
+          FractionallySizedBox(
+            heightFactor: 0.7,
+            child: ElevatedButton(
+              onPressed: () {
+                // Add your onPressed code here!
+              },
+              child: Text("Guardar"),
+              style: ButtonStyle(
+                backgroundColor:
+                    MaterialStateProperty.all<Color>(Colors.orangeAccent),
+              ),
+            ),
+          )
+        ],
       ),
       body: Column(
         children: [
@@ -57,12 +72,19 @@ class _AddOrEditAlarmState extends State<AddOrEditAlarm> {
         padding: const EdgeInsets.all(8),
         children: <Widget>[
           InkWell(
-            child: const ListTile(
+            child: ListTile(
               title: Text("DIAS DE ALARMAS"),
-              subtitle: Text("Lun. Mar. Mie."),
+              subtitle:
+                  Text(addOrEditAlarmController.alarmDaysProcess(alarmDays)),
             ),
-            onTap: () {
-              addOrEditAlarmController.goToSelectDays(context);
+            onTap: () async {
+              List<String>? _alarmDays =
+                  await addOrEditAlarmController.goToSelectDays(context);
+              if (_alarmDays != null) {
+                setState(() {
+                  alarmDays = _alarmDays;
+                });
+              }
             },
           ),
           InkWell(
