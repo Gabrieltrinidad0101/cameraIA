@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/screens/alarms/alarmsControllers.dart';
-import 'package:frontend/services/api/alarms.dart' as AlarmHttp;
 
 class Alarms extends StatefulWidget {
   const Alarms({Key? key}) : super(key: key);
@@ -11,7 +10,17 @@ class Alarms extends StatefulWidget {
 
 class _AlarmsState extends State<Alarms> {
   AlarmsControllers alarmsControllers = AlarmsControllers();
-  List alarms = [];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    alarmsControllers.getAlarms().then((alarms) {
+      setState(() {
+        alarmsControllers.alarms = alarms;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,16 +40,7 @@ class _AlarmsState extends State<Alarms> {
   }
 
   Widget Main() {
-    return FutureBuilder(
-      future: AlarmHttp.get(),
-      builder: (BuildContext context, AsyncSnapshot snapshot) {
-        if (!snapshot.hasData) {
-          return Loader();
-        }
-        alarms = alarmsControllers.fromJson(alarms: snapshot.data);
-        return ListAlarm();
-      },
-    );
+    return alarmsControllers.alarms == null ? Loader() : ListAlarm();
   }
 
   Widget Loader() {
@@ -48,29 +48,27 @@ class _AlarmsState extends State<Alarms> {
   }
 
   ListView ListAlarm() {
-    print(alarms);
     return ListView.builder(
-      itemCount: alarms.length,
+      itemCount: alarmsControllers.alarms?.length,
       itemBuilder: (context, index) {
         return Padding(
-          padding: EdgeInsets.only(
-              bottom: alarmsControllers.getMargin(index, alarms)),
+          padding: EdgeInsets.only(bottom: alarmsControllers.getMargin(index)),
           child: Card(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 23),
               child: InkWell(
                 onLongPress: (() {
-                  List newAlarms = alarmsControllers.deleteAlarm(index, alarms);
+                  List? newAlarms = alarmsControllers.deleteAlarm(index);
                   setState(() {
-                    alarms = ["123", "123", "123"];
+                    alarmsControllers.alarms = newAlarms;
                   });
                 }),
                 child: ListTile(
                   title: Text(
-                    "${alarmsControllers.getTitle(alarms[index])}",
+                    "${alarmsControllers.getTitle(index)}",
                     style: TextStyle(fontSize: 23),
                   ),
-                  subtitle: Text(alarmsControllers.getDays(alarms[index])),
+                  subtitle: Text(alarmsControllers.getDays(index)),
                   trailing: Switch(
                     value: true,
                     onChanged: (value) {},
