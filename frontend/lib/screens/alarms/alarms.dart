@@ -10,8 +10,9 @@ class Alarms extends StatefulWidget {
 }
 
 class _AlarmsState extends State<Alarms> {
-  AlarmsControllers? alarmsControllers;
-  @override
+  AlarmsControllers alarmsControllers = AlarmsControllers();
+  List alarms = [];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,7 +21,7 @@ class _AlarmsState extends State<Alarms> {
       floatingActionButton: SizedBox(
         child: FloatingActionButton(
           onPressed: () {
-            alarmsControllers?.gotToAddOrEditAlarm(context);
+            alarmsControllers.gotToAddOrEditAlarm(context);
           },
           child: Icon(Icons.add),
         ),
@@ -36,7 +37,7 @@ class _AlarmsState extends State<Alarms> {
         if (!snapshot.hasData) {
           return Loader();
         }
-        alarmsControllers = AlarmsControllers(alarms: snapshot.data);
+        alarms = alarmsControllers.fromJson(alarms: snapshot.data);
         return ListAlarm();
       },
     );
@@ -47,25 +48,33 @@ class _AlarmsState extends State<Alarms> {
   }
 
   ListView ListAlarm() {
+    print(alarms);
     return ListView.builder(
-      itemCount:
-          alarmsControllers != null ? alarmsControllers?.alarms.length : 0,
+      itemCount: alarms.length,
       itemBuilder: (context, index) {
         return Padding(
-          padding:
-              EdgeInsets.only(bottom: alarmsControllers?.getMargin(index) ?? 0),
+          padding: EdgeInsets.only(
+              bottom: alarmsControllers.getMargin(index, alarms)),
           child: Card(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 23),
-              child: ListTile(
-                title: Text(
-                  "${alarmsControllers?.getTitle(index)}",
-                  style: TextStyle(fontSize: 23),
-                ),
-                subtitle: Text(alarmsControllers?.getDays(index) ?? ""),
-                trailing: Switch(
-                  value: true,
-                  onChanged: (value) {},
+              child: InkWell(
+                onLongPress: (() {
+                  List newAlarms = alarmsControllers.deleteAlarm(index, alarms);
+                  setState(() {
+                    alarms = ["123", "123", "123"];
+                  });
+                }),
+                child: ListTile(
+                  title: Text(
+                    "${alarmsControllers.getTitle(alarms[index])}",
+                    style: TextStyle(fontSize: 23),
+                  ),
+                  subtitle: Text(alarmsControllers.getDays(alarms[index])),
+                  trailing: Switch(
+                    value: true,
+                    onChanged: (value) {},
+                  ),
                 ),
               ),
             ),

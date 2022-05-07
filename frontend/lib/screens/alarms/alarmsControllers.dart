@@ -3,35 +3,40 @@ import 'package:frontend/screens/alarms/alarms.dart';
 import 'utils/ParserAlarm.dart';
 import 'package:frontend/Mixins/arrayToString.dart';
 import 'package:frontend/utils/parseDays.dart';
+import 'utils/format12Hour.dart';
 
 class AlarmsControllers with ArrayToString {
-  List alarms = [];
   ParseDays parseDays = ParseDays();
 
-  AlarmsControllers({required alarms}) {
+  List fromJson({required alarms}) {
     ParserAlarm parserAlarm = ParserAlarm();
-    this.alarms = parserAlarm.fromJson(alarms);
+    return parserAlarm.fromJson(alarms);
   }
 
-  String getTitle(int index) {
-    int startHour = alarms[index]["time"]["start_alarm"]["hour"];
-    int startMinute = alarms[index]["time"]["start_alarm"]["minute"];
+  String getTitle(alarm) {
+    int startHour = alarm["time"]["start_alarm"]["hour"];
+    int startMinute = alarm["time"]["start_alarm"]["minute"];
 
-    int endHour = alarms[index]["time"]["end_alarm"]["hour"];
-    int endMinute = alarms[index]["time"]["end_alarm"]["minute"];
-    return "$startHour:$startMinute / $endHour:$endMinute";
+    int endHour = alarm["time"]["end_alarm"]["hour"];
+    int endMinute = alarm["time"]["end_alarm"]["minute"];
+    return "${Format12Hour(startHour, startMinute)} / ${Format12Hour(endHour, endMinute)}";
   }
 
-  String getDays(int index) {
-    List alarmDays = alarms[index]["alarm_days"];
+  String getDays(alarm) {
+    List alarmDays = alarm["alarm_days"];
     return arrayToString(parseDays.daysDecode(alarmDays));
   }
 
-  double getMargin(index) {
+  double getMargin(index, alarms) {
     return index != alarms.length - 1 ? 5 : 80;
   }
 
   void gotToAddOrEditAlarm(context) {
     Navigator.pushNamed(context, "/addOrEditAlarm");
+  }
+
+  List deleteAlarm(int index, alarms) {
+    alarms.removeAt(index);
+    return alarms;
   }
 }
