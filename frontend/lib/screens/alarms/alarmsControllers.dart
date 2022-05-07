@@ -2,9 +2,12 @@ import 'package:flutter/material.dart' show Navigator;
 import 'package:frontend/screens/alarms/alarms.dart';
 import 'utils/ParserAlarm.dart';
 import 'package:frontend/Mixins/arrayToString.dart';
+import 'package:frontend/utils/parseDays.dart';
 
 class AlarmsControllers with ArrayToString {
   List alarms = [];
+  ParseDays parseDays = ParseDays();
+
   AlarmsControllers({required alarms}) {
     ParserAlarm parserAlarm = ParserAlarm();
     this.alarms = parserAlarm.fromJson(alarms);
@@ -21,7 +24,7 @@ class AlarmsControllers with ArrayToString {
 
   String getDays(int index) {
     List alarmDays = alarms[index]["alarm_days"];
-    return arrayToString(alarmDays);
+    return arrayToString(parseDays.daysDecode(alarmDays));
   }
 
   double getMargin(index) {

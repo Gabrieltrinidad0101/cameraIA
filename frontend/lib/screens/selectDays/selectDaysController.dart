@@ -21,20 +21,13 @@ class SelectDaysController {
   }
 
   List<Map> getSelectedDays(List<Map> listOfDays, List selectDays) {
-    listOfDays.forEach((dataOfDay) {
-      selectDays.forEach((selectDay) {
+    for (var dataOfDay in listOfDays) {
+      for (var selectDay in selectDays) {
         if (dataOfDay["name"] == selectDay) {
           dataOfDay["status"] = true;
         }
-      });
-    });
-    //for (var j = 0; j < listOfDays.length; j++) {
-    //  for (var i = 0; i < selectDays.length; i++) {
-    //    if (listOfDays[j]["name"] == selectDays[i]) {
-    //      listOfDays[j]["status"] = true;
-    //    }
-    //  }
-    //}
+      }
+    }
     return listOfDays;
   }
 }

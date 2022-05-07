@@ -21,8 +21,6 @@ class _SelectDaysState extends State<SelectDays> {
     {"name": "Sábado", "status": false},
   ];
 
-  bool a = true;
-
   SelectDaysController selectDaysController = SelectDaysController();
 
   @override
@@ -31,49 +29,52 @@ class _SelectDaysState extends State<SelectDays> {
     if (arguments == null) return;
     List selectDays = arguments as List;
     ListOfDay = selectDaysController.getSelectedDays(ListOfDay, selectDays);
-    print(ListOfDay);
     super.didChangeDependencies();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text("DIAS DE ALARMAS"),
-          leading: IconButton(
-            icon: Icon(Icons.close),
-            onPressed: () => selectDaysController.goToBack(context),
-          ),
-          actions: [
-            FractionallySizedBox(
-              heightFactor: 0.7,
-              child: ElevatedButton(
-                onPressed: () {
-                  selectDaysController.gotToAddOrEditAlarm(context, ListOfDay);
-                },
-                child: Text("Guardar"),
-                style: ButtonStyle(
-                  backgroundColor:
-                      MaterialStateProperty.all<Color>(Colors.orangeAccent),
-                ),
-              ),
-            )
-          ],
+      appBar: AppBar(
+        title: Text("DIAS DE ALARMAS"),
+        leading: IconButton(
+          icon: Icon(Icons.close),
+          onPressed: () => selectDaysController.goToBack(context),
         ),
-        body: ListView.builder(
-          itemCount: ListOfDay.length,
-          itemBuilder: (context, index) {
-            return ListTile(
-              title: Text(ListOfDay[index]["name"]),
-              trailing: Checkbox(
-                  value: ListOfDay[index]["status"],
-                  onChanged: (value) {
-                    setState(() {
-                      ListOfDay[index]["status"] = value;
-                    });
-                  }),
-            );
-          },
-        ));
+        actions: [
+          FractionallySizedBox(
+            heightFactor: 0.7,
+            child: ElevatedButton(
+              onPressed: () {
+                selectDaysController.gotToAddOrEditAlarm(context, ListOfDay);
+              },
+              child: Text("Guardar"),
+              style: ButtonStyle(
+                backgroundColor:
+                    MaterialStateProperty.all<Color>(Colors.orangeAccent),
+              ),
+            ),
+          )
+        ],
+      ),
+      body: ListView.builder(
+        itemCount: ListOfDay.length,
+        itemBuilder: (context, index) {
+          return ListTile(
+            title: Text(ListOfDay[index]["name"]),
+            trailing: Checkbox(
+              value: ListOfDay[index]["status"],
+              onChanged: (value) {
+                setState(
+                  () {
+                    ListOfDay[index]["status"] = value;
+                  },
+                );
+              },
+            ),
+          );
+        },
+      ),
+    );
   }
 }

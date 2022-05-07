@@ -35,12 +35,6 @@ class AddOrEditAlarmController with ArrayToString {
     return time;
   }
 
-  String alarmDaysProcess(List alarmDays) {
-    String days = " ";
-    alarmDays.forEach((day) => days += "$day ");
-    return days;
-  }
-
   saveAlarm(context, TimeOfDay? timeStart, TimeOfDay? timeEnd,
       List<String> alarmDays) async {
     if (timeStart == null || timeEnd == null || alarmDays.isEmpty) {
@@ -51,6 +45,5 @@ class AddOrEditAlarmController with ArrayToString {
     }
     Map alarm = parseAlarm(timeStart, timeEnd, alarmDays);
     final data = await AlarmServices.add(alarm);
-    print(data);
   }
 }
