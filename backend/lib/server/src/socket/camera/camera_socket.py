@@ -54,9 +54,10 @@ class CameraSocket(Namespace):
         labels = ai_data["labels"]
         for data in datas:
             alarm = json.loads(data["alarm"])
+            alarm_days = json.loads(data["alarm_days"])
             objects_to_detect = alarm["objects"]
             time = alarm["time"]
-            alarm_is_processing = self.alarm.process(time)
+            alarm_is_processing = self.alarm.process(time,alarm_days)
             if alarm_is_processing:
                 detected_objects = return_repeat_elements(labels,objects_to_detect)
                 if detected_objects:

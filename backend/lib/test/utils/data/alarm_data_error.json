@@ -23,6 +23,7 @@
                     "minute": 44
                 }
             },
+            "alarm_days": ["Thursday"],
             "objects": ["person"]
     },
     {

@@ -12,3 +12,18 @@ Future get() async {
   final data = await compute(jsonDecode, res.body);
   return data;
 }
+
+Future add(alarm) async {
+  Uri url = Uri.parse("${serverData.url}/api/alarm/add");
+  String? token = await LocalSecureDBToken.get();
+  final res = await http.post(
+    url,
+    headers: {
+      "token": token ?? "",
+      'Content-Type': 'application/json',
+    },
+    body: jsonEncode(alarm),
+  );
+  final data = jsonDecode(res.body);
+  return data;
+}

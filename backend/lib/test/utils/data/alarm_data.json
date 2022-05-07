@@ -10,6 +10,7 @@
                     "minute": 55
                 }
             },
+            "alarm_days": ["Thursday"],
             "objects": ["person","cat"]
     },
     "data2_json": {
@@ -23,6 +24,7 @@
                     "minute": 39
                 }
             },
+            "alarm_days": ["Thursday"],
             "objects": ["person"]
     },
     "data3_json": {
@@ -36,6 +38,7 @@
                 "minute": 234
             }
         },
+        "alarm_days": ["Thursday"],
         "objects": ["person"]
     },
     "data4_json": {
@@ -49,6 +52,7 @@
                 "minute": 45
             }
         },
+        "alarm_days": ["Thursday"],
         "objects": ["person"]
     },
     "data5_json": {
@@ -62,6 +66,7 @@
                 "minute": 26
             }
         },
+        "alarm_days": ["Thursday"],
         "objects": ["dog","person"]
     }
 }

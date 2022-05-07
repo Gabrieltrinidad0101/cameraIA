@@ -26,8 +26,9 @@ class _AddOrEditAlarmState extends State<AddOrEditAlarm> {
           FractionallySizedBox(
             heightFactor: 0.7,
             child: ElevatedButton(
-              onPressed: () {
-                // Add your onPressed code here!
+              onPressed: () async {
+                await addOrEditAlarmController.saveAlarm(
+                    context, timeStart, timeEnd, alarmDays);
               },
               child: Text("Guardar"),
               style: ButtonStyle(
@@ -74,12 +75,11 @@ class _AddOrEditAlarmState extends State<AddOrEditAlarm> {
           InkWell(
             child: ListTile(
               title: Text("DIAS DE ALARMAS"),
-              subtitle:
-                  Text(addOrEditAlarmController.alarmDaysProcess(alarmDays)),
+              subtitle: Text(addOrEditAlarmController.arrayToString(alarmDays)),
             ),
             onTap: () async {
-              List<String>? _alarmDays =
-                  await addOrEditAlarmController.goToSelectDays(context);
+              List<String>? _alarmDays = await addOrEditAlarmController
+                  .goToSelectDays(context, alarmDays);
               if (_alarmDays != null) {
                 setState(() {
                   alarmDays = _alarmDays;

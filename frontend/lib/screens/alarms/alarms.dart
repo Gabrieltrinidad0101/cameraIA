@@ -59,10 +59,10 @@ class _AlarmsState extends State<Alarms> {
               padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 23),
               child: ListTile(
                 title: Text(
-                  "${alarmsControllers?.parseTitle(index)}",
+                  "${alarmsControllers?.getTitle(index)}",
                   style: TextStyle(fontSize: 23),
                 ),
-                subtitle: Text("Lun Martes Vierne"),
+                subtitle: Text(alarmsControllers?.getDays(index) ?? ""),
                 trailing: Switch(
                   value: true,
                   onChanged: (value) {},

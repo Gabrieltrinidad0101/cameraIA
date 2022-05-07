@@ -1,4 +1,6 @@
 def dto_alarm(alarm):
+    alarm_days = alarm["alarm_days"]
+
     start_alarm = alarm["time"]["start_alarm"]
     end_alarm = alarm["time"]["end_alarm"]
 
@@ -19,5 +21,6 @@ def dto_alarm(alarm):
                 "minute": end_minute
             }
         },
+        "alarm_days": alarm_days,
         "objects": alarm["objects"]
     }

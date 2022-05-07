@@ -1,4 +1,7 @@
 import datetime
+from datetime import date
+from datetime import timedelta
+import re
 
 def reset_time(hour,minute):
     while minute < 0:
@@ -14,22 +17,32 @@ def overflow(hour,minute):
     if hour > 23:
         return "overflow"
 
-def make_alarm(array_date):
+def parse_days(_days):
+    days_by_names = []
+    for day in _days:
+        today = datetime.date.today()
+        day = today - timedelta(days = day)
+        days_by_names.append(day.strftime('%A'))
+    return days_by_names
+
+
+def make_alarm(array_date,days):
     current_date = datetime.datetime.now()
     hour = current_date.hour
     minute = current_date.minute
     start_hour = hour + array_date[0]
     start_minute = minute + array_date[1]
 
-    if(overflow(start_hour,start_minute) == "overflow"): return "overflow"
+    if(overflow(start_hour,start_minute) == "overflow"): return "overflow",None
 
     end_hour = hour + array_date[2]
     end_minute = minute + array_date[3]
-    if(overflow(end_hour,end_minute) == "overflow"): return "overflow"
+    if(overflow(end_hour,end_minute) == "overflow"): return "overflow",None
     alarm_data = {
             "start_alarm": reset_time(start_hour,start_minute),
             "end_alarm":reset_time(end_hour,end_minute)
         }
-    return alarm_data
+    days_by_names = parse_days(days)
+    return alarm_data,days_by_names
     
 

@@ -18,7 +18,8 @@ alarm_schema_json = {
             },
             'required': ['start_alarm',"end_alarm"]
         },
-        "objects": {"type": "array"}
+        "objects": {"type": "array"},
+        "alarm_days": {"type": "array"},
     },
-    'required': ['time', 'objects']
+    'required': ['time', 'objects',"alarm_days"]
 }

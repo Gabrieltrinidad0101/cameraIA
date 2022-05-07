@@ -12,22 +12,24 @@ class Alarm:
         current_date_in_second = time.mktime(current_date.timetuple())
         return current_date_in_second
 
-    def check_if_current_time_is_between_start_alarm_and_end_alarm(self,alarm):
-        start_alarm = alarm.get("start_alarm")
-        end_alarm = alarm.get("end_alarm")
+    def verify_alarm_days(self,days):
+        if(datetime.datetime.now().strftime('%A') in days):
+            return True
+
+    def check_if_current_time_is_between_start_alarm_and_end_alarm(self,alarm,alarm_days):
+        start_alarm = alarm["start_alarm"]
+        end_alarm = alarm["end_alarm"]
         
         current_time_in_second = self.get_time()
         start_alarm_time_in_second = self.get_time(start_alarm)
         end_alarm_time_in_second  = self.get_time(end_alarm)
-
-        if current_time_in_second >= start_alarm_time_in_second and current_time_in_second <= end_alarm_time_in_second:
+        is_alarm_day = self.verify_alarm_days(alarm_days)
+        if current_time_in_second >= start_alarm_time_in_second and current_time_in_second <= end_alarm_time_in_second and is_alarm_day:
             return True
         return False
 
-    def process(self,alarm):
-        alarm_is_not_processing = False 
-        if not alarm: return alarm_is_not_processing
-        alarm_is_processing = self.check_if_current_time_is_between_start_alarm_and_end_alarm(alarm)
+    def process(self,alarm,alarm_days):
+        alarm_is_processing = self.check_if_current_time_is_between_start_alarm_and_end_alarm(alarm,alarm_days)
         return alarm_is_processing
 
 

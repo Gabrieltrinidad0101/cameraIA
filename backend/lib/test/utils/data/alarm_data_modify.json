@@ -10,6 +10,7 @@
                     "minute": 35
                 }
             },
+            "alarm_days": ["Thursday"],
             "objects": ["person","cat"]
     },
     {
@@ -23,6 +24,7 @@
                     "minute": 44
                 }
             },
+            "alarm_days": ["Thursday"],
             "objects": ["person"]
     },
     {
@@ -36,6 +38,7 @@
                 "minute": 23
             }
         },
+        "alarm_days": ["Thursday"],
         "objects": ["person"]
     },
     {
@@ -49,6 +52,7 @@
                 "minute": 45
             }
         },
+        "alarm_days": ["Thursday"],
         "objects": ["person"]
     },
     {
@@ -62,6 +66,7 @@
                 "minute": 26
             }
         },
+        "alarm_days": ["Thursday"],
         "objects": ["dog","person"]
     }
 ]

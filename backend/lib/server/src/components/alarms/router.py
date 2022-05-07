@@ -14,6 +14,9 @@ def add_new_alarm():
     try:
         alarm_data = request.get_json()
         objects = alarm_data.get("objects")
+        alarm_days = alarm_data.get("alarm_days")
+        for alarm_day in alarm_days:
+            if type(alarm_day) != str: return jsonify({"error": "Error type in alarm_days"}),500
         for object_name in objects:
             if type(object_name) != str: return jsonify({"error": "Error type in objects"}),500
         alarm_data_filter = dto_alarm(alarm_data)

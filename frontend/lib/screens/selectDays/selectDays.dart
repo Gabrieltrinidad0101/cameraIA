@@ -12,16 +12,28 @@ class _SelectDaysState extends State<SelectDays> {
   Map makeDay(day, bool status) => {"day": day, "status": status};
 
   List<Map> ListOfDay = [
-    {"day": "Domigo", "status": false},
-    {"day": "Lunes", "status": false},
-    {"day": "Marte", "status": false},
-    {"day": "miércoles", "status": false},
-    {"day": "Jueve", "status": false},
-    {"day": "Viernes", "status": false},
-    {"day": "Sábado", "status": false},
+    {"name": "Domigo", "status": false},
+    {"name": "Lunes", "status": false},
+    {"name": "Marte", "status": false},
+    {"name": "miércoles", "status": false},
+    {"name": "Jueve", "status": false},
+    {"name": "Viernes", "status": false},
+    {"name": "Sábado", "status": false},
   ];
 
+  bool a = true;
+
   SelectDaysController selectDaysController = SelectDaysController();
+
+  @override
+  void didChangeDependencies() {
+    var arguments = ModalRoute.of(context)?.settings.arguments;
+    if (arguments == null) return;
+    List selectDays = arguments as List;
+    ListOfDay = selectDaysController.getSelectedDays(ListOfDay, selectDays);
+    print(ListOfDay);
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +64,7 @@ class _SelectDaysState extends State<SelectDays> {
           itemCount: ListOfDay.length,
           itemBuilder: (context, index) {
             return ListTile(
-              title: Text(ListOfDay[index]["day"]),
+              title: Text(ListOfDay[index]["name"]),
               trailing: Checkbox(
                   value: ListOfDay[index]["status"],
                   onChanged: (value) {
