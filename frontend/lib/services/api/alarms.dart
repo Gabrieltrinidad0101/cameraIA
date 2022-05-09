@@ -27,3 +27,32 @@ Future add(alarm) async {
   final data = jsonDecode(res.body);
   return data;
 }
+
+Future delete(id) async {
+  Uri url = Uri.parse("${serverData.url}/api/alarm/delete/$id");
+  String? token = await LocalSecureDBToken.get();
+  final res = await http.delete(
+    url,
+    headers: {
+      "token": token ?? "",
+      'Content-Type': 'application/json',
+    },
+  );
+  final data = jsonDecode(res.body);
+  return data;
+}
+
+Future update(Map alarm, String id) async {
+  Uri url = Uri.parse("${serverData.url}/api/alarm/update/$id");
+  String? token = await LocalSecureDBToken.get();
+  final res = await http.put(
+    url,
+    headers: {
+      "token": token ?? "",
+      'Content-Type': 'application/json',
+    },
+    body: jsonEncode(alarm),
+  );
+  final data = jsonDecode(res.body);
+  return data;
+}

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart' show Navigator;
 
 class SelectDaysController {
-  List filterDays(List listOfDays) {
+  List getSelectDays(List alarmDays) {
     List<String> days = [];
-    for (var day in listOfDays) {
+    for (var day in alarmDays) {
       if (day["status"]) {
         days.add(day["name"]);
       }
@@ -11,12 +11,8 @@ class SelectDaysController {
     return days;
   }
 
-  goToBack(context) {
-    Navigator.pop(context);
-  }
-
-  gotToAddOrEditAlarm(context, listOfDays) {
-    List alarmDays = filterDays(listOfDays);
+  goToBack(context, [_alarmDays]) {
+    List alarmDays = getSelectDays(_alarmDays);
     Navigator.pop(context, alarmDays);
   }
 

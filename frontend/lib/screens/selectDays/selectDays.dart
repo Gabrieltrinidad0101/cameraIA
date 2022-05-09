@@ -15,7 +15,7 @@ class _SelectDaysState extends State<SelectDays> {
     {"name": "Domigo", "status": false},
     {"name": "Lunes", "status": false},
     {"name": "Marte", "status": false},
-    {"name": "miércoles", "status": false},
+    {"name": "Miércoles", "status": false},
     {"name": "Jueve", "status": false},
     {"name": "Viernes", "status": false},
     {"name": "Sábado", "status": false},
@@ -46,7 +46,7 @@ class _SelectDaysState extends State<SelectDays> {
             heightFactor: 0.7,
             child: ElevatedButton(
               onPressed: () {
-                selectDaysController.gotToAddOrEditAlarm(context, ListOfDay);
+                selectDaysController.goToBack(context, ListOfDay);
               },
               child: Text("Guardar"),
               style: ButtonStyle(

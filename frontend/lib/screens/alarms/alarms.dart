@@ -13,7 +13,6 @@ class _AlarmsState extends State<Alarms> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     alarmsControllers.getAlarms().then((alarms) {
       setState(() {
@@ -29,8 +28,11 @@ class _AlarmsState extends State<Alarms> {
       body: Container(child: Main()),
       floatingActionButton: SizedBox(
         child: FloatingActionButton(
-          onPressed: () {
-            alarmsControllers.gotToAddOrEditAlarm(context);
+          onPressed: () async {
+            Map newAlarm = await alarmsControllers.gotToAddAlarm(context);
+            setState(() {
+              alarmsControllers.alarms?.add(newAlarm);
+            });
           },
           child: Icon(Icons.add),
         ),
@@ -57,15 +59,17 @@ class _AlarmsState extends State<Alarms> {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 23),
               child: InkWell(
-                onLongPress: (() {
-                  List? newAlarms = alarmsControllers.deleteAlarm(index);
+                onTap: () async {
+                  Map editedAlarm =
+                      await alarmsControllers.gotToEditAlarm(context, index);
                   setState(() {
-                    alarmsControllers.alarms = newAlarms;
+                    alarmsControllers.alarms?[index] = editedAlarm;
                   });
-                }),
+                },
+                onLongPress: () async => await deleteAlarm(context, index),
                 child: ListTile(
                   title: Text(
-                    "${alarmsControllers.getTitle(index)}",
+                    alarmsControllers.getTitle(index),
                     style: TextStyle(fontSize: 23),
                   ),
                   subtitle: Text(alarmsControllers.getDays(index)),
@@ -80,5 +84,14 @@ class _AlarmsState extends State<Alarms> {
         );
       },
     );
+  }
+
+  deleteAlarm(BuildContext context, index) async {
+    List? newAlarms =
+        await alarmsControllers.deleteAlarm(context, index, (newAlarms) {
+      setState(() {
+        alarmsControllers.alarms = newAlarms;
+      });
+    });
   }
 }

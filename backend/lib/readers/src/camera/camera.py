@@ -2,18 +2,9 @@ import cv2
 import sys
 import base64
 class Camera:
-    def __init__(self,type: str = "",path: str = "/test_video/videoplayback.mp4") -> None:
-        self.video_path = f"{sys.path[0]}/readers/src/camera"
-        self.cap = self._type_of_read(type,path)
+    def __init__(self,video) -> None:
+        self.cap = cv2.VideoCapture(video)
         
-    def _type_of_read(self,type, path: str = ""):
-        cap = None
-        if type == "video":
-            cap = cv2.VideoCapture(f"{self.video_path}{path}")
-        else:
-            cap = cv2.VideoCapture(0)
-        return  cap
-    
     def reads(self):
         return [self.cap.read(),self.cap.read()]
     

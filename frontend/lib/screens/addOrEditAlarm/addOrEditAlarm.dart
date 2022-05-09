@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/screens/addOrEditAlarm/addOrEditAlarmController.dart';
+import 'package:frontend/screens/addOrEditAlarm/routerController.dart';
 import 'package:frontend/widgets/buttons/timeButton.dart';
 
 class AddOrEditAlarm extends StatefulWidget {
@@ -10,25 +11,32 @@ class AddOrEditAlarm extends StatefulWidget {
 }
 
 class _AddOrEditAlarmState extends State<AddOrEditAlarm> {
-  String appBarTitle = "Agregar Alarma";
-  TimeOfDay? timeStart;
-  TimeOfDay? timeEnd;
-  List<String> alarmDays = [];
+  String title = "Agregar Alarma";
+  Map? alarm = {};
   AddOrEditAlarmController addOrEditAlarmController =
       AddOrEditAlarmController();
+  RouterController routerController = RouterController();
   DateTime _dateTime = DateTime.now();
+
+  @override
+  void didChangeDependencies() {
+    Map? data = addOrEditAlarmController.getArguments(context);
+    title = data?["title"] ?? title;
+    alarm = data?["alarm"] ?? {};
+    super.didChangeDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(appBarTitle),
+        title: Text(title),
         actions: [
           FractionallySizedBox(
             heightFactor: 0.7,
             child: ElevatedButton(
               onPressed: () async {
-                await addOrEditAlarmController.saveAlarm(
-                    context, timeStart, timeEnd, alarmDays);
+                await addOrEditAlarmController.saveOrEditAlarm(context, alarm);
               },
               child: Text("Guardar"),
               style: ButtonStyle(
@@ -43,22 +51,24 @@ class _AddOrEditAlarmState extends State<AddOrEditAlarm> {
         children: [
           TimeButton(
               name: "Comienza la alarma",
-              time: addOrEditAlarmController.processTime(timeStart, context),
+              time: addOrEditAlarmController.processTime(
+                  alarm?["startAlarm"], context),
               onPressed: () async {
-                TimeOfDay? t =
-                    await addOrEditAlarmController.clock(timeStart, context);
+                TimeOfDay? t = await addOrEditAlarmController.clock(
+                    alarm?["startAlarm"], context);
                 setState(() {
-                  timeStart = t;
+                  alarm?["startAlarm"] = t;
                 });
               }),
           TimeButton(
               name: "Termina la alarma",
-              time: addOrEditAlarmController.processTime(timeEnd, context),
+              time: addOrEditAlarmController.processTime(
+                  alarm?["endAlarm"], context),
               onPressed: () async {
-                TimeOfDay? t =
-                    await addOrEditAlarmController.clock(timeEnd, context);
+                TimeOfDay? t = await addOrEditAlarmController.clock(
+                    alarm?["endAlarm"], context);
                 setState(() {
-                  timeEnd = t;
+                  alarm?["endAlarm"] = t;
                 });
               }),
           Options()
@@ -75,25 +85,31 @@ class _AddOrEditAlarmState extends State<AddOrEditAlarm> {
           InkWell(
             child: ListTile(
               title: Text("DIAS DE ALARMAS"),
-              subtitle: Text(addOrEditAlarmController.arrayToString(alarmDays)),
+              subtitle: Text(
+                  addOrEditAlarmController.arrayToString(alarm?["alarmDays"])),
             ),
             onTap: () async {
-              List<String>? _alarmDays = await addOrEditAlarmController
-                  .goToSelectDays(context, alarmDays);
-              if (_alarmDays != null) {
-                setState(() {
-                  alarmDays = _alarmDays;
-                });
-              }
+              List<String> _alarmDays = await routerController.goToSelectDays(
+                  context, alarm?["alarmDays"]);
+              if (_alarmDays.isEmpty) return;
+              setState(() {
+                alarm?["alarmDays"] = _alarmDays;
+              });
             },
           ),
           InkWell(
               child: ListTile(
                 title: Text("OBJECTOS A DETECTAR"),
-                subtitle: Text("Persona"),
+                subtitle: Text(
+                    addOrEditAlarmController.arrayToString(alarm?["objects"])),
               ),
-              onTap: () {
-                addOrEditAlarmController.goToObjectToDetect(context);
+              onTap: () async {
+                List selectedObjects =
+                    await routerController.goToObjectToDetect(context);
+                if (selectedObjects.isEmpty) return;
+                setState(() {
+                  alarm?["objects"] = selectedObjects;
+                });
               })
         ],
       ),

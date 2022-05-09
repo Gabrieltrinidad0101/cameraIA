@@ -13,7 +13,8 @@ class DatabaseAlarm:
         return json.loads(json_util.dumps(data))
 
     def save(self,alarm):
-        self.alarms_db.insert_one({"alarm": json.dumps(alarm)})
+        return self._parse_json(self.alarms_db.insert_one({"alarm": json.dumps(alarm)}).inserted_id)
+        
 
     def delete(self,id):
         self.alarms_db.delete_one({"_id": ObjectId(id)})

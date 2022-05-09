@@ -20,9 +20,10 @@ def add_new_alarm():
         for object_name in objects:
             if type(object_name) != str: return jsonify({"error": "Error type in objects"}),500
         alarm_data_filter = dto_alarm(alarm_data)
-        database_alarm.save(alarm_data_filter)
-        return jsonify({"message": "Alarm add succcessful"}), 200
+        _id = database_alarm.save(alarm_data_filter)
+        return jsonify({"message": "Alarm add succcessful","_id": _id}), 200
     except Exception as e:
+        print(e)
         return jsonify({"error": "Error adding alarm"}), 500
 
 @alarm.route("/get",methods=["GET"])

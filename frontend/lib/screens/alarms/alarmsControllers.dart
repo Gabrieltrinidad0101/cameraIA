@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart' show Navigator;
-import 'package:frontend/screens/alarms/alarms.dart';
+import 'package:frontend/widgets/alert/warningDeleteAlarm.dart';
 import 'utils/ParserAlarm.dart';
 import 'package:frontend/Mixins/arrayToString.dart';
 import 'package:frontend/utils/parseDays.dart';
@@ -9,7 +9,6 @@ import 'package:frontend/services/api/alarms.dart' as AlarmHttp;
 class AlarmsControllers with ArrayToString {
   ParseDays parseDays = ParseDays();
   List? alarms;
-
   Future<List> getAlarms() async {
     List getAlarms = await AlarmHttp.get();
     return fromJson(getAlarms);
@@ -31,19 +30,36 @@ class AlarmsControllers with ArrayToString {
 
   String getDays(index) {
     List alarmDays = alarms?[index]["alarm_days"];
-    return arrayToString(parseDays.daysDecode(alarmDays));
+    return arrayToString(alarmDays);
   }
 
   double getMargin(index) {
     return index != (alarms?.length ?? 0) - 1 ? 5 : 80;
   }
 
-  void gotToAddOrEditAlarm(context) {
-    Navigator.pushNamed(context, "/addOrEditAlarm");
+  Future<Map> gotToEditAlarm(context, index) async {
+    Map data =
+        await Navigator.pushNamed(context, "/addOrEditAlarm", arguments: {
+      "title": "Edit Alarm",
+      "alarm": alarms?[index],
+    }) as Map;
+    return data;
   }
 
-  List? deleteAlarm(int index) {
-    alarms?.removeAt(index);
-    return alarms;
+  Future<Map> gotToAddAlarm(context) async {
+    Map newAlarm = await Navigator.pushNamed(context, "/addOrEditAlarm") as Map;
+    return newAlarm;
+  }
+
+  Future<List?> deleteAlarm(context, int index, Function callBack) async {
+    await alertWarning(
+        context: context,
+        title: "Elimar",
+        description: "Deseas eliminar esta alarma",
+        callBack: () async {
+          await AlarmHttp.delete(alarms?[index]["_id"]);
+          alarms?.removeAt(index);
+          callBack(alarms);
+        });
   }
 }

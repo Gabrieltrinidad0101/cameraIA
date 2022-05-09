@@ -6,16 +6,11 @@ from .utils.alarm import Alarm
 from server.src.services.database.alarms import DatabaseAlarm
 from  .utils.return_repeat_elements import return_repeat_elements
 import server.src.services.database.token as DatabaseToken
-from threading import Lock
 import json
 
-camera = Camera("video","/test_video/night_video.mp4")
 detectionObjects = DetectionObjects()
 databaseAlarm = DatabaseAlarm()
 
-
-thread = None
-thread_lock = Lock()
 
 class CameraSocket(Namespace):
     def __init__(self, namespace=None,start_background_task=None,sleep=None):
@@ -34,8 +29,8 @@ class CameraSocket(Namespace):
     def on_disconnect(self):
         pass
 
-
     def on_cameras_video(self, message):
+        camera = Camera("http://10.0.0.12:3000/videoplayback.mp4")
         while True:
             list_frames = []
             frames = camera.reads()
@@ -46,7 +41,6 @@ class CameraSocket(Namespace):
                 frame_str = camera.frame_to_str(frame)
                 list_frames.append(frame_str)
             self.sleep(.5)
-            emit("get_cameras_video",list_frames)
 
     
     def emit_alarm(self,ai_data):
@@ -54,7 +48,7 @@ class CameraSocket(Namespace):
         labels = ai_data["labels"]
         for data in datas:
             alarm = json.loads(data["alarm"])
-            alarm_days = json.loads(data["alarm_days"])
+            alarm_days = alarm["alarm_days"]
             objects_to_detect = alarm["objects"]
             time = alarm["time"]
             alarm_is_processing = self.alarm.process(time,alarm_days)

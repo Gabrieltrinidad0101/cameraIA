@@ -1,4 +1,6 @@
 import datetime,time
+from .get_current_day import get_current_date
+
 class Alarm:
     def get_time(self,date={}):
         current_date = datetime.datetime.now()
@@ -13,7 +15,7 @@ class Alarm:
         return current_date_in_second
 
     def verify_alarm_days(self,days):
-        if(datetime.datetime.now().strftime('%A') in days):
+        if(get_current_date() in days):
             return True
 
     def check_if_current_time_is_between_start_alarm_and_end_alarm(self,alarm,alarm_days):

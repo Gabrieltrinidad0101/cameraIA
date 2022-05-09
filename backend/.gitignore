@@ -2,3 +2,4 @@ camera_ia_backend_virtualenv
 __pycache__
 .pytest_cache
 run_basic_script.py
+index.html

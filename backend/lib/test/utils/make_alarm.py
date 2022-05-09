@@ -1,7 +1,5 @@
 import datetime
-from datetime import date
 from datetime import timedelta
-import re
 
 def reset_time(hour,minute):
     while minute < 0:

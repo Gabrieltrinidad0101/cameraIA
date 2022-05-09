@@ -17,8 +17,8 @@ class HomeController {
             .build());
     socket.connect();
     socket.emit("cameras_video", "start");
-    socket.on("get_cameras_video", (frames) {
-      cb(frames);
+    socket.on("camera_detect_obejct", (detectObejct) {
+      cb(detectObejct);
     });
   }
 
