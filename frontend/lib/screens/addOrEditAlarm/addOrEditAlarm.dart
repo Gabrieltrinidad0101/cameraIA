@@ -104,8 +104,8 @@ class _AddOrEditAlarmState extends State<AddOrEditAlarm> {
                     addOrEditAlarmController.arrayToString(alarm?["objects"])),
               ),
               onTap: () async {
-                List selectedObjects =
-                    await routerController.goToObjectToDetect(context);
+                List selectedObjects = await routerController
+                    .goToObjectToDetect(context, alarm?["objects"]);
                 if (selectedObjects.isEmpty) return;
                 setState(() {
                   alarm?["objects"] = selectedObjects;

@@ -29,7 +29,8 @@ class _AlarmsState extends State<Alarms> {
       floatingActionButton: SizedBox(
         child: FloatingActionButton(
           onPressed: () async {
-            Map newAlarm = await alarmsControllers.gotToAddAlarm(context);
+            Map? newAlarm = await alarmsControllers.gotToAddAlarm(context);
+            if (newAlarm == null) return;
             setState(() {
               alarmsControllers.alarms?.add(newAlarm);
             });
@@ -60,8 +61,9 @@ class _AlarmsState extends State<Alarms> {
               padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 23),
               child: InkWell(
                 onTap: () async {
-                  Map editedAlarm =
+                  Map? editedAlarm =
                       await alarmsControllers.gotToEditAlarm(context, index);
+                  if (editedAlarm == null) return;
                   setState(() {
                     alarmsControllers.alarms?[index] = editedAlarm;
                   });

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import './objectToDetectController.dart';
-// import './listOfObjectToDetect.dart' show getListOfObjectToDetect;
 
 class ObjectToDetect extends StatefulWidget {
   ObjectToDetect({Key? key}) : super(key: key);
@@ -98,6 +97,13 @@ class _ObjectToDetectState extends State<ObjectToDetect> {
   ];
 
   @override
+  void didChangeDependencies() {
+    listOfObjectToDetect = objectToDetectController
+        .getSelectedObjectsOfArguments(context, listOfObjectToDetect);
+    super.didChangeDependencies();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -141,7 +147,6 @@ class _ObjectToDetectState extends State<ObjectToDetect> {
                     ),
                     onChanged: (value) {
                       setState(() {
-                        searchResult.clear();
                         searchResult = objectToDetectController
                             .searchObjectToDetect(value, listOfObjectToDetect);
                       });

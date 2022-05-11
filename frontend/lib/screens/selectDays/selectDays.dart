@@ -11,7 +11,7 @@ class SelectDays extends StatefulWidget {
 class _SelectDaysState extends State<SelectDays> {
   Map makeDay(day, bool status) => {"day": day, "status": status};
 
-  List<Map> ListOfDay = [
+  List<Map> alarmDays = [
     {"name": "Domigo", "status": false},
     {"name": "Lunes", "status": false},
     {"name": "Marte", "status": false},
@@ -25,10 +25,8 @@ class _SelectDaysState extends State<SelectDays> {
 
   @override
   void didChangeDependencies() {
-    var arguments = ModalRoute.of(context)?.settings.arguments;
-    if (arguments == null) return;
-    List selectDays = arguments as List;
-    ListOfDay = selectDaysController.getSelectedDays(ListOfDay, selectDays);
+    alarmDays =
+        selectDaysController.getSelectedDaysOfArguments(context, alarmDays);
     super.didChangeDependencies();
   }
 
@@ -46,7 +44,7 @@ class _SelectDaysState extends State<SelectDays> {
             heightFactor: 0.7,
             child: ElevatedButton(
               onPressed: () {
-                selectDaysController.goToBack(context, ListOfDay);
+                selectDaysController.goToBack(context, alarmDays);
               },
               child: Text("Guardar"),
               style: ButtonStyle(
@@ -58,16 +56,16 @@ class _SelectDaysState extends State<SelectDays> {
         ],
       ),
       body: ListView.builder(
-        itemCount: ListOfDay.length,
+        itemCount: alarmDays.length,
         itemBuilder: (context, index) {
           return ListTile(
-            title: Text(ListOfDay[index]["name"]),
+            title: Text(alarmDays[index]["name"]),
             trailing: Checkbox(
-              value: ListOfDay[index]["status"],
+              value: alarmDays[index]["status"],
               onChanged: (value) {
                 setState(
                   () {
-                    ListOfDay[index]["status"] = value;
+                    alarmDays[index]["status"] = value;
                   },
                 );
               },

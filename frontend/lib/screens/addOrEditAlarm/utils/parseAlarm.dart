@@ -4,7 +4,8 @@ import 'package:frontend/utils/parseDays.dart';
 Map parseAlarm(
     {required TimeOfDay startAlarm,
     required TimeOfDay endAlarm,
-    required List alarmDays}) {
+    required List alarmDays,
+    required List alarmObjects}) {
   ParseDays parseDays = ParseDays();
   return {
     "time": {
@@ -18,6 +19,6 @@ Map parseAlarm(
       }
     },
     "alarm_days": parseDays.daysEncode(alarmDays),
-    "objects": ["person", "cat"]
+    "objects": alarmObjects
   };
 }

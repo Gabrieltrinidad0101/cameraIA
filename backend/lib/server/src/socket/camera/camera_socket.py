@@ -35,6 +35,7 @@ class CameraSocket(Namespace):
             list_frames = []
             frames = camera.reads()
             for ret,frame in frames: 
+                camera.show_frame(frame);
                 ai_data,error = detectionObjects.detection(ret,frame)
                 if error: return emit("camera_error",error)
                 if ai_data["labels"]: self.emit_alarm(ai_data)

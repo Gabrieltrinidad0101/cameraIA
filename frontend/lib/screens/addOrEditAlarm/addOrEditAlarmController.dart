@@ -41,7 +41,8 @@ class AddOrEditAlarmController with ArrayToString {
       "endAlarm": endAlarm,
       "alarmDays": _alarm["alarm_days"],
       "isEdit": true,
-      "_id": _alarm["_id"].toString()
+      "_id": _alarm["_id"].toString(),
+      "objects": _alarm["objects"]
     };
     return {"alarm": alarm, "title": title};
   }
@@ -59,7 +60,8 @@ class AddOrEditAlarmController with ArrayToString {
     Map newAlarm = parseAlarm(
         startAlarm: alarm?["startAlarm"],
         endAlarm: alarm?["endAlarm"],
-        alarmDays: alarm?["alarmDays"]);
+        alarmDays: alarm?["alarmDays"],
+        alarmObjects: alarm?["objects"]);
     String id = "";
     if (alarm?["isEdit"] == null) {
       Map data = await AlarmHttp.add(newAlarm);

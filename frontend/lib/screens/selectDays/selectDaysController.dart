@@ -1,14 +1,23 @@
-import 'package:flutter/material.dart' show Navigator;
+import 'package:flutter/material.dart';
 
 class SelectDaysController {
-  List getSelectDays(List alarmDays) {
+  List getSelectDays(List? alarmDays) {
     List<String> days = [];
-    for (var day in alarmDays) {
+    alarmDays?.forEach((day) {
       if (day["status"]) {
         days.add(day["name"]);
       }
-    }
+    });
     return days;
+  }
+
+  List<Map> getSelectedDaysOfArguments(context, _alarmDays) {
+    var arguments = ModalRoute.of(context)?.settings.arguments;
+    if (arguments == null) return _alarmDays;
+    List? selectObjects = arguments as List;
+    List<Map> alarmDays =
+        setSeletedcObjectsInAlarmDays(_alarmDays, selectObjects);
+    return alarmDays;
   }
 
   goToBack(context, [_alarmDays]) {
@@ -16,14 +25,15 @@ class SelectDaysController {
     Navigator.pop(context, alarmDays);
   }
 
-  List<Map> getSelectedDays(List<Map> listOfDays, List selectDays) {
-    for (var dataOfDay in listOfDays) {
+  List<Map> setSeletedcObjectsInAlarmDays(
+      List<Map> alarmDays, List selectDays) {
+    for (var day in alarmDays) {
       for (var selectDay in selectDays) {
-        if (dataOfDay["name"] == selectDay) {
-          dataOfDay["status"] = true;
+        if (day["name"] == selectDay) {
+          day["status"] = true;
         }
       }
     }
-    return listOfDays;
+    return alarmDays;
   }
 }

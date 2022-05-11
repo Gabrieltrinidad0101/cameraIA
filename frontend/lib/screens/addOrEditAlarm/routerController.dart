@@ -11,8 +11,9 @@ class RouterController {
     return alarmDays;
   }
 
-  Future<List> goToObjectToDetect(context) async {
-    List selectedObjects = await go(context: context, name: "/objectToDetect");
+  Future<List> goToObjectToDetect(context, List? alarmObjects) async {
+    List selectedObjects = await go(
+        context: context, name: "/objectToDetect", arguments: alarmObjects);
     return selectedObjects;
   }
 }

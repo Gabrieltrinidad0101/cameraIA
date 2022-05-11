@@ -37,18 +37,18 @@ class AlarmsControllers with ArrayToString {
     return index != (alarms?.length ?? 0) - 1 ? 5 : 80;
   }
 
-  Future<Map> gotToEditAlarm(context, index) async {
-    Map data =
+  Future<Map?> gotToEditAlarm(context, index) async {
+    var data =
         await Navigator.pushNamed(context, "/addOrEditAlarm", arguments: {
       "title": "Edit Alarm",
       "alarm": alarms?[index],
-    }) as Map;
-    return data;
+    });
+    return data == null ? null : data as Map;
   }
 
-  Future<Map> gotToAddAlarm(context) async {
-    Map newAlarm = await Navigator.pushNamed(context, "/addOrEditAlarm") as Map;
-    return newAlarm;
+  Future<Map?> gotToAddAlarm(context) async {
+    var newAlarm = await Navigator.pushNamed(context, "/addOrEditAlarm");
+    return newAlarm == null ? null : newAlarm as Map;
   }
 
   Future<List?> deleteAlarm(context, int index, Function callBack) async {
