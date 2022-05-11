@@ -24,8 +24,8 @@ def parse_days(_days):
     return days_by_names
 
 
-def make_alarm(array_date,days):
-    current_date = datetime.datetime.now()
+def make_alarm(array_date,days,date=None):
+    current_date = date or datetime.datetime.now()
     hour = current_date.hour
     minute = current_date.minute
     start_hour = hour + array_date[0]

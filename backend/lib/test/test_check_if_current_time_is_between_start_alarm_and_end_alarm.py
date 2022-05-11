@@ -1,3 +1,4 @@
+from datetime import datetime
 import pytest
 from server.src.socket.camera.utils.alarm import Alarm
 from .utils.make_alarm import make_alarm
@@ -20,11 +21,16 @@ from .utils.make_alarm import make_alarm
         ([-3,0,0,0],[-7,7],True),
         ([-2,0,0,0],[-7,7],True),
         ([0,-100,0,0],[-7,7,0],True),
+        ([0,0,0,-1],[-7,7,0],True),
     ]
 )
 def test_check_if_current_time_is_between_start_alarm_and_end_alarm(input_a,days,expected):
     alarm = Alarm()
     alarm_data,days_by_names = make_alarm(input_a,days)
     if(alarm_data == "overflow"): return
-    alarm_data,days_by_names = make_alarm(input_a,days)
     assert(alarm.process(alarm_data,days_by_names) == expected)
+
+
+
+
+

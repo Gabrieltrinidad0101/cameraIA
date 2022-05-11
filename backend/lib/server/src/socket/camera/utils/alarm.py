@@ -11,7 +11,7 @@ class Alarm:
         second = self.get_specific_time(date,"second")
         current_date = datetime.datetime(year, month, day, hour, minute,second)
         return current_date
-    
+
     def get_specific_time(self,date,_type):
         current_date = datetime.datetime.now()
         specific_date = date.get(_type,False)
@@ -23,11 +23,11 @@ class Alarm:
         if(get_day_name() in days):
             return True
 
-    def check_if_current_time_is_between_start_alarm_and_end_alarm(self,alarm,alarm_days):
+    def check_if_current_time_is_between_start_alarm_and_end_alarm(self,alarm,alarm_days,current_time):
         start_alarm = alarm["start_alarm"]
         end_alarm = alarm["end_alarm"]
-        
-        current_time_in_second = datetime.datetime.now()
+
+        current_time = current_time or self.get_time()
         start_alarm_time = self.get_time(start_alarm)
         end_alarm_time  = self.get_time(end_alarm)
         if start_alarm_time > end_alarm_time:
@@ -35,15 +35,10 @@ class Alarm:
             day_name = get_day_name(end_alarm_time)
             alarm_days.append(day_name)
         is_alarm_day = self.verify_alarm_days(alarm_days)
-
-        
-
-        if current_time_in_second >= start_alarm_time and current_time_in_second <= end_alarm_time and is_alarm_day:
+        if current_time >= start_alarm_time and current_time <= end_alarm_time and is_alarm_day:
             return True
         return False
 
-    def process(self,alarm,alarm_days):
-        alarm_is_processing = self.check_if_current_time_is_between_start_alarm_and_end_alarm(alarm,alarm_days)
+    def process(self,alarm,alarm_days,current_time=None):
+        alarm_is_processing = self.check_if_current_time_is_between_start_alarm_and_end_alarm(alarm,alarm_days,current_time)
         return alarm_is_processing
-
-
