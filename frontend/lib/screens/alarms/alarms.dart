@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/screens/alarms/alarmsControllers.dart';
+import 'package:frontend/widgets/modals/loadingDialog.dart';
 
 class Alarms extends StatefulWidget {
   const Alarms({Key? key}) : super(key: key);
@@ -10,6 +11,7 @@ class Alarms extends StatefulWidget {
 
 class _AlarmsState extends State<Alarms> {
   AlarmsControllers alarmsControllers = AlarmsControllers();
+  final GlobalKey<State> _keyLoader = GlobalKey<State>();
 
   @override
   void initState() {
@@ -89,10 +91,11 @@ class _AlarmsState extends State<Alarms> {
   }
 
   deleteAlarm(BuildContext context, index) async {
-    List? newAlarms =
-        await alarmsControllers.deleteAlarm(context, index, (newAlarms) {
+    alarmsControllers.showLoadingDialog(context, _keyLoader);
+    await alarmsControllers.deleteAlarm(context, index, (newAlarms) {
       setState(() {
         alarmsControllers.alarms = newAlarms;
+        alarmsControllers.hiddenLoadingDialog(_keyLoader);
       });
     });
   }

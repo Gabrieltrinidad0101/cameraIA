@@ -16,8 +16,7 @@ class _AddOrEditAlarmState extends State<AddOrEditAlarm> {
   AddOrEditAlarmController addOrEditAlarmController =
       AddOrEditAlarmController();
   RouterController routerController = RouterController();
-  DateTime _dateTime = DateTime.now();
-
+  final GlobalKey<State> _keyLoader = GlobalKey<State>();
   @override
   void didChangeDependencies() {
     Map? data = addOrEditAlarmController.getArguments(context);
@@ -36,7 +35,8 @@ class _AddOrEditAlarmState extends State<AddOrEditAlarm> {
             heightFactor: 0.7,
             child: ElevatedButton(
               onPressed: () async {
-                await addOrEditAlarmController.saveOrEditAlarm(context, alarm);
+                addOrEditAlarmController.saveOrEditAlarm(
+                    context, alarm, _keyLoader);
               },
               child: Text("Guardar"),
               style: ButtonStyle(

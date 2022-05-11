@@ -4,8 +4,9 @@ import 'package:frontend/services/api/alarms.dart' as AlarmHttp;
 import 'package:frontend/widgets/alert/info.dart';
 import 'package:frontend/Mixins/arrayToString.dart';
 import 'package:frontend/utils/parseDays.dart';
+import 'package:frontend/Mixins/loadingDialog.dart';
 
-class AddOrEditAlarmController with ArrayToString {
+class AddOrEditAlarmController with ArrayToString, LoadingDialog {
   ParseDays parseDays = ParseDays();
 
   String processTime(TimeOfDay? time, context) {
@@ -47,7 +48,9 @@ class AddOrEditAlarmController with ArrayToString {
     return {"alarm": alarm, "title": title};
   }
 
-  saveOrEditAlarm(context, Map? alarm) async {
+  saveOrEditAlarm(context, Map? alarm, _keyLoader) async {
+    showLoadingDialog(context, _keyLoader);
+
     if (alarm?["startAlarm"] == null ||
         alarm?["endAlarm"] == null ||
         alarm?["alarmDays"].isEmpty) {
@@ -72,6 +75,7 @@ class AddOrEditAlarmController with ArrayToString {
     }
     newAlarm["alarm_days"] = parseDays.daysDecode(newAlarm["alarm_days"]);
     newAlarm["_id"] = id;
+    hiddenLoadingDialog(_keyLoader);
     Navigator.pop(context, newAlarm);
   }
 }

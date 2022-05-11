@@ -5,10 +5,12 @@ import 'package:frontend/Mixins/arrayToString.dart';
 import 'package:frontend/utils/parseDays.dart';
 import 'utils/format12Hour.dart';
 import 'package:frontend/services/api/alarms.dart' as AlarmHttp;
+import 'package:frontend/Mixins/loadingDialog.dart';
 
-class AlarmsControllers with ArrayToString {
+class AlarmsControllers with ArrayToString, LoadingDialog {
   ParseDays parseDays = ParseDays();
   List? alarms;
+
   Future<List> getAlarms() async {
     List getAlarms = await AlarmHttp.get();
     return fromJson(getAlarms);
@@ -51,7 +53,7 @@ class AlarmsControllers with ArrayToString {
     return newAlarm == null ? null : newAlarm as Map;
   }
 
-  Future<List?> deleteAlarm(context, int index, Function callBack) async {
+  Future<void> deleteAlarm(context, int index, Function callBack) async {
     await alertWarning(
         context: context,
         title: "Elimar",
