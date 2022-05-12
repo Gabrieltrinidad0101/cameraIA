@@ -74,12 +74,17 @@ class _AlarmsState extends State<Alarms> {
                 child: ListTile(
                   title: Text(
                     alarmsControllers.getTitle(index),
-                    style: TextStyle(fontSize: 23),
+                    style: TextStyle(fontSize: 21),
                   ),
                   subtitle: Text(alarmsControllers.getDays(index)),
                   trailing: Switch(
-                    value: true,
-                    onChanged: (value) {},
+                    value: alarmsControllers.alarms?[index]["status"],
+                    onChanged: (value) async {
+                      setState(() {
+                        alarmsControllers.alarms?[index]["status"] = value;
+                      });
+                      alarmsControllers.updateAlarm(context, _keyLoader, index);
+                    },
                   ),
                 ),
               ),

@@ -56,3 +56,5 @@ Future update(Map alarm, String id) async {
   final data = jsonDecode(res.body);
   return data;
 }
+
+Future updateStatus(bool status) async {}

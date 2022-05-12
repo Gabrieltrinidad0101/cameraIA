@@ -19,6 +19,7 @@ Map parseAlarm(
       }
     },
     "alarm_days": parseDays.daysEncode(alarmDays),
-    "objects": alarmObjects
+    "objects": alarmObjects,
+    "status": true,
   };
 }

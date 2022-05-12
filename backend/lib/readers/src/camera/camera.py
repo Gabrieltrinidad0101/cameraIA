@@ -1,12 +1,12 @@
 import cv2
-import sys
 import base64
 class Camera:
     def __init__(self,video) -> None:
         self.cap = cv2.VideoCapture(video)
         
     def reads(self):
-        return [self.cap.read(),self.cap.read()]
+        frame = self.cap.read()
+        return [frame,frame]
     
     def frame_to_str(self,frame):
         res, frame = cv2.imencode(".jpg",frame)

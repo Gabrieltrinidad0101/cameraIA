@@ -2,6 +2,9 @@ from datetime import datetime
 import pytest
 from server.src.socket.camera.utils.alarm import Alarm
 from .utils.make_alarm import make_alarm
+from .utils.import_json_file import import_json_file
+
+default_alarms = import_json_file("test_default_alarms.json")
 @pytest.mark.parametrize(
     "input_a,days,expected",
     [
@@ -31,6 +34,13 @@ def test_check_if_current_time_is_between_start_alarm_and_end_alarm(input_a,days
     assert(alarm.process(alarm_data,days_by_names) == expected)
 
 
-
-
+def test_defualt_alarm():
+    alarm = Alarm()
+    for alarm_data in default_alarms:
+        time = alarm_data["time"]
+        days_by_names = alarm_data["days_by_names"]
+        expected = alarm_data["expected"]
+        year,moth,day,hour,minute = alarm_data["current_time"]
+        current_time = datetime(year,moth,day,hour,minute)
+        assert alarm.process(time,days_by_names,current_time) == expected
 

@@ -4,6 +4,7 @@ from .utils.add_new_alarm_scheme_json import alarm_schema_json
 from server.src.services.database.alarms import DatabaseAlarm
 from server.src.middlewares.auth import token_requires
 from .dto import dto_alarm
+from server.src.constant.days import DAYS
 alarm = Blueprint("alarm",__name__,url_prefix='/alarm')
 database_alarm = DatabaseAlarm()
 
@@ -15,8 +16,9 @@ def add_new_alarm():
         alarm_data = request.get_json()
         objects = alarm_data.get("objects")
         alarm_days = alarm_data.get("alarm_days")
-        for alarm_day in alarm_days:
-            if type(alarm_day) != str: return jsonify({"error": "Error type in alarm_days"}),500
+        for i in range(0,7):
+            if(DAYS.get(i) in alarm_days):
+                return jsonify({"error": "Error in alarm_days"}),500
         for object_name in objects:
             if type(object_name) != str: return jsonify({"error": "Error type in objects"}),500
         alarm_data_filter = dto_alarm(alarm_data)

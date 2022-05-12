@@ -20,6 +20,7 @@ alarm_schema_json = {
         },
         "objects": {"type": "array"},
         "alarm_days": {"type": "array"},
+        "status": {"type": "boolean","default": True},
     },
     'required': ['time', 'objects',"alarm_days"]
 }

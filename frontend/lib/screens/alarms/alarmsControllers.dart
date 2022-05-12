@@ -16,6 +16,14 @@ class AlarmsControllers with ArrayToString, LoadingDialog {
     return fromJson(getAlarms);
   }
 
+  updateAlarm(context, _keyLoader, int index) async {
+    Map alarm = {...alarms?[index]};
+    showLoadingDialog(context, _keyLoader);
+    alarm["alarm_days"] = parseDays.daysEncode(alarm["alarm_days"]);
+    await AlarmHttp.update(alarm, alarm["_id"]);
+    hiddenLoadingDialog(_keyLoader);
+  }
+
   List fromJson(alarms) {
     ParserAlarm parserAlarm = ParserAlarm();
     return parserAlarm.fromJson(alarms);

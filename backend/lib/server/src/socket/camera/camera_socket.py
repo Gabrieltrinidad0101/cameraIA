@@ -52,6 +52,8 @@ class CameraSocket(Namespace):
             alarm_days = alarm["alarm_days"]
             objects_to_detect = alarm["objects"]
             time = alarm["time"]
+            status = alarm["status"]
+            if not status: return
             alarm_is_processing = self.alarm.process(time,alarm_days)
             if alarm_is_processing:
                 detected_objects = return_repeat_elements(labels,objects_to_detect)

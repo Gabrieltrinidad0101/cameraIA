@@ -22,5 +22,6 @@ def dto_alarm(alarm):
             }
         },
         "alarm_days": alarm_days,
-        "objects": alarm["objects"]
+        "objects": alarm["objects"],
+        "status": alarm["status"],
     }
