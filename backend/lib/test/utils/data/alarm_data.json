@@ -11,8 +11,9 @@
                 }
             },
             "alarm_days": ["Thursday"],
-            "objects": ["person","cat"]
-    },
+            "objects": ["person","cat"],
+            "status": true
+        },
     "data2_json": {
             "time": {
                 "start_alarm": {
@@ -25,8 +26,9 @@
                 }
             },
             "alarm_days": ["Thursday"],
-            "objects": ["person"]
-    },
+            "objects": ["person"],
+            "status": true
+        },
     "data3_json": {
         "time": {
             "start_alarm": {
@@ -39,7 +41,8 @@
             }
         },
         "alarm_days": ["Thursday"],
-        "objects": ["person"]
+        "objects": ["person"],
+        "status": true
     },
     "data4_json": {
         "time": {
@@ -53,7 +56,8 @@
             }
         },
         "alarm_days": ["Thursday"],
-        "objects": ["person"]
+        "objects": ["person"],
+        "status": true
     },
     "data5_json": {
         "time": {
@@ -67,6 +71,7 @@
             }
         },
         "alarm_days": ["Thursday"],
-        "objects": ["dog","person"]
+        "objects": ["dog","person"],
+        "status": true
     }
 }

@@ -1,4 +1,4 @@
-import datetime,time
+import datetime
 from .get_current_day import get_day_name
 
 class Alarm:

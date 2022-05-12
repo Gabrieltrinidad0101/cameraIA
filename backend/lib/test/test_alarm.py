@@ -23,7 +23,7 @@ def test_add_alarm(client):
             data = json.dumps(alarm_data[key]),
             headers=headers_token_content_json
         )
-        assert(response.status_code == 200)
+        assert(response.status_code == 200), print(response.json)
 
 def test_get_alarm(client):
     response = client.get("api/alarm/get",

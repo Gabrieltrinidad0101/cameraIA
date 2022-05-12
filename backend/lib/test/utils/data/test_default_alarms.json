@@ -3,15 +3,16 @@
         "time": {
             "start_alarm": {
                 "hour": 21, 
-                "minute": 35
+                "minute": 35,
+                "day": 5
             }, 
             "end_alarm": {
                 "hour": 3, 
-                "minute": 36
-
+                "minute": 36,
+                "day": 5
             }
         },
-        "days_by_names": ["Wednesday"],
+        "alarm_days": ["Wednesday"],
         "current_time": [2022,5,11,23,59],
         "expected": true
     },
@@ -19,15 +20,17 @@
         "time": {
             "start_alarm": {
                 "hour": 21, 
-                "minute": 35
+                "minute": 35,
+                "day": 5
             }, 
             "end_alarm": {
                 "hour": 3, 
-                "minute": 36
+                "minute": 36,
+                "day": 5
 
             }
         },
-        "days_by_names": ["Friday"],
+        "alarm_days": ["Friday"],
         "current_time": [2022,5,11,23,59],
         "expected": false
     }
