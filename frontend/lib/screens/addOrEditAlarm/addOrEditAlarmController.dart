@@ -21,30 +21,36 @@ class AddOrEditAlarmController with ArrayToString, LoadingDialog {
     return time;
   }
 
+  processAlarmData(Map alarm) {
+    Map _alarm = alarm;
+    TimeOfDay startAlarm = TimeOfDay(
+      hour: _alarm["time"]["start_alarm"]["hour"],
+      minute: _alarm["time"]["start_alarm"]["minute"],
+    );
+
+    TimeOfDay endAlarm = TimeOfDay(
+      hour: _alarm["time"]["end_alarm"]["hour"],
+      minute: _alarm["time"]["end_alarm"]["minute"],
+    );
+
+    alarm = {
+      "startAlarm": startAlarm,
+      "endAlarm": endAlarm,
+      "alarmDays": _alarm["alarm_days"],
+      "_id": _alarm["_id"]?.toString(),
+      "objects": _alarm["objects"]
+    };
+    return alarm;
+  }
+
   Map? getArguments(context) {
     var arguments = ModalRoute.of(context)?.settings.arguments;
     if (arguments == null) return null;
     Map data = arguments as Map;
 
     String title = data["title"];
-
-    Map _alarm = data["alarm"];
-    TimeOfDay startAlarm = TimeOfDay(
-      hour: _alarm["time"]["start_alarm"]["hour"],
-      minute: _alarm["time"]["start_alarm"]["minute"],
-    );
-    TimeOfDay endAlarm = TimeOfDay(
-      hour: _alarm["time"]["end_alarm"]["hour"],
-      minute: _alarm["time"]["end_alarm"]["minute"],
-    );
-    Map alarm = {
-      "startAlarm": startAlarm,
-      "endAlarm": endAlarm,
-      "alarmDays": _alarm["alarm_days"],
-      "isEdit": true,
-      "_id": _alarm["_id"].toString(),
-      "objects": _alarm["objects"]
-    };
+    Map alarm = processAlarmData(data["alarm"]);
+    alarm["isEdit"] = true;
     return {"alarm": alarm, "title": title};
   }
 

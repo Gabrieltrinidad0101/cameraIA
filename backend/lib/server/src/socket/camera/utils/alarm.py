@@ -33,6 +33,7 @@ class Alarm:
         if start_alarm_time > end_alarm_time:
             end_alarm_time = end_alarm_time + datetime.timedelta(days=1)
             day_name = get_day_name(end_alarm_time)
+            print(day_name)
             alarm_days.append(day_name)
         is_alarm_day = self.verify_alarm_days(alarm_days)
         if current_time >= start_alarm_time and current_time <= end_alarm_time and is_alarm_day:

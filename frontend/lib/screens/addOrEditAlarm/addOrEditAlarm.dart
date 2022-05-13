@@ -12,16 +12,33 @@ class AddOrEditAlarm extends StatefulWidget {
 
 class _AddOrEditAlarmState extends State<AddOrEditAlarm> {
   String title = "Agregar Alarma";
-  Map? alarm = {};
   AddOrEditAlarmController addOrEditAlarmController =
       AddOrEditAlarmController();
+  Map alarm = {
+    "time": {
+      "start_alarm": {"hour": 18, "minute": 15},
+      "end_alarm": {"hour": 7, "minute": 45}
+    },
+    "alarm_days": [
+      "Domigo",
+      "Lunes",
+      "Marte",
+      "Miércoles",
+      "Jueve",
+      "Viernes",
+      "Sábado",
+    ],
+    "objects": ["person"],
+    "status": true
+  };
   RouterController routerController = RouterController();
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
   @override
   void didChangeDependencies() {
+    alarm = addOrEditAlarmController.processAlarmData(alarm);
     Map? data = addOrEditAlarmController.getArguments(context);
     title = data?["title"] ?? title;
-    alarm = data?["alarm"] ?? {};
+    alarm = data?["alarm"] ?? alarm;
     super.didChangeDependencies();
   }
 
@@ -52,23 +69,23 @@ class _AddOrEditAlarmState extends State<AddOrEditAlarm> {
           TimeButton(
               name: "Comienza la alarma",
               time: addOrEditAlarmController.processTime(
-                  alarm?["startAlarm"], context),
+                  alarm["startAlarm"], context),
               onPressed: () async {
                 TimeOfDay? t = await addOrEditAlarmController.clock(
-                    alarm?["startAlarm"], context);
+                    alarm["startAlarm"], context);
                 setState(() {
-                  alarm?["startAlarm"] = t;
+                  alarm["startAlarm"] = t;
                 });
               }),
           TimeButton(
               name: "Termina la alarma",
               time: addOrEditAlarmController.processTime(
-                  alarm?["endAlarm"], context),
+                  alarm["endAlarm"], context),
               onPressed: () async {
                 TimeOfDay? t = await addOrEditAlarmController.clock(
-                    alarm?["endAlarm"], context);
+                    alarm["endAlarm"], context);
                 setState(() {
-                  alarm?["endAlarm"] = t;
+                  alarm["endAlarm"] = t;
                 });
               }),
           Options()
@@ -86,14 +103,14 @@ class _AddOrEditAlarmState extends State<AddOrEditAlarm> {
             child: ListTile(
               title: Text("DIAS DE ALARMAS"),
               subtitle: Text(
-                  addOrEditAlarmController.arrayToString(alarm?["alarmDays"])),
+                  addOrEditAlarmController.arrayToString(alarm["alarmDays"])),
             ),
             onTap: () async {
               List<String> _alarmDays = await routerController.goToSelectDays(
-                  context, alarm?["alarmDays"]);
+                  context, alarm["alarmDays"]);
               if (_alarmDays.isEmpty) return;
               setState(() {
-                alarm?["alarmDays"] = _alarmDays;
+                alarm["alarmDays"] = _alarmDays;
               });
             },
           ),
@@ -101,14 +118,14 @@ class _AddOrEditAlarmState extends State<AddOrEditAlarm> {
               child: ListTile(
                 title: Text("OBJECTOS A DETECTAR"),
                 subtitle: Text(
-                    addOrEditAlarmController.arrayToString(alarm?["objects"])),
+                    addOrEditAlarmController.arrayToString(alarm["objects"])),
               ),
               onTap: () async {
                 List selectedObjects = await routerController
-                    .goToObjectToDetect(context, alarm?["objects"]);
+                    .goToObjectToDetect(context, alarm["objects"]);
                 if (selectedObjects.isEmpty) return;
                 setState(() {
-                  alarm?["objects"] = selectedObjects;
+                  alarm["objects"] = selectedObjects;
                 });
               })
         ],

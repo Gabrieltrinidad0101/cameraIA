@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class SelectDaysController {
-  List getSelectDays(List? alarmDays) {
+  List<String> getSelectDays(List? alarmDays) {
     List<String> days = [];
     alarmDays?.forEach((day) {
       if (day["status"]) {
@@ -21,7 +21,7 @@ class SelectDaysController {
   }
 
   goToBack(context, [_alarmDays]) {
-    List alarmDays = getSelectDays(_alarmDays);
+    List<String> alarmDays = getSelectDays(_alarmDays);
     Navigator.pop(context, alarmDays);
   }
 
