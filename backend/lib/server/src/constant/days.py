@@ -8,7 +8,7 @@ DAYS = [
     "Saturday",
 ]
 
-DICT_DAYS = {
+NEXT_DAYS = {
     "Sunday": "Monday",
     "Monday": "Tuesday",
     "Tuesday": "Wednesday",

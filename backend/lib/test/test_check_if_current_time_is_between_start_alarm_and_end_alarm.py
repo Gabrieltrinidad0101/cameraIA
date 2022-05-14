@@ -1,8 +1,12 @@
 from datetime import datetime
 import pytest
+from .utils.make_alarm_especific_time import make_alarm_especific_time
 from server.src.socket.camera.utils.alarm import Alarm
-from .utils.make_alarm import make_alarm
+from .utils.make_alarm_current_time import make_alarm
 from .utils.import_json_file import import_json_file
+alarm = Alarm()
+
+mondayToSaturday = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]
 
 default_alarms = import_json_file("test_default_alarms.json")
 @pytest.mark.parametrize(
@@ -24,11 +28,72 @@ default_alarms = import_json_file("test_default_alarms.json")
         ([-3,0,0,0],[-7,7],True),
         ([-2,0,0,0],[-7,7],True),
         ([0,-100,0,0],[-7,7,0],True),
-        ([0,0,0,-1],[-7,7,0],True),
+        ([0,0,0,1],[-7,7,0],True),
     ]
 )
 def test_check_if_current_time_is_between_start_alarm_and_end_alarm(input_a,days,expected):
-    alarm = Alarm()
     alarm_data,alarm_days = make_alarm(input_a,days)
     if(alarm_data == "overflow"): return
     assert(alarm.process(alarm_data,alarm_days) == expected)
+
+# 2022,5,14,4,59,41 is moth = may and day = Saturday
+# ([17,0,12,59],["Wednesday","Friday"],datetime(2022,5,10,12,58,41),True),
+@pytest.mark.parametrize(
+    "alarm_data,days,current_time,expected",
+    [
+        ([18,0,5,0],["Friday"],datetime(2022,5,14,4,59,41),True),
+        ([18,0,3,0],["Friday"],datetime(2022,5,14,4,59,41),False),
+        ([18,0,3,0],["Saturday"],datetime(2022,5,14,4,59,41),False),
+        ([18,0,5,0],["Saturday"],datetime(2022,5,15,4,59,41),True),
+        ([18,0,5,0],["Friday","Saturday"],datetime(2022,5,14,4,59,41),True),
+        ([18,0,5,0],["Monday"],datetime(2022,5,10,4,59,41),True),
+        ([18,0,5,0],["Monday"],datetime(2022,5,11,4,59,41),False),
+        ([18,0,5,0],["Tuesday"],datetime(2022,5,10,4,59,41),False),
+        ([18,0,5,0],["Thursday"],datetime(2022,5,10,4,59,41),False),
+        ([17,0,12,59],["Tuesday","Friday"],datetime(2022,5,10,18,58,41),True),
+        (
+            [18,15,7,45],
+            mondayToSaturday,
+            datetime(2022,5,10,18,0,41),
+            False,
+        ),
+        (
+            [18,15,7,45],
+            mondayToSaturday,
+            datetime(2022,5,12,6,10,0),
+            True,
+        ),
+        (
+            [18,15,7,45],
+            mondayToSaturday,
+            datetime(2022,5,14,17,0,0),
+            False,
+        ),
+        (
+            [0,0,23,59],
+            ["Sunday"],
+            datetime(2022,5,15,5,0,0),
+            True,
+        ),
+        (
+            [18,15,7,45],
+            mondayToSaturday,
+            datetime(2022,5,16,3,0,0),
+            False,
+        ),
+    ]
+)
+def test_alarm_with_default_alarm(alarm_data,days,current_time,expected):
+    alarm_data = make_alarm_especific_time(alarm_data)
+    assert alarm.process(alarm_data,days,current_time) == expected
+
+
+
+
+
+
+
+
+
+
+
