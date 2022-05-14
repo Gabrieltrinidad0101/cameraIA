@@ -1,5 +1,5 @@
 import datetime
-from .get_current_day import get_day_name
+from .days_controller import get_current_day, get_next_day
 
 class Alarm:
     def get_time(self,date={}):
@@ -20,7 +20,7 @@ class Alarm:
 
 
     def verify_alarm_days(self,days):
-        if(get_day_name() in days):
+        if(get_current_day() in days):
             return True
 
     def check_if_current_time_is_between_start_alarm_and_end_alarm(self,alarm,alarm_days,current_time):
@@ -32,9 +32,7 @@ class Alarm:
         end_alarm_time  = self.get_time(end_alarm)
         if start_alarm_time > end_alarm_time:
             end_alarm_time = end_alarm_time + datetime.timedelta(days=1)
-            day_name = get_day_name(end_alarm_time)
-            print(day_name)
-            alarm_days.append(day_name)
+            alarm_days = get_next_day(alarm_days)
         is_alarm_day = self.verify_alarm_days(alarm_days)
         if current_time >= start_alarm_time and current_time <= end_alarm_time and is_alarm_day:
             return True

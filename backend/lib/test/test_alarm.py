@@ -37,6 +37,7 @@ def test_edit_alarm(client):
     get_alarms = client.get("api/alarm/get",
         headers=headers_token_content_json
     )
+    print(get_alarms.json)
     for i in range(0,len(alarm_data_modify)):
         alarm_id = get_alarms.json[i]["_id"]["$oid"]
         update_alarm = client.put(f"api/alarm/update/{alarm_id}",

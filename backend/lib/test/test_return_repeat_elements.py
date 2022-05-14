@@ -13,4 +13,3 @@ import pytest
 def test_return_repeat_elements(input_a,input_b,expected):
     array_of_repeat_elements = return_repeat_elements(input_a,input_b)
     assert array_of_repeat_elements == expected
-

@@ -15,7 +15,7 @@ default_alarms = import_json_file("test_default_alarms.json")
         ([0,-1,0,0],[0],True),
         ([0,0,0,-1],[3],False),
         ([1,0,0,0],[4],False),
-        ([0,0,0,-10],[10,13,15],False),
+        ([0,0,0,-10],[10,13,16],False),
         ([-30,0,0,-10],[2344,-2332],False),
         ([-500,-20,-30,-10],[3342],False),
         ([-3,0,500,50],[-7],True),
@@ -32,14 +32,3 @@ def test_check_if_current_time_is_between_start_alarm_and_end_alarm(input_a,days
     alarm_data,alarm_days = make_alarm(input_a,days)
     if(alarm_data == "overflow"): return
     assert(alarm.process(alarm_data,alarm_days) == expected)
-
-# def test_defualt_alarm():
-#     alarm = Alarm()
-#     for alarm_data in default_alarms:
-#         time = alarm_data["time"]
-#         alarm_days = alarm_data["alarm_days"]
-#         expected = alarm_data["expected"]
-#         year,moth,day,hour,minute = alarm_data["current_time"]
-#         current_time = datetime(year,moth,day,hour,minute)
-#         assert alarm.process(time,alarm_days,current_time) == expected
-
