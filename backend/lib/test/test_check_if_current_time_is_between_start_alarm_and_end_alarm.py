@@ -7,6 +7,7 @@ from .utils.import_json_file import import_json_file
 alarm = Alarm()
 
 mondayToSaturday = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]
+allDays = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]
 
 default_alarms = import_json_file("test_default_alarms.json")
 @pytest.mark.parametrize(
@@ -36,6 +37,8 @@ def test_check_if_current_time_is_between_start_alarm_and_end_alarm(input_a,days
     if(alarm_data == "overflow"): return
     assert(alarm.process(alarm_data,alarm_days) == expected)
 
+# ([17,26,22,0],["Friday"],datetime(2022,5,14,18,27,0),True),
+
 # 2022,5,14,4,59,41 is moth = may and day = Saturday
 # ([17,0,12,59],["Wednesday","Friday"],datetime(2022,5,10,12,58,41),True),
 @pytest.mark.parametrize(
@@ -51,6 +54,7 @@ def test_check_if_current_time_is_between_start_alarm_and_end_alarm(input_a,days
         ([18,0,5,0],["Tuesday"],datetime(2022,5,10,4,59,41),False),
         ([18,0,5,0],["Thursday"],datetime(2022,5,10,4,59,41),False),
         ([17,0,12,59],["Tuesday","Friday"],datetime(2022,5,10,18,58,41),True),
+        ([17,26,22,0],["Friday"],datetime(2022,5,14,18,27,0),False),
         (
             [18,15,7,45],
             mondayToSaturday,
@@ -80,6 +84,12 @@ def test_check_if_current_time_is_between_start_alarm_and_end_alarm(input_a,days
             mondayToSaturday,
             datetime(2022,5,16,3,0,0),
             False,
+        ),
+        (
+            [18,25,7,45],
+            allDays,
+            datetime(2022,5,14,18,30,0),
+            True,
         ),
     ]
 )

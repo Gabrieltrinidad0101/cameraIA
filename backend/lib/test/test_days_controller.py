@@ -1,4 +1,4 @@
-from server.src.socket.camera.utils.days_controller import get_next_day,get_day
+from server.src.socket.camera.utils.days_controller import get_next_days,get_day
 from datetime import datetime
 import pytest
 
@@ -14,7 +14,7 @@ import pytest
     ]
 )
 def test_get_next_day(days,expected):
-    days_with_next_days = get_next_day(days)
+    days_with_next_days = get_next_days(days)
     assert days_with_next_days == expected
 @pytest.mark.parametrize(
     "day,expected",

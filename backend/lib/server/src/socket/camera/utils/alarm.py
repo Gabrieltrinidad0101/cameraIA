@@ -1,5 +1,6 @@
 import datetime
-from .days_controller import get_day, get_next_day, get_yesterday
+from .days_controller import get_day, get_next_days, get_yesterday
+import copy
 
 class Alarm:
     def get_time(self,date={},current_time = None):
@@ -22,6 +23,7 @@ class Alarm:
     def verify_alarm_days(self,days,current_time):
         if(get_day(current_time) in days):
             return True
+        return False
 
     def check_if_current_time_is_between_start_alarm_and_end_alarm(self,alarm,alarm_days,current_time):
         start_alarm = alarm["start_alarm"]
@@ -31,13 +33,17 @@ class Alarm:
         start_alarm_time = self.get_time(start_alarm,current_time)
         end_alarm_time  = self.get_time(end_alarm,current_time)
         if start_alarm_time > end_alarm_time:
-            yesterday_date = get_yesterday(current_time)
-            yesterday_name = get_day(yesterday_date)
-            alarm_days = get_next_day(alarm_days)
-            if yesterday_name in alarm_days and yesterday_date < self.get_midday():
-                start_alarm_time = start_alarm_time + datetime.timedelta(days=-1)
-            else:
-                end_alarm_time = end_alarm_time + datetime.timedelta(days=1)
+            exists_yesterday_name = get_yesterday(current_time) in alarm_days
+            alarm_days = get_next_days(alarm_days)
+            if exists_yesterday_name:
+                new_start_alarm_time = start_alarm_time + datetime.timedelta(days=-1)
+                if current_time >= new_start_alarm_time and current_time <= end_alarm_time and self.verify_alarm_days(alarm_days,current_time):
+                    return True
+            end_alarm_time = end_alarm_time + datetime.timedelta(days=1)
+        # print(f"s {start_alarm_time}")
+        # print(f"e {end_alarm_time}")
+        # print(f"c {current_time}")
+        # print(f"d {alarm_days}")
         is_alarm_day = self.verify_alarm_days(alarm_days,current_time)
         if current_time >= start_alarm_time and current_time <= end_alarm_time and is_alarm_day:
             return True

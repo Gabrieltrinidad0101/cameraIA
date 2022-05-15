@@ -1,5 +1,7 @@
 import datetime
-from server.src.constant.days import NEXT_DAYS,DAYS
+
+from numpy import number
+from server.src.constant.days import NEXT_DAYS,DAYS,DAYS_BY_INDEX
 
 def get_day(day=False):
     current_date = day or datetime.datetime.now()
@@ -8,7 +10,7 @@ def get_day(day=False):
     return day
 
 
-def get_next_day(days: list):
+def get_next_days(days: list):
     len_days = len(days)
     days_with_next_days = [*days]
     for i in range(0,len_days):
@@ -21,4 +23,12 @@ def get_next_day(days: list):
 
 
 def get_yesterday(date = None):
-    return (date or datetime.datetime.now()) + datetime.timedelta(days=-1)
+    yesterday = (date or datetime.datetime.now()) + datetime.timedelta(days=-1)
+    return get_day(yesterday)
+
+def get_next_day(date = None):
+    return (date or datetime.datetime.now()) + datetime.timedelta(days=1)
+
+def get_number_of_day(day_name,current_time):
+    number_of_day = DAYS_BY_INDEX[day_name]
+    return ((current_time or datetime.datetime.now()) + datetime.timedelta(days=-number_of_day)).day
