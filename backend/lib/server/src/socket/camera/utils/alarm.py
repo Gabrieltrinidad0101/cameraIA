@@ -1,5 +1,5 @@
 import datetime
-from .days_controller import get_day, get_next_days, get_yesterday
+from .days_controller import get_day, get_next_days, get_yesterday,get_next_day
 import copy
 
 class Alarm:
@@ -34,16 +34,12 @@ class Alarm:
         end_alarm_time  = self.get_time(end_alarm,current_time)
         if start_alarm_time > end_alarm_time:
             exists_yesterday_name = get_yesterday(current_time) in alarm_days
-            alarm_days = get_next_days(alarm_days)
             if exists_yesterday_name:
                 new_start_alarm_time = start_alarm_time + datetime.timedelta(days=-1)
-                if current_time >= new_start_alarm_time and current_time <= end_alarm_time and self.verify_alarm_days(alarm_days,current_time):
+                is_alarm_day = self.verify_alarm_days([*alarm_days,get_day(current_time)],current_time)
+                if current_time >= new_start_alarm_time and current_time <= end_alarm_time and is_alarm_day:
                     return True
             end_alarm_time = end_alarm_time + datetime.timedelta(days=1)
-        # print(f"s {start_alarm_time}")
-        # print(f"e {end_alarm_time}")
-        # print(f"c {current_time}")
-        # print(f"d {alarm_days}")
         is_alarm_day = self.verify_alarm_days(alarm_days,current_time)
         if current_time >= start_alarm_time and current_time <= end_alarm_time and is_alarm_day:
             return True

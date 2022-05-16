@@ -43,6 +43,8 @@ class CameraSocket(Namespace):
                 list_frames.append(frame_str)
             self.sleep(.5)
 
+    def on_message(self,message):
+        print(message)
     
     def emit_alarm(self,ai_data):
         datas = databaseAlarm.get_all()

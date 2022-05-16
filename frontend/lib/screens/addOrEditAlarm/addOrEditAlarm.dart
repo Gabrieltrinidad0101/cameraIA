@@ -35,6 +35,7 @@ class _AddOrEditAlarmState extends State<AddOrEditAlarm> {
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
   @override
   void didChangeDependencies() {
+    print(alarm);
     alarm = addOrEditAlarmController.processAlarmData(alarm);
     Map? data = addOrEditAlarmController.getArguments(context);
     title = data?["title"] ?? title;

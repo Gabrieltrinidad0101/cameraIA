@@ -137,6 +137,7 @@ class _ObjectToDetectState extends State<ObjectToDetect> {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: TextField(
+                    controller: searchController,
                     style: TextStyle(fontSize: 20),
                     decoration: InputDecoration(
                       hintText: 'Enter a message',
@@ -157,7 +158,9 @@ class _ObjectToDetectState extends State<ObjectToDetect> {
             ],
           ),
           Expanded(
-            child: searchResult.isNotEmpty ? SearhResult() : DefaultObjects(),
+            child: searchController.text.isNotEmpty
+                ? SearhResult()
+                : DefaultObjects(),
           ),
         ],
       ),

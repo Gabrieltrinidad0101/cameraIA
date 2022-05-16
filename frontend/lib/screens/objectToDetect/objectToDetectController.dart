@@ -17,10 +17,16 @@ class ObjectToDetectController {
   }
 
   List setSeletedcObjectsInAlarmObject(List alarmObjects, List selectObjects) {
-    for (var alarmObject in alarmObjects) {
+    List selectedObjectContainer = [];
+    int index = 0;
+    for (int i = 0; i < alarmObjects.length; i++) {
+      var alarmObject = alarmObjects[i];
       for (var selectObject in selectObjects) {
         if (alarmObject["name"] == selectObject) {
           alarmObject["status"] = true;
+          alarmObjects.removeAt(i);
+          alarmObjects.insert(index, alarmObject);
+          index++;
         }
       }
     }

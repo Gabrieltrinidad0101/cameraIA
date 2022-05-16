@@ -10,8 +10,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  HomeController homeController = HomeController();
-
   late VideoPlayerController _controller;
   late Future<void> _initializeVideoPlayerFuture;
 
@@ -40,9 +38,7 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    homeController.getCamerasVideos((objects) {
-      print(objects);
-    });
+    HomeController homeController = HomeController();
     return Scaffold(
         appBar: AppBar(
           title: Text("Home"),

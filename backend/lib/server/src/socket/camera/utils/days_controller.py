@@ -21,13 +21,14 @@ def get_next_days(days: list):
         days_with_next_days.insert(i + 1,next_day)
     return days_with_next_days
 
-
+def get_next_day(date=None):
+    next_day = (date or datetime.datetime.now()) + datetime.timedelta(days=1)
+    next_day = get_day(next_day)
+    return next_day
 def get_yesterday(date = None):
     yesterday = (date or datetime.datetime.now()) + datetime.timedelta(days=-1)
-    return get_day(yesterday)
-
-def get_next_day(date = None):
-    return (date or datetime.datetime.now()) + datetime.timedelta(days=1)
+    yerterday_name = get_day(yesterday)
+    return yerterday_name
 
 def get_number_of_day(day_name,current_time):
     number_of_day = DAYS_BY_INDEX[day_name]
