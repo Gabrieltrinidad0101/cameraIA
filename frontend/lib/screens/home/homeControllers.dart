@@ -5,11 +5,18 @@ import 'package:flutter/material.dart' show Navigator;
 import 'package:background_services/background_services.dart';
 
 class HomeController {
+  BackgroundServices backgroundServices = BackgroundServices();
   HomeController() {
-    BackgroundServices backgroundServices = BackgroundServices();
     backgroundServices.runFunctionInBackground(getCamerasVideos);
   }
+
+  callDartMethod() {
+    backgroundServices.callDartMethod();
+  }
+
   getCamerasVideos() async {
+    print(
+        "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nstart connecting\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
     String url = await getSocketUrl();
     IO.Socket socket;
     socket = IO.io(

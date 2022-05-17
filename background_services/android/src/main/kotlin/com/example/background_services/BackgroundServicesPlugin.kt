@@ -1,5 +1,6 @@
 package com.example.background_services
 //import com.example.background_services.Broadcast
+import BroadcastServices
 import android.content.BroadcastReceiver
 import android.app.Activity
 import android.content.Context
@@ -18,7 +19,6 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.widget.Toast
 
-
 public class BackgroundServicesPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
   /// The MethodChannel that will the communication between Flutter and native Android
   ///
@@ -30,25 +30,34 @@ public class BackgroundServicesPlugin: FlutterPlugin, MethodCallHandler, Activit
     private lateinit var activity: Activity
 
   override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
-    channel = MethodChannel(flutterPluginBinding.getFlutterEngine().getDartExecutor(), "flutter_plugin_name")
+    channel = MethodChannel(flutterPluginBinding.getFlutterEngine().getDartExecutor(), "background_services")
     channel.setMethodCallHandler(this);
     context = flutterPluginBinding.applicationContext
+    val receiver = BroadcastServices(object : FunctionType{
+      override fun run(){
+        callDartMethod()
+      }
+    })
+    var filter = IntentFilter(Intent.ACTION_BOOT_COMPLETED)
+
+    //   override fun onReceive(context: Context?, intent: Intent){
+    //       //val isAirplaneModeEnabled = intent?.getBooleanExtra("state",false) ?: return
+    //       if (intent.action == Intent.ACTION_BOOT_COMPLETED){
+    //         Handler(Looper.getMainLooper()).postDelayed({
+    //           Toast.makeText(context,"Call method background", Toast.LENGTH_LONG).show()
+    //           channel.invokeMethod("run",null)
+    //         },0)
+    //       }
+    //   }
+    // }
+    context.registerReceiver(receiver,filter)
+  }
+
+
+  fun callDartMethod(){
     Handler(Looper.getMainLooper()).postDelayed({
       channel.invokeMethod("run",null)
     },0)
-    var filter = IntentFilter(Intent.ACTION_BOOT_COMPLETED)  
-    val receiver = object : BroadcastReceiver() {
-
-      override fun onReceive(context: Context?, intent: Intent){
-          //val isAirplaneModeEnabled = intent?.getBooleanExtra("state",false) ?: return
-          if (intent.action == Intent.ACTION_BOOT_COMPLETED){
-            Handler(Looper.getMainLooper()).postDelayed({
-              channel.invokeMethod("run",null)
-            },0)
-          }
-      }
-    }
-    context.registerReceiver(receiver,filter)
   }
 
 
@@ -65,18 +74,15 @@ public class BackgroundServicesPlugin: FlutterPlugin, MethodCallHandler, Activit
   companion object {
     @JvmStatic
     fun registerWith(registrar: Registrar) {
-      val channel = MethodChannel(registrar.messenger(), "flutter_plugin_name")
+      val channel = MethodChannel(registrar.messenger(), "background_services")
       channel.setMethodCallHandler(BackgroundServicesPlugin())
     }
   }
 
   override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
     if (call.method == "getPlatformVersion") {
-      result.success("Android ${android.os.Build.VERSION.RELEASE}")
-    }
-
-    else {
-      result.notImplemented()
+      callDartMethod()
+      result.success("Androd 1")
     }
   }
 

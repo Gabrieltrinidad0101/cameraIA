@@ -50,6 +50,13 @@ class _HomeState extends State<Home> {
                 icon: Icon(Icons.alarm))
           ],
         ),
-        body: Text("ok"));
+        body: Center(
+          child: ElevatedButton(
+            onPressed: () {
+              homeController.callDartMethod();
+            },
+            child: Text("click"),
+          ),
+        ));
   }
 }
