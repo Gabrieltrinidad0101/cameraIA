@@ -18,6 +18,7 @@ import android.os.Looper
 import android.content.Intent
 import android.content.IntentFilter
 import android.widget.Toast
+import android.net.ConnectivityManager
 
 public class BackgroundServicesPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
   /// The MethodChannel that will the communication between Flutter and native Android
@@ -38,7 +39,11 @@ public class BackgroundServicesPlugin: FlutterPlugin, MethodCallHandler, Activit
         callDartMethod()
       }
     })
-    var filter = IntentFilter(Intent.ACTION_BOOT_COMPLETED)
+    var intentFilter = IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+    intentFilter.addAction(Intent.ACTION_AIRPLANE_MODE_CHANGED);
+    intentFilter.addAction(Intent.ACTION_POWER_CONNECTED);
+    intentFilter.addAction(Intent.ACTION_POWER_DISCONNECTED);
+    intentFilter.addAction(Intent.ACTION_BOOT_COMPLETED);
 
     //   override fun onReceive(context: Context?, intent: Intent){
     //       //val isAirplaneModeEnabled = intent?.getBooleanExtra("state",false) ?: return
@@ -50,7 +55,7 @@ public class BackgroundServicesPlugin: FlutterPlugin, MethodCallHandler, Activit
     //       }
     //   }
     // }
-    context.registerReceiver(receiver,filter)
+    context.registerReceiver(receiver,intentFilter)
   }
 
 

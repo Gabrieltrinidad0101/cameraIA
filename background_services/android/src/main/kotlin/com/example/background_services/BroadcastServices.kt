@@ -3,21 +3,17 @@ import android.content.Intent
 import android.content.Context
 import android.widget.Toast
 import com.example.background_services.FunctionType
-
+import android.net.ConnectivityManager
 class BroadcastServices(val callBack: FunctionType) : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent){
         // val isAirplaneModeEnabled = intent?.getBooleanExtra("state",false) ?: return
-        // //intent.action == Intent.ACTION_BOOT_COMPLETED
-        // if (isAirplaneModeEnabled){
-        //     Toast.makeText(context,"Call method background", Toast.LENGTH_LONG).show()
-        //     callBack.run();
-        //   }
-        val isAirplaneModeEnabled = intent?.getBooleanExtra("state", false) ?: return
-
-        if (isAirplaneModeEnabled) {
-            Toast.makeText(context, "Airplane Mode Enabled", Toast.LENGTH_LONG).show()
-        } else {
-            Toast.makeText(context, "Airplane Mode Disabled", Toast.LENGTH_LONG).show()
+        if (Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())){
+            Toast.makeText(context,"run BOOT_COMPLETED", Toast.LENGTH_LONG).show()
+            callBack.run();
+          }
+        if(ConnectivityManager.CONNECTIVITY_ACTION.equals(intent.getAction())){
+            Toast.makeText(context,"Connection change", Toast.LENGTH_LONG).show()
+            callBack.run()
         }
     }
 }
