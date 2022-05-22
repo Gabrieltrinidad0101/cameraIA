@@ -15,8 +15,9 @@ class _QrScannerState extends State<QrScanner> {
     return FutureBuilder(
       future: QrScannerControllers.has_token(),
       builder: (BuildContext context, snapshot) {
-        if (!snapshot.hasData)
-          return Center(child: CircularProgressIndicator());
+        if (!snapshot.hasData) {
+          return const Center(child: CircularProgressIndicator());
+        }
         if (snapshot.data == true) {
           return const Home();
         }
@@ -37,6 +38,7 @@ class _QrScannerState extends State<QrScanner> {
             children: [
               Image(
                 image: AssetImage("assets/images/qr_code_app.jpg"),
+                width: (MediaQuery.maybeOf(context)?.size.width ?? 1) / 3,
               ),
               ElevatedButton(
                   onPressed: () {

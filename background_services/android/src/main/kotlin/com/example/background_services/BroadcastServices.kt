@@ -7,6 +7,7 @@ import android.net.ConnectivityManager
 class BroadcastServices(val callBack: FunctionType) : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent){
         // val isAirplaneModeEnabled = intent?.getBooleanExtra("state",false) ?: return
+        Toast.makeText(context,"ok", Toast.LENGTH_LONG).show()
         if (Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())){
             Toast.makeText(context,"run BOOT_COMPLETED", Toast.LENGTH_LONG).show()
             callBack.run();

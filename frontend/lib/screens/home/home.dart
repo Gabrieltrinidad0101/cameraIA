@@ -10,35 +10,28 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  HomeController homeController = HomeController();
   late VideoPlayerController _controller;
   late Future<void> _initializeVideoPlayerFuture;
 
   @override
   void initState() {
     super.initState();
-
-    // Create and store the VideoPlayerController. The VideoPlayerController
-    // offers several different constructors to play videos from assets, files,
-    // or the internet.
     _controller = VideoPlayerController.network(
       'https://10.0.0.12/night_video.mp4',
     );
-
     _initializeVideoPlayerFuture = _controller.initialize().then((value) {});
     _controller.play();
   }
 
   @override
   void dispose() {
-    // Ensure disposing of the VideoPlayerController to free up resources.
     _controller.dispose();
-
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    HomeController homeController = HomeController();
     return Scaffold(
         appBar: AppBar(
           title: Text("Home"),
