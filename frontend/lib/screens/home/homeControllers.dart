@@ -1,16 +1,32 @@
 import 'package:frontend/constants/socketPathUrl.dart';
+import 'package:frontend/services/notification/notificationObjectDetect.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:flutter/material.dart' show Navigator;
-import 'package:background_services/background_services.dart';
+import 'package:broadcastsreceiver/broadcastsreceiver.dart';
+import 'package:workmanager/workmanager.dart';
+
+void callbackDispatcher() {
+  Workmanager().executeTask((task, inputData) {
+    print(
+        "Native called background task: $task"); //simpleTask will be emitted here.
+    return Future.value(true);
+  });
+}
 
 class HomeController {
-  BackgroundServices backgroundServices = BackgroundServices();
+  Broadcastsreceiver broadcastsreceiver = Broadcastsreceiver();
   HomeController() {
-    backgroundServices.runFunctionInBackground(getCamerasVideos);
+    broadcastsreceiver.runFunctionInBackground(getCamerasVideos);
+    NotificationObjectDetection().showNotification();
   }
 
   callDartMethod() {
-    backgroundServices.callDartMethod();
+    Workmanager().initialize(
+        callbackDispatcher, // The top level function, aka callbackDispatcher
+        isInDebugMode:
+            true // If enabled it will post a notification whenever the task is running. Handy for debugging tasks
+        );
+    Workmanager().registerOneOffTask("task-identifier", "simpleTask");
   }
 
   getCamerasVideos() async {

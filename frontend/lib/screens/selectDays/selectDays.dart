@@ -58,18 +58,27 @@ class _SelectDaysState extends State<SelectDays> {
       body: ListView.builder(
         itemCount: alarmDays.length,
         itemBuilder: (context, index) {
-          return ListTile(
-            title: Text(alarmDays[index]["name"]),
-            trailing: Checkbox(
-              value: alarmDays[index]["status"],
-              onChanged: (value) {
-                setState(
-                  () {
-                    alarmDays[index]["status"] = value;
-                  },
-                );
-              },
+          return InkWell(
+            child: ListTile(
+              title: Text(alarmDays[index]["name"]),
+              trailing: Checkbox(
+                value: alarmDays[index]["status"],
+                onChanged: (value) {
+                  setState(
+                    () {
+                      alarmDays[index]["status"] = value;
+                    },
+                  );
+                },
+              ),
             ),
+            onTap: () {
+              setState(
+                () {
+                  alarmDays[index]["status"] = !alarmDays[index]["status"];
+                },
+              );
+            },
           );
         },
       ),
