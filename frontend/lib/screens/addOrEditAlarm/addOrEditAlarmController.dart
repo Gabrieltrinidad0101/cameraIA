@@ -55,30 +55,17 @@ class AddOrEditAlarmController with ArrayToString, LoadingDialog {
     return {"alarm": alarm, "title": title};
   }
 
-  saveOrEditAlarm(context, Map? alarm, _keyLoader) async {
+  saveOrEditAlarm(context, Map alarm, _keyLoader) async {
     showLoadingDialog(context, _keyLoader);
 
-    if (alarm?["startAlarm"] == null ||
-        alarm?["endAlarm"] == null ||
-        alarm?["alarmDays"].isEmpty) {
-      return alertInfo(
-          context: context,
-          title: "Error",
-          description: "Es necesario que agrege tiempo de inicio y final");
-    }
-
-    Map newAlarm = parseAlarm(
-        startAlarm: alarm?["startAlarm"],
-        endAlarm: alarm?["endAlarm"],
-        alarmDays: alarm?["alarmDays"],
-        alarmObjects: alarm?["objects"]);
+    Map newAlarm = parseAlarm(alarm);
     String id = "";
-    if (alarm?["isEdit"] == null) {
+    if (alarm["isEdit"] == null) {
       Map data = await AlarmHttp.add(newAlarm);
       id = data["_id"][r"$oid"].toString();
     } else {
-      await AlarmHttp.update(newAlarm, alarm?["_id"]);
-      id = alarm?["_id"];
+      await AlarmHttp.update(newAlarm, alarm["_id"]);
+      id = alarm["_id"];
     }
     newAlarm["alarm_days"] = parseDays.daysDecode(newAlarm["alarm_days"]);
     newAlarm["_id"] = id;

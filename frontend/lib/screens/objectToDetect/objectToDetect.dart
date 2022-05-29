@@ -159,47 +159,38 @@ class _ObjectToDetectState extends State<ObjectToDetect> {
           ),
           Expanded(
             child: searchController.text.isNotEmpty
-                ? SearhResult()
-                : DefaultObjects(),
+                ? listViewObjects(searchResult)
+                : listViewObjects(listOfObjectToDetect),
           ),
         ],
       ),
     );
   }
 
-  ListView DefaultObjects() {
+  ListView listViewObjects(List list) {
     return ListView.builder(
-      itemCount: listOfObjectToDetect.length,
+      itemCount: list.length,
       itemBuilder: (context, index) {
-        return ListTile(
-          title: Text(listOfObjectToDetect[index]["name"]),
-          trailing: Checkbox(
-              value: listOfObjectToDetect[index]["status"],
-              onChanged: (value) {
-                setState(() {
-                  listOfObjectToDetect[index]["status"] = value;
-                });
-              }),
-        );
+        return objectListTile(list[index]);
       },
     );
   }
 
-  ListView SearhResult() {
-    return ListView.builder(
-      itemCount: searchResult.length,
-      itemBuilder: (context, index) {
-        return ListTile(
-          title: Text(searchResult[index]["name"]),
+  Widget objectListTile(data) => InkWell(
+        child: ListTile(
+          title: Text(data["name"]),
           trailing: Checkbox(
-              value: searchResult[index]["status"],
+              value: data["status"],
               onChanged: (value) {
                 setState(() {
-                  searchResult[index]["status"] = value;
+                  data["status"] = value;
                 });
               }),
-        );
-      },
-    );
-  }
+        ),
+        onTap: () {
+          setState(() {
+            data["status"] = !data["status"];
+          });
+        },
+      );
 }

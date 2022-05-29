@@ -33,9 +33,10 @@ class _AddOrEditAlarmState extends State<AddOrEditAlarm> {
   };
   RouterController routerController = RouterController();
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
+
   @override
   void didChangeDependencies() {
-    print(alarm);
+    if (alarm["time"]?["start_alarm"] == null) return;
     alarm = addOrEditAlarmController.processAlarmData(alarm);
     Map? data = addOrEditAlarmController.getArguments(context);
     title = data?["title"] ?? title;
@@ -124,6 +125,7 @@ class _AddOrEditAlarmState extends State<AddOrEditAlarm> {
               onTap: () async {
                 List selectedObjects = await routerController
                     .goToObjectToDetect(context, alarm["objects"]);
+                print("get objects = $selectedObjects");
                 if (selectedObjects.isEmpty) return;
                 setState(() {
                   alarm["objects"] = selectedObjects;

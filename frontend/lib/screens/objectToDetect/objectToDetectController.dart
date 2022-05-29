@@ -42,6 +42,7 @@ class ObjectToDetectController {
         objects.add(object["name"]);
       }
     });
+    print("objects = $objects");
     return objects;
   }
 

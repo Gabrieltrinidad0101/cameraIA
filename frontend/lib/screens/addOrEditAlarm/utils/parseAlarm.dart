@@ -1,25 +1,21 @@
 import 'package:flutter/material.dart' show TimeOfDay;
 import 'package:frontend/utils/parseDays.dart';
 
-Map parseAlarm(
-    {required TimeOfDay startAlarm,
-    required TimeOfDay endAlarm,
-    required List alarmDays,
-    required List alarmObjects}) {
+Map parseAlarm(alarm) {
   ParseDays parseDays = ParseDays();
   return {
     "time": {
       "start_alarm": {
-        "hour": startAlarm.hour.toInt(),
-        "minute": startAlarm.minute.toInt()
+        "hour": alarm["startAlarm"].hour.toInt(),
+        "minute": alarm["startAlarm"].minute.toInt()
       },
       "end_alarm": {
-        "hour": endAlarm.hour.toInt(),
-        "minute": endAlarm.minute.toInt()
+        "hour": alarm["endAlarm"].hour.toInt(),
+        "minute": alarm["endAlarm"].minute.toInt()
       }
     },
-    "alarm_days": parseDays.daysEncode(alarmDays),
-    "objects": alarmObjects,
-    "status": true,
+    "alarm_days": parseDays.daysEncode(alarm["alarmDays"]),
+    "objects": alarm["objects"],
+    "status": alarm["status"],
   };
 }

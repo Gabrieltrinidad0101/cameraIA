@@ -1,4 +1,3 @@
-from tracemalloc import start
 from flask_socketio import Namespace,emit
 from flask import request,copy_current_request_context
 from readers.src.camera.camera import Camera
@@ -7,12 +6,13 @@ from .utils.alarm import Alarm
 from server.src.services.database.alarms import DatabaseAlarm
 from  .utils.return_repeat_elements import return_repeat_elements
 import server.src.services.database.token as DatabaseToken
-import threading
+from concurrent.futures import ThreadPoolExecutor
 import json
 
 detectionObjects = DetectionObjects()
 databaseAlarm = DatabaseAlarm()
 camera = Camera("http://10.0.0.12:3000/videoplayback.mp4")
+executor = ThreadPoolExecutor(max_workers=10)
 
 class CameraSocket(Namespace):
     def __init__(self, namespace=None,start_background_task=None,sleep=None):
@@ -31,17 +31,22 @@ class CameraSocket(Namespace):
         pass
 
     def on_cameras_video(self, message):
-        threading.Thread(target=copy_current_request_context(self.process_camera)).start()        
-        #self.process_camera()
+        self.process_camera()
+
     def process_camera(self):
         while True:
             objects_to_detect = self.there_are_alarms_are_in_progress()
+            self.sleep(.1)
             if not objects_to_detect: continue
             camera_detect_object = self.detect_objects()
             detected_objects = return_repeat_elements(camera_detect_object,objects_to_detect)
-            self.sleep(.1)
+            print(detected_objects)
             if detected_objects: 
-                emit("camera_detect_obejct",detected_objects)
+                executor.submit(copy_current_request_context(lambda: self.send_alart(detected_objects)))
+
+    def send_alart(self,detected_objects):
+        self.sleep(.1)
+        emit("camera_detect_obejct",detected_objects)
 
     def detect_objects(self):
         frames = camera.reads()

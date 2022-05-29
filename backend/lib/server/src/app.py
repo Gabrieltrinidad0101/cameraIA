@@ -11,7 +11,7 @@ def create_app(enviroment):
     app = Flask(__name__) 
     app.config.from_object(enviroment)
     CORS(app)   
-    app.register_blueprint(router)
+    app.register_blueprint(router,threaded=True)
     socket = SocketIO(app,cors_allowed_origins="*")
     socket.on_namespace(CameraSocket("/camera",socket.start_background_task,socket.sleep))
     return app,socket
