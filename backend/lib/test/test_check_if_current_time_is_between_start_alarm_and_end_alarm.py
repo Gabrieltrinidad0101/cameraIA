@@ -72,7 +72,8 @@ def test_check_if_current_time_is_between_start_alarm_and_end_alarm(input_a,days
         ([0,0,23,59],all_days,datetime(2015,4,22,2,5,0),True),
         ([0,0,23,59],all_days,datetime(2015,12,22,23,59,59),True),
         ([0,0,23,59],all_days,datetime.now(),True),
-
+        ([12,0,4,59],["Friday","Monday","Sunday"],datetime(2022,5,29,12,31,0),True),
+        ([18,0,13,0],["Sunday"],datetime(2022,5,30,12,31,0),True),
     ]
 )
 def test_alarm_with_default_alarm(alarm_data,days,current_time,expected):

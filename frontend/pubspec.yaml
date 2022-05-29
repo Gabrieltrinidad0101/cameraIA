@@ -36,9 +36,8 @@ dependencies:
   http: 0.13.4
   video_player: 2.4.0
   flutter_local_notifications: 9.5.3+1
-  workmanager: 0.4.1
-  broadcastsreceiver:
-    path: ../BroadcastsReceiver
+  # broadcastsreceiver:
+  #   path: ../BroadcastsReceiver
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: 1.0.2

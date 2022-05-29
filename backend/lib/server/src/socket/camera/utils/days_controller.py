@@ -25,6 +25,7 @@ def get_next_day(date=None):
     next_day = (date or datetime.datetime.now()) + datetime.timedelta(days=1)
     next_day = get_day(next_day)
     return next_day
+    
 def get_yesterday(date = None):
     yesterday = (date or datetime.datetime.now()) + datetime.timedelta(days=-1)
     yerterday_name = get_day(yesterday)

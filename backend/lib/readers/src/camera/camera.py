@@ -1,8 +1,8 @@
 import cv2
 import base64
 class Camera:
-    def __init__(self,video) -> None:
-        self.cap = cv2.VideoCapture(video)
+    def __init__(self,type) -> None:
+        self.cap = cv2.VideoCapture(type)
         
     def reads(self):
         frame = self.cap.read()

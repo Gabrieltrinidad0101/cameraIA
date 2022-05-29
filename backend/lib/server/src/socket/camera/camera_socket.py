@@ -1,16 +1,18 @@
+from tracemalloc import start
 from flask_socketio import Namespace,emit
-from flask import request
+from flask import request,copy_current_request_context
 from readers.src.camera.camera import Camera
 from ia.src.ia_detection_objects.ia_detection_objects import DetectionObjects
 from .utils.alarm import Alarm
 from server.src.services.database.alarms import DatabaseAlarm
 from  .utils.return_repeat_elements import return_repeat_elements
 import server.src.services.database.token as DatabaseToken
+import threading
 import json
 
 detectionObjects = DetectionObjects()
 databaseAlarm = DatabaseAlarm()
-
+camera = Camera("http://10.0.0.12:3000/videoplayback.mp4")
 
 class CameraSocket(Namespace):
     def __init__(self, namespace=None,start_background_task=None,sleep=None):
@@ -18,7 +20,6 @@ class CameraSocket(Namespace):
         self.alarm = Alarm()
         self.start_background_task = start_background_task
         self.sleep = sleep
-
 
     def on_connect(self):
         token = request.args["token"]
@@ -30,34 +31,35 @@ class CameraSocket(Namespace):
         pass
 
     def on_cameras_video(self, message):
-        camera = Camera("http://10.0.0.12:3000/videoplayback.mp4")
+        threading.Thread(target=copy_current_request_context(self.process_camera)).start()        
+        #self.process_camera()
+    def process_camera(self):
         while True:
-            list_frames = []
-            frames = camera.reads()
-            for ret,frame in frames: 
-                camera.show_frame(frame);
-                ai_data,error = detectionObjects.detection(ret,frame)
-                if error: return emit("camera_error",error)
-                if ai_data["labels"]: self.emit_alarm(ai_data)
-                frame_str = camera.frame_to_str(frame)
-                list_frames.append(frame_str)
-            self.sleep(.5)
+            objects_to_detect = self.there_are_alarms_are_in_progress()
+            if not objects_to_detect: continue
+            camera_detect_object = self.detect_objects()
+            detected_objects = return_repeat_elements(camera_detect_object,objects_to_detect)
+            self.sleep(.1)
+            if detected_objects: 
+                emit("camera_detect_obejct",detected_objects)
 
-    def on_message(self,message):
-        print(message)
-    
-    def emit_alarm(self,ai_data):
+    def detect_objects(self):
+        frames = camera.reads()
+        for ret,frame in frames:
+            camera.show_frame(frame)
+            ai_data,error = detectionObjects.detection(ret,frame)
+            if error: return emit("camera_error",error)
+        return ai_data["labels"]   
+
+    def there_are_alarms_are_in_progress(self):
         datas = databaseAlarm.get_all()
-        labels = ai_data["labels"]
         for data in datas:
             alarm = json.loads(data["alarm"])
+            status = alarm["status"]
+            if not status: continue
             alarm_days = alarm["alarm_days"]
             objects_to_detect = alarm["objects"]
             time = alarm["time"]
-            status = alarm["status"]
-            if not status: return
             alarm_is_processing = self.alarm.process(time,alarm_days)
             if alarm_is_processing:
-                detected_objects = return_repeat_elements(labels,objects_to_detect)
-                if detected_objects:
-                    emit("camera_detect_obejct",detected_objects)
+                return objects_to_detect

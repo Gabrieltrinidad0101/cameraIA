@@ -1,3 +1,5 @@
+from gevent import monkey
+monkey.patch_all()
 from server.src.config.config_server import ConfigServer
 environment = ConfigServer.config("development")
 from server.src.app import create_app

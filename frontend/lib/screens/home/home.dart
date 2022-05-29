@@ -11,24 +11,6 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   HomeController homeController = HomeController();
-  late VideoPlayerController _controller;
-  late Future<void> _initializeVideoPlayerFuture;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = VideoPlayerController.network(
-      'https://10.0.0.12/night_video.mp4',
-    );
-    _initializeVideoPlayerFuture = _controller.initialize().then((value) {});
-    _controller.play();
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +28,7 @@ class _HomeState extends State<Home> {
         body: Center(
           child: ElevatedButton(
             onPressed: () {
-              homeController.callDartMethod();
+              homeController.testStartRunning();
             },
             child: Text("click"),
           ),

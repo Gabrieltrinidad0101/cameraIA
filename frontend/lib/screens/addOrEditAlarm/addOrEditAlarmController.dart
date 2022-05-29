@@ -38,7 +38,8 @@ class AddOrEditAlarmController with ArrayToString, LoadingDialog {
       "endAlarm": endAlarm,
       "alarmDays": _alarm["alarm_days"],
       "_id": _alarm["_id"]?.toString(),
-      "objects": _alarm["objects"]
+      "objects": _alarm["objects"],
+      "status": _alarm["status"]
     };
     return alarm;
   }
