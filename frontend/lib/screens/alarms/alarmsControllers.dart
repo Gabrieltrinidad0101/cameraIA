@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart' show Navigator;
+import 'package:frontend/widgets/alert/info.dart';
 import 'package:frontend/widgets/alert/warningDeleteAlarm.dart';
 import 'utils/ParserAlarm.dart';
 import 'package:frontend/Mixins/arrayToString.dart';
@@ -11,9 +12,17 @@ class AlarmsControllers with ArrayToString, LoadingDialog {
   ParseDays parseDays = ParseDays();
   List? alarms;
 
-  Future<List> getAlarms() async {
-    List getAlarms = await AlarmHttp.get();
-    return fromJson(getAlarms);
+  Future<List?> getAlarms(context) async {
+    Map<String, dynamic> getAlarms = await AlarmHttp.get();
+    if (getAlarms["error"] != null) {
+      alertInfo(
+        context: context,
+        title: "Error",
+        description: getAlarms["error"],
+      );
+      return null;
+    }
+    return fromJson(getAlarms["data"]);
   }
 
   updateAlarm(context, _keyLoader, int index) async {

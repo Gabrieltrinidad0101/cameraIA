@@ -12,13 +12,14 @@ class Alarms extends StatefulWidget {
 class _AlarmsState extends State<Alarms> {
   AlarmsControllers alarmsControllers = AlarmsControllers();
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
-
+  bool isLoader = true;
   @override
   void initState() {
     super.initState();
-    alarmsControllers.getAlarms().then((alarms) {
+    alarmsControllers.getAlarms(context).then((alarms) {
       setState(() {
         alarmsControllers.alarms = alarms;
+        isLoader = false;
       });
     });
   }
@@ -45,7 +46,11 @@ class _AlarmsState extends State<Alarms> {
   }
 
   Widget Main() {
-    return alarmsControllers.alarms == null ? Loader() : ListAlarm();
+    return isLoader
+        ? Loader()
+        : alarmsControllers.alarms != null
+            ? ListAlarm()
+            : Container();
   }
 
   Widget Loader() {
