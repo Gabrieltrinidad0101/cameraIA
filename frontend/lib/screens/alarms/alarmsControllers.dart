@@ -67,6 +67,7 @@ class AlarmsControllers with ArrayToString, LoadingDialog {
 
   Future<Map?> gotToAddAlarm(context) async {
     var newAlarm = await Navigator.pushNamed(context, "/addOrEditAlarm");
+    print(newAlarm);
     return newAlarm == null ? null : newAlarm as Map;
   }
 

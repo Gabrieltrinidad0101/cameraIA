@@ -18,48 +18,66 @@ Future<Map<String, dynamic>> get() async {
   }
 }
 
-Future add(alarm) async {
-  Uri url = Uri.parse("${serverData.url}/api/alarm/add");
-  String? token = await LocalSecureDBToken.get();
-  final res = await http.post(
-    url,
-    headers: {
-      "token": token ?? "",
-      'Content-Type': 'application/json',
-    },
-    body: jsonEncode(alarm),
-  );
-  final data = jsonDecode(res.body);
-  return data;
+Future<Map<String, dynamic>> add(alarm) async {
+  try {
+    Uri url = Uri.parse("${serverData.url}/api/alarm/add");
+    String? token = await LocalSecureDBToken.get();
+    final res = await http.post(
+      url,
+      headers: {
+        "token": token ?? "",
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode(alarm),
+    );
+    final data = jsonDecode(res.body);
+    return {"id": data["_id"][r"$oid"].toString(), "error": null};
+  } on SocketException {
+    return {
+      "id": null,
+      "error": "Habido algún tipo de error por favor intente mas tarde"
+    };
+  }
 }
 
-Future delete(id) async {
-  Uri url = Uri.parse("${serverData.url}/api/alarm/delete/$id");
-  String? token = await LocalSecureDBToken.get();
-  final res = await http.delete(
-    url,
-    headers: {
-      "token": token ?? "",
-      'Content-Type': 'application/json',
-    },
-  );
-  final data = jsonDecode(res.body);
-  return data;
+Future<Map<String, dynamic>> delete(id) async {
+  try {
+    Uri url = Uri.parse("${serverData.url}/api/alarm/delete/$id");
+    String? token = await LocalSecureDBToken.get();
+    final res = await http.delete(
+      url,
+      headers: {
+        "token": token ?? "",
+        'Content-Type': 'application/json',
+      },
+    );
+    final data = jsonDecode(res.body);
+    return data;
+  } on SocketException {
+    return {"error": "Habido algún tipo de error por favor intente mas tarde"};
+  }
 }
 
-Future update(Map alarm, String id) async {
-  Uri url = Uri.parse("${serverData.url}/api/alarm/update/$id");
-  String? token = await LocalSecureDBToken.get();
-  final res = await http.put(
-    url,
-    headers: {
-      "token": token ?? "",
-      'Content-Type': 'application/json',
-    },
-    body: jsonEncode(alarm),
-  );
-  final data = jsonDecode(res.body);
-  return data;
+Future<Map<String, dynamic>> update(Map alarm, String id) async {
+  try {
+    Uri url = Uri.parse("${serverData.url}/api/alarm/update/$id");
+    String? token = await LocalSecureDBToken.get();
+    final res = await http.put(
+      url,
+      headers: {
+        "token": token ?? "",
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode(alarm),
+    );
+    final data = jsonDecode(res.body);
+    return {"id": id, "error": null};
+  } on SocketException {
+    return {
+      id: null,
+      "error": "Habido algún tipo de error por favor intente mas tarde"
+    };
+  }
 }
 
 Future updateStatus(bool status) async {}

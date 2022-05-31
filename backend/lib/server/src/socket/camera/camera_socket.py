@@ -7,12 +7,16 @@ from server.src.services.database.alarms import DatabaseAlarm
 from  .utils.return_repeat_elements import return_repeat_elements
 import server.src.services.database.token as DatabaseToken
 from concurrent.futures import ThreadPoolExecutor
-import json
+import json,time
 
 detectionObjects = DetectionObjects()
 databaseAlarm = DatabaseAlarm()
 camera = Camera("http://10.0.0.12:3000/videoplayback.mp4")
 executor = ThreadPoolExecutor(max_workers=10)
+
+
+starting_time = time.time()
+frame_counter = 0
 
 class CameraSocket(Namespace):
     def __init__(self, namespace=None,start_background_task=None,sleep=None):
@@ -31,30 +35,37 @@ class CameraSocket(Namespace):
         pass
 
     def on_cameras_video(self, message):
+        global starting_time 
+        starting_time = time.time()
         self.process_camera()
 
     def process_camera(self):
         while True:
             objects_to_detect = self.there_are_alarms_are_in_progress()
-            self.sleep(.1)
+            self.sleep(.06)
             if not objects_to_detect: continue
             camera_detect_object = self.detect_objects()
             detected_objects = return_repeat_elements(camera_detect_object,objects_to_detect)
-            print(detected_objects)
             if detected_objects: 
                 executor.submit(copy_current_request_context(lambda: self.send_alart(detected_objects)))
 
     def send_alart(self,detected_objects):
-        self.sleep(.1)
+        self.sleep(.01)
         emit("camera_detect_obejct",detected_objects)
 
     def detect_objects(self):
+        global frame_counter
         frames = camera.reads()
+        endingTime = time.time() - starting_time
+        frame_counter += 1
+        fps = frame_counter/endingTime
+        print(fps)
         for ret,frame in frames:
             camera.show_frame(frame)
-            ai_data,error = detectionObjects.detection(ret,frame)
-            if error: return emit("camera_error",error)
-        return ai_data["labels"]   
+            #ai_data,error = detectionObjects.detection(ret,frame)
+            #if error: return emit("camera_error",error)
+        #return ai_data["labels"]   
+        return ["person"]
 
     def there_are_alarms_are_in_progress(self):
         datas = databaseAlarm.get_all()

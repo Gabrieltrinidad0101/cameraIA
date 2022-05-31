@@ -23,6 +23,7 @@ class AddOrEditAlarmController with ArrayToString, LoadingDialog {
 
   processAlarmData(Map alarm) {
     Map _alarm = alarm;
+
     TimeOfDay startAlarm = TimeOfDay(
       hour: _alarm["time"]["start_alarm"]["hour"],
       minute: _alarm["time"]["start_alarm"]["minute"],
@@ -37,7 +38,7 @@ class AddOrEditAlarmController with ArrayToString, LoadingDialog {
       "startAlarm": startAlarm,
       "endAlarm": endAlarm,
       "alarmDays": _alarm["alarm_days"],
-      "_id": _alarm["_id"]?.toString(),
+      "_id": _alarm["_id"].toString(),
       "objects": _alarm["objects"],
       "status": _alarm["status"]
     };
@@ -55,20 +56,30 @@ class AddOrEditAlarmController with ArrayToString, LoadingDialog {
     return {"alarm": alarm, "title": title};
   }
 
+  alert(BuildContext context, String messageError) {
+    alertInfo(
+      context: context,
+      title: "Error",
+      description: messageError,
+    );
+  }
+
   saveOrEditAlarm(context, Map alarm, _keyLoader) async {
     showLoadingDialog(context, _keyLoader);
-
     Map newAlarm = parseAlarm(alarm);
-    String id = "";
+    Map res = {};
     if (alarm["isEdit"] == null) {
-      Map data = await AlarmHttp.add(newAlarm);
-      id = data["_id"][r"$oid"].toString();
+      res = await AlarmHttp.add(newAlarm);
     } else {
-      await AlarmHttp.update(newAlarm, alarm["_id"]);
-      id = alarm["_id"];
+      res = await AlarmHttp.update(newAlarm, alarm["_id"]);
+    }
+    if (res["error"] != null) {
+      hiddenLoadingDialog(_keyLoader);
+      alert(context, res["error"]);
+      return;
     }
     newAlarm["alarm_days"] = parseDays.daysDecode(newAlarm["alarm_days"]);
-    newAlarm["_id"] = id;
+    newAlarm["_id"] = res["id"];
     hiddenLoadingDialog(_keyLoader);
     Navigator.pop(context, newAlarm);
   }

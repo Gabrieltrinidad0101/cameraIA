@@ -73,22 +73,14 @@ class _AddOrEditAlarmState extends State<AddOrEditAlarm> {
               time: addOrEditAlarmController.processTime(
                   alarm["startAlarm"], context),
               onPressed: () async {
-                TimeOfDay? t = await addOrEditAlarmController.clock(
-                    alarm["startAlarm"], context);
-                setState(() {
-                  alarm["startAlarm"] = t;
-                });
+                setTimeInTimeButton("startAlarm");
               }),
           TimeButton(
               name: "Termina la alarma",
               time: addOrEditAlarmController.processTime(
                   alarm["endAlarm"], context),
               onPressed: () async {
-                TimeOfDay? t = await addOrEditAlarmController.clock(
-                    alarm["endAlarm"], context);
-                setState(() {
-                  alarm["endAlarm"] = t;
-                });
+                setTimeInTimeButton("endAlarm");
               }),
           Options()
         ],
@@ -107,32 +99,48 @@ class _AddOrEditAlarmState extends State<AddOrEditAlarm> {
               subtitle: Text(
                   addOrEditAlarmController.arrayToString(alarm["alarmDays"])),
             ),
-            onTap: () async {
-              List<String> _alarmDays = await routerController.goToSelectDays(
-                  context, alarm["alarmDays"]);
-              if (_alarmDays.isEmpty) return;
-              setState(() {
-                alarm["alarmDays"] = _alarmDays;
-              });
+            onTap: () {
+              setDaysInAlarmDays();
             },
           ),
           InkWell(
               child: ListTile(
-                title: Text("OBJECTOS A DETECTAR"),
+                title: const Text("OBJECTOS A DETECTAR"),
                 subtitle: Text(
                     addOrEditAlarmController.arrayToString(alarm["objects"])),
               ),
-              onTap: () async {
-                List selectedObjects = await routerController
-                    .goToObjectToDetect(context, alarm["objects"]);
-                print("get objects = $selectedObjects");
-                if (selectedObjects.isEmpty) return;
-                setState(() {
-                  alarm["objects"] = selectedObjects;
-                });
+              onTap: () {
+                setObjectsInObjectsToDetect();
               })
         ],
       ),
     );
+  }
+
+  setTimeInTimeButton(startOrEndAlarm) async {
+    TimeOfDay? t =
+        await addOrEditAlarmController.clock(alarm[startOrEndAlarm], context);
+    if (t == null) return;
+    setState(() {
+      alarm[startOrEndAlarm] = t;
+    });
+  }
+
+  setDaysInAlarmDays() async {
+    List<String> _alarmDays =
+        await routerController.goToSelectDays(context, alarm["alarmDays"]);
+    if (_alarmDays.isEmpty) return;
+    setState(() {
+      alarm["alarmDays"] = _alarmDays;
+    });
+  }
+
+  setObjectsInObjectsToDetect() async {
+    List selectedObjects =
+        await routerController.goToObjectToDetect(context, alarm["objects"]);
+    if (selectedObjects.isEmpty) return;
+    setState(() {
+      alarm["objects"] = selectedObjects;
+    });
   }
 }
