@@ -27,8 +27,8 @@ class _AlarmsState extends State<Alarms> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Alarms")),
-      body: Container(child: Main()),
+      appBar: AppBar(title: Text("Alarmas")),
+      body: Container(child: main()),
       floatingActionButton: SizedBox(
         child: FloatingActionButton(
           onPressed: () async {
@@ -45,7 +45,7 @@ class _AlarmsState extends State<Alarms> {
     );
   }
 
-  Widget Main() {
+  Widget main() {
     return isLoader
         ? Loader()
         : alarmsControllers.alarms != null
@@ -85,10 +85,12 @@ class _AlarmsState extends State<Alarms> {
                   trailing: Switch(
                     value: alarmsControllers.alarms?[index]["status"],
                     onChanged: (value) async {
+                      bool isNotUpdate = await alarmsControllers.updateAlarm(
+                          context, _keyLoader, index);
+                      if (isNotUpdate) return;
                       setState(() {
                         alarmsControllers.alarms?[index]["status"] = value;
                       });
-                      alarmsControllers.updateAlarm(context, _keyLoader, index);
                     },
                   ),
                 ),
@@ -101,11 +103,10 @@ class _AlarmsState extends State<Alarms> {
   }
 
   deleteAlarm(BuildContext context, index) async {
-    alarmsControllers.showLoadingDialog(context, _keyLoader);
-    await alarmsControllers.deleteAlarm(context, index, (newAlarms) {
+    await alarmsControllers.deleteAlarm(context, index, _keyLoader,
+        (newAlarms) {
       setState(() {
         alarmsControllers.alarms = newAlarms;
-        alarmsControllers.hiddenLoadingDialog(_keyLoader);
       });
     });
   }

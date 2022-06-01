@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart' show Navigator;
+import 'package:frontend/widgets/alert/error.dart';
 import 'package:frontend/widgets/alert/info.dart';
 import 'package:frontend/widgets/alert/warningDeleteAlarm.dart';
 import 'utils/ParserAlarm.dart';
@@ -25,12 +26,18 @@ class AlarmsControllers with ArrayToString, LoadingDialog {
     return fromJson(getAlarms["data"]);
   }
 
-  updateAlarm(context, _keyLoader, int index) async {
+  Future<bool> updateAlarm(context, _keyLoader, int index) async {
     Map alarm = {...alarms?[index]};
-    showLoadingDialog(context, _keyLoader);
     alarm["alarm_days"] = parseDays.daysEncode(alarm["alarm_days"]);
-    await AlarmHttp.update(alarm, alarm["_id"]);
+    alarm["status"] = !alarm["status"];
+    showLoadingDialog(context, _keyLoader);
+    Map res = await AlarmHttp.update(alarm, alarm["_id"]);
     hiddenLoadingDialog(_keyLoader);
+    if (res["error"] != null) {
+      alertError(context, res["error"]);
+      return true;
+    }
+    return false;
   }
 
   List fromJson(alarms) {
@@ -59,7 +66,7 @@ class AlarmsControllers with ArrayToString, LoadingDialog {
   Future<Map?> gotToEditAlarm(context, index) async {
     var data =
         await Navigator.pushNamed(context, "/addOrEditAlarm", arguments: {
-      "title": "Edit Alarm",
+      "title": "Editar Alarma",
       "alarm": alarms?[index],
     });
     return data == null ? null : data as Map;
@@ -67,19 +74,25 @@ class AlarmsControllers with ArrayToString, LoadingDialog {
 
   Future<Map?> gotToAddAlarm(context) async {
     var newAlarm = await Navigator.pushNamed(context, "/addOrEditAlarm");
-    print(newAlarm);
     return newAlarm == null ? null : newAlarm as Map;
   }
 
-  Future<void> deleteAlarm(context, int index, Function callBack) async {
+  Future<void> deleteAlarm(
+      context, int index, _keyLoader, Function callBack) async {
     await alertWarning(
         context: context,
         title: "Elimar",
         description: "Deseas eliminar esta alarma",
         callBack: () async {
-          await AlarmHttp.delete(alarms?[index]["_id"]);
-          alarms?.removeAt(index);
-          callBack(alarms);
+          showLoadingDialog(context, _keyLoader);
+          Map res = await AlarmHttp.delete(alarms?[index]["_id"]);
+          hiddenLoadingDialog(_keyLoader);
+          if (res["error"] != null) {
+            alertError(context, res["error"]);
+          } else {
+            alarms?.removeAt(index);
+            callBack(alarms);
+          }
         });
   }
 }

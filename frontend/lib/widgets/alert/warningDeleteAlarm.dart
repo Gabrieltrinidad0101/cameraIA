@@ -21,8 +21,8 @@ alertWarning(
           TextButton(
             child: const Text("aceptar"),
             onPressed: () {
-              callBack();
               Navigator.of(context).pop();
+              callBack();
             },
           ),
         ],

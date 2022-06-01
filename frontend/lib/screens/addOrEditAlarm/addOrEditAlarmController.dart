@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/screens/addOrEditAlarm/utils/parseAlarm.dart';
 import 'package:frontend/services/api/alarms.dart' as AlarmHttp;
-import 'package:frontend/widgets/alert/info.dart';
+import 'package:frontend/widgets/alert/error.dart';
 import 'package:frontend/Mixins/arrayToString.dart';
 import 'package:frontend/utils/parseDays.dart';
 import 'package:frontend/Mixins/loadingDialog.dart';
@@ -56,14 +56,6 @@ class AddOrEditAlarmController with ArrayToString, LoadingDialog {
     return {"alarm": alarm, "title": title};
   }
 
-  alert(BuildContext context, String messageError) {
-    alertInfo(
-      context: context,
-      title: "Error",
-      description: messageError,
-    );
-  }
-
   saveOrEditAlarm(context, Map alarm, _keyLoader) async {
     showLoadingDialog(context, _keyLoader);
     Map newAlarm = parseAlarm(alarm);
@@ -75,7 +67,7 @@ class AddOrEditAlarmController with ArrayToString, LoadingDialog {
     }
     if (res["error"] != null) {
       hiddenLoadingDialog(_keyLoader);
-      alert(context, res["error"]);
+      alertError(context, res["error"]);
       return;
     }
     newAlarm["alarm_days"] = parseDays.daysDecode(newAlarm["alarm_days"]);

@@ -14,10 +14,6 @@ databaseAlarm = DatabaseAlarm()
 camera = Camera("http://10.0.0.12:3000/videoplayback.mp4")
 executor = ThreadPoolExecutor(max_workers=10)
 
-
-starting_time = time.time()
-frame_counter = 0
-
 class CameraSocket(Namespace):
     def __init__(self, namespace=None,start_background_task=None,sleep=None):
         super().__init__(namespace)
@@ -35,8 +31,6 @@ class CameraSocket(Namespace):
         pass
 
     def on_cameras_video(self, message):
-        global starting_time 
-        starting_time = time.time()
         self.process_camera()
 
     def process_camera(self):
@@ -54,18 +48,12 @@ class CameraSocket(Namespace):
         emit("camera_detect_obejct",detected_objects)
 
     def detect_objects(self):
-        global frame_counter
         frames = camera.reads()
-        endingTime = time.time() - starting_time
-        frame_counter += 1
-        fps = frame_counter/endingTime
-        print(fps)
         for ret,frame in frames:
             camera.show_frame(frame)
-            #ai_data,error = detectionObjects.detection(ret,frame)
-            #if error: return emit("camera_error",error)
-        #return ai_data["labels"]   
-        return ["person"]
+            ai_data,error = detectionObjects.detection(ret,frame)
+            if error: return emit("camera_error",error)
+        return ai_data["labels"]   
 
     def there_are_alarms_are_in_progress(self):
         datas = databaseAlarm.get_all()

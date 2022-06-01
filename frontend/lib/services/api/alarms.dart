@@ -79,5 +79,3 @@ Future<Map<String, dynamic>> update(Map alarm, String id) async {
     };
   }
 }
-
-Future updateStatus(bool status) async {}
