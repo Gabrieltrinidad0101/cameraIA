@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'qrScannerControllers.dart';
-import 'package:frontend/screens/home/home.dart';
+import 'package:frontend/screens/alarms/alarms.dart';
 
 class QrScanner extends StatefulWidget {
   const QrScanner({Key? key}) : super(key: key);
@@ -19,7 +19,7 @@ class _QrScannerState extends State<QrScanner> {
           return const Center(child: CircularProgressIndicator());
         }
         if (snapshot.data == true) {
-          return const Home();
+          return const Alarms();
         }
         return QrScannerPage(context);
       },

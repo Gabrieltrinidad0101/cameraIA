@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart' show Navigator;
 import 'package:frontend/widgets/alert/error.dart';
 import 'package:frontend/widgets/alert/info.dart';
-import 'package:frontend/widgets/alert/warningDeleteAlarm.dart';
+import 'package:frontend/widgets/alert/alertWarning.dart';
 import 'utils/ParserAlarm.dart';
 import 'package:frontend/Mixins/arrayToString.dart';
 import 'package:frontend/utils/parseDays.dart';

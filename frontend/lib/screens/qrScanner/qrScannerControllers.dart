@@ -15,7 +15,7 @@ class QrScannerControllers {
           title: "Se requiere los permisos de la cámara",
           description: "Aceptar");
     await LocalSecureDBToken.save(qrCode);
-    Navigator.of(context).pushNamed("/home");
+    Navigator.of(context).popAndPushNamed("/alarms");
   }
 
   static Future<bool> has_token() async {

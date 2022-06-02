@@ -17,7 +17,6 @@ class ObjectToDetectController {
   }
 
   List setSeletedcObjectsInAlarmObject(List alarmObjects, List selectObjects) {
-    List selectedObjectContainer = [];
     int index = 0;
     for (int i = 0; i < alarmObjects.length; i++) {
       var alarmObject = alarmObjects[i];

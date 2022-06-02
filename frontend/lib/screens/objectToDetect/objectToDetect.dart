@@ -107,9 +107,9 @@ class _ObjectToDetectState extends State<ObjectToDetect> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("OBJECTOS A DETECTAR"),
+        title: const Text("OBJECTOS A DETECTAR"),
         leading: IconButton(
-          icon: Icon(Icons.close),
+          icon: const Icon(Icons.close),
           onPressed: () => objectToDetectController.goToBack(context),
         ),
         actions: [
@@ -120,7 +120,7 @@ class _ObjectToDetectState extends State<ObjectToDetect> {
                 objectToDetectController.goToBack(
                     context, listOfObjectToDetect);
               },
-              child: Text("Guardar"),
+              child: const Text("Guardar"),
               style: ButtonStyle(
                 backgroundColor:
                     MaterialStateProperty.all<Color>(Colors.orangeAccent),

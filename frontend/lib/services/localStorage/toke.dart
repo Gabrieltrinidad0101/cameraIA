@@ -12,7 +12,7 @@ class LocalSecureDBToken {
     return token;
   }
 
-  static Future<void> delete(String token) async {
+  static Future<void> delete() async {
     await storage.delete(key: "token");
   }
 }

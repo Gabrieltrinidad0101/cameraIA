@@ -20,9 +20,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      initialRoute: "/",
+      initialRoute: "/home",
       routes: {
-        "/": (context) => const QrScanner(),
+        "/scannerServer": (context) => const QrScanner(),
         "/home": (context) => const Home(),
         "/alarms": (context) => const Alarms(),
         "/addOrEditAlarm": (context) => const AddOrEditAlarm(),

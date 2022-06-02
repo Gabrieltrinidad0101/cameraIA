@@ -7,7 +7,7 @@ from server.src.services.database.alarms import DatabaseAlarm
 from  .utils.return_repeat_elements import return_repeat_elements
 import server.src.services.database.token as DatabaseToken
 from concurrent.futures import ThreadPoolExecutor
-import json,time
+import json
 
 detectionObjects = DetectionObjects()
 databaseAlarm = DatabaseAlarm()
@@ -53,7 +53,7 @@ class CameraSocket(Namespace):
             camera.show_frame(frame)
             ai_data,error = detectionObjects.detection(ret,frame)
             if error: return emit("camera_error",error)
-        return ai_data["labels"]   
+        return ai_data["labels"]
 
     def there_are_alarms_are_in_progress(self):
         datas = databaseAlarm.get_all()
