@@ -31,13 +31,7 @@ class _AlarmsState extends State<Alarms> {
       body: Container(child: main()),
       floatingActionButton: SizedBox(
         child: FloatingActionButton(
-          onPressed: () async {
-            Map? newAlarm = await alarmsControllers.gotToAddAlarm(context);
-            if (newAlarm == null) return;
-            setState(() {
-              alarmsControllers.alarms?.add(newAlarm);
-            });
-          },
+          onPressed: addAlarm,
           child: Icon(Icons.add),
         ),
       ),
@@ -67,14 +61,7 @@ class _AlarmsState extends State<Alarms> {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 23),
               child: InkWell(
-                onTap: () async {
-                  Map? editedAlarm =
-                      await alarmsControllers.gotToEditAlarm(context, index);
-                  if (editedAlarm == null) return;
-                  setState(() {
-                    alarmsControllers.alarms?[index] = editedAlarm;
-                  });
-                },
+                onTap: () => editAlarm(index),
                 onLongPress: () async => await deleteAlarm(context, index),
                 child: ListTile(
                   title: Text(
@@ -84,14 +71,7 @@ class _AlarmsState extends State<Alarms> {
                   subtitle: Text(alarmsControllers.getDays(index)),
                   trailing: Switch(
                     value: alarmsControllers.alarms?[index]["status"],
-                    onChanged: (value) async {
-                      bool isNotUpdate = await alarmsControllers.updateAlarm(
-                          context, _keyLoader, index);
-                      if (isNotUpdate) return;
-                      setState(() {
-                        alarmsControllers.alarms?[index]["status"] = value;
-                      });
-                    },
+                    onChanged: (value) => changeAlarmState(value, index),
                   ),
                 ),
               ),
@@ -100,6 +80,31 @@ class _AlarmsState extends State<Alarms> {
         );
       },
     );
+  }
+
+  addAlarm() async {
+    Map? newAlarm = await alarmsControllers.gotToAddAlarm(context);
+    if (newAlarm == null) return;
+    setState(() {
+      alarmsControllers.alarms?.add(newAlarm);
+    });
+  }
+
+  changeAlarmState(bool value, int index) async {
+    bool isNotUpdate =
+        await alarmsControllers.updateAlarm(context, _keyLoader, index);
+    if (isNotUpdate) return;
+    setState(() {
+      alarmsControllers.alarms?[index]["status"] = value;
+    });
+  }
+
+  editAlarm(int index) async {
+    Map? editedAlarm = await alarmsControllers.gotToEditAlarm(context, index);
+    if (editedAlarm == null) return;
+    setState(() {
+      alarmsControllers.alarms?[index] = editedAlarm;
+    });
   }
 
   deleteAlarm(BuildContext context, index) async {
