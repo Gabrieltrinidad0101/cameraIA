@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/screens/home/homeControllers.dart';
-import 'package:video_player/video_player.dart';
+import 'package:frontend/screens/home/home_controllers.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -22,7 +21,7 @@ class _HomeState extends State<Home> {
                 onPressed: () {
                   homeController.goToAlarms(context);
                 },
-                icon: Icon(Icons.alarm))
+                icon: const Icon(Icons.alarm))
           ],
         ),
         drawer: menu(context),
@@ -38,7 +37,7 @@ class _HomeState extends State<Home> {
             onPressed: () {
               homeController.testStartRunning();
             },
-            child: Text("click"),
+            child: const Text("click"),
           ),
         ));
   }
@@ -75,7 +74,7 @@ class _HomeState extends State<Home> {
           },
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
+            children: const [
               Text(
                 "Log out ",
                 style: TextStyle(fontSize: 20),

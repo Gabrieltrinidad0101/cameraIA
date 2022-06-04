@@ -1,9 +1,9 @@
-import 'package:frontend/widgets/modals/loadingDialog.dart' as Dialog;
+import 'package:frontend/widgets/modals/loading_dialog.dart' as dialog;
 import 'package:flutter/material.dart';
 
 class LoadingDialog {
   showLoadingDialog(context, key) {
-    Dialog.showLoadingDialog(context, key);
+    dialog.showLoadingDialog(context, key);
   }
 
   hiddenLoadingDialog(key) {

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import './objectToDetectController.dart';
+import 'object_to_detect_controller.dart';
 
 class ObjectToDetect extends StatefulWidget {
-  ObjectToDetect({Key? key}) : super(key: key);
+  const ObjectToDetect({Key? key}) : super(key: key);
 
   @override
   State<ObjectToDetect> createState() => _ObjectToDetectState();
@@ -138,12 +138,12 @@ class _ObjectToDetectState extends State<ObjectToDetect> {
                   padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: TextField(
                     controller: searchController,
-                    style: TextStyle(fontSize: 20),
+                    style: const TextStyle(fontSize: 20),
                     decoration: InputDecoration(
                       hintText: 'Enter a message',
                       suffixIcon: IconButton(
                         onPressed: () {},
-                        icon: Icon(Icons.search),
+                        icon: const Icon(Icons.search),
                       ),
                     ),
                     onChanged: (value) {

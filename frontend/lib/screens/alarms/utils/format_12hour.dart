@@ -1,4 +1,4 @@
-Format12Hour(hour, minute) {
+format12Hour(hour, minute) {
   String _type = "AM";
   if (hour >= 12) {
     _type = "PM";

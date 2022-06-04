@@ -12,8 +12,8 @@ Future<void> showLoadingDialog(BuildContext context, GlobalKey key) async {
                 backgroundColor: Colors.black54,
                 children: <Widget>[
                   Center(
-                    child: Column(children: [
-                      const CircularProgressIndicator(),
+                    child: Column(children: const [
+                      CircularProgressIndicator(),
                       SizedBox(
                         height: 10,
                       ),

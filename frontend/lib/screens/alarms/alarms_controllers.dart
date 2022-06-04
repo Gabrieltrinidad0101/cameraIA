@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart' show Navigator;
 import 'package:frontend/widgets/alert/error.dart';
 import 'package:frontend/widgets/alert/info.dart';
-import 'package:frontend/widgets/alert/alertWarning.dart';
-import 'utils/ParserAlarm.dart';
-import 'package:frontend/Mixins/arrayToString.dart';
-import 'package:frontend/utils/parseDays.dart';
-import 'utils/format12Hour.dart';
-import 'package:frontend/services/api/alarms.dart' as AlarmHttp;
-import 'package:frontend/Mixins/loadingDialog.dart';
+import 'package:frontend/widgets/alert/alert_warning.dart';
+import 'utils/parser_alarm.dart';
+import 'package:frontend/Mixins/array_to_string.dart';
+import 'package:frontend/utils/parse_days.dart';
+import 'utils/format_12hour.dart';
+import 'package:frontend/services/api/alarms.dart' as alarm_http;
+import 'package:frontend/Mixins/loading_dialog.dart';
 
 class AlarmsControllers with ArrayToString, LoadingDialog {
   ParseDays parseDays = ParseDays();
   List? alarms;
 
   Future<List?> getAlarms(context) async {
-    Map<String, dynamic> getAlarms = await AlarmHttp.get();
+    Map<String, dynamic> getAlarms = await alarm_http.get();
     if (getAlarms["error"] != null) {
       alertInfo(
         context: context,
@@ -31,7 +31,7 @@ class AlarmsControllers with ArrayToString, LoadingDialog {
     alarm["alarm_days"] = parseDays.daysEncode(alarm["alarm_days"]);
     alarm["status"] = !alarm["status"];
     showLoadingDialog(context, _keyLoader);
-    Map res = await AlarmHttp.update(alarm, alarm["_id"]);
+    Map res = await alarm_http.update(alarm, alarm["_id"]);
     hiddenLoadingDialog(_keyLoader);
     if (res["error"] != null) {
       alertError(context, res["error"]);
@@ -51,7 +51,7 @@ class AlarmsControllers with ArrayToString, LoadingDialog {
 
     int endHour = alarms?[index]["time"]["end_alarm"]["hour"];
     int endMinute = alarms?[index]["time"]["end_alarm"]["minute"];
-    return "${Format12Hour(startHour, startMinute)} / ${Format12Hour(endHour, endMinute)}";
+    return "${format12Hour(startHour, startMinute)} / ${format12Hour(endHour, endMinute)}";
   }
 
   String getDays(index) {
@@ -85,7 +85,7 @@ class AlarmsControllers with ArrayToString, LoadingDialog {
         description: "Deseas eliminar esta alarma",
         callBack: () async {
           showLoadingDialog(context, _keyLoader);
-          Map res = await AlarmHttp.delete(alarms?[index]["_id"]);
+          Map res = await alarm_http.delete(alarms?[index]["_id"]);
           hiddenLoadingDialog(_keyLoader);
           if (res["error"] != null) {
             alertError(context, res["error"]);

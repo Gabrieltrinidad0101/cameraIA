@@ -1,5 +1,5 @@
 class ParseDays {
-  Map SpanishToEnglish = {
+  Map spanishToEnglish = {
     "Domigo": "Sunday",
     "Lunes": "Monday",
     "Marte": "Tuesday",
@@ -9,7 +9,7 @@ class ParseDays {
     "Sábado": "Saturday",
   };
 
-  Map EnglishToSpanish = {
+  Map englishToSpanish = {
     "Sunday": "Domigo",
     "Monday": "Lunes",
     "Tuesday": "Marte",
@@ -21,19 +21,19 @@ class ParseDays {
 
   daysEncode(List alarmDays) {
     List<String> englishDays = [];
-    alarmDays.forEach((dayByName) {
-      String englishDay = SpanishToEnglish[dayByName];
+    for (var dayByName in alarmDays) {
+      String englishDay = spanishToEnglish[dayByName];
       englishDays.add(englishDay);
-    });
+    }
     return englishDays;
   }
 
   daysDecode(List alarmDays) {
     List<String> spanishDays = [];
-    alarmDays.forEach((dayByName) {
-      String englishDay = EnglishToSpanish[dayByName];
+    for (var dayByName in alarmDays) {
+      String englishDay = englishToSpanish[dayByName];
       spanishDays.add(englishDay);
-    });
+    }
     return spanishDays;
   }
 }

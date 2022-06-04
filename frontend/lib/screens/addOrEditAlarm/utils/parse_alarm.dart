@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart' show TimeOfDay;
-import 'package:frontend/utils/parseDays.dart';
+import 'package:frontend/utils/parse_days.dart';
 
 Map parseAlarm(alarm) {
   ParseDays parseDays = ParseDays();

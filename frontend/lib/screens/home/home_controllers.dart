@@ -1,12 +1,12 @@
-import 'package:frontend/constants/socketPathUrl.dart';
-import 'package:frontend/services/notification/notificationObjectDetect.dart';
-import 'package:frontend/widgets/alert/alertWarning.dart';
-import 'package:socket_io_client/socket_io_client.dart' as IO;
+import 'package:frontend/constants/socket_path_url.dart';
+import 'package:frontend/services/notification/notification_object_detect.dart';
+import 'package:frontend/widgets/alert/alert_warning.dart';
+import 'package:socket_io_client/socket_io_client.dart' as io;
 import 'package:flutter/material.dart' show BuildContext, MediaQuery, Navigator;
 import 'package:frontend/services/localStorage/toke.dart';
 
 class HomeController {
-  IO.Socket? socket;
+  io.Socket? socket;
   HomeController() {
     connectToServerWithSocketIo();
   }
@@ -32,9 +32,9 @@ class HomeController {
 
   connectToServerWithSocketIo() async {
     String url = await getSocketUrl();
-    socket = IO.io(
+    socket = io.io(
         url,
-        IO.OptionBuilder()
+        io.OptionBuilder()
             .setTransports(['websocket']) // for Flutter or Dart VM
             .setExtraHeaders(
                 {'Connection': 'upgrade', 'Upgrade': 'websocket'}) // optional

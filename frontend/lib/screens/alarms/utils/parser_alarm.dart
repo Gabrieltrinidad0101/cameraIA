@@ -1,7 +1,6 @@
-import 'package:frontend/screens/alarms/alarms.dart';
 import 'dart:convert';
 
-import 'package:frontend/utils/parseDays.dart';
+import 'package:frontend/utils/parse_days.dart';
 
 class ParserAlarm {
   List fromJson(alarms) {

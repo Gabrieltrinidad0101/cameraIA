@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/screens/selectDays/selectDaysController.dart';
+import 'package:frontend/screens/selectDays/select_days_controller.dart';
 
 class SelectDays extends StatefulWidget {
-  SelectDays({Key? key}) : super(key: key);
+  const SelectDays({Key? key}) : super(key: key);
 
   @override
   State<SelectDays> createState() => _SelectDaysState();
@@ -34,9 +34,9 @@ class _SelectDaysState extends State<SelectDays> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("DIAS DE ALARMAS"),
+        title: const Text("DIAS DE ALARMAS"),
         leading: IconButton(
-          icon: Icon(Icons.close),
+          icon: const Icon(Icons.close),
           onPressed: () => selectDaysController.goToBack(context),
         ),
         actions: [
@@ -46,7 +46,7 @@ class _SelectDaysState extends State<SelectDays> {
               onPressed: () {
                 selectDaysController.goToBack(context, alarmDays);
               },
-              child: Text("Guardar"),
+              child: const Text("Guardar"),
               style: ButtonStyle(
                 backgroundColor:
                     MaterialStateProperty.all<Color>(Colors.orangeAccent),

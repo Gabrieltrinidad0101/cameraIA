@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/screens/alarms/alarmsControllers.dart';
-import 'package:frontend/widgets/modals/loadingDialog.dart';
+import 'package:frontend/screens/alarms/alarms_controllers.dart';
 
 class Alarms extends StatefulWidget {
   const Alarms({Key? key}) : super(key: key);
@@ -27,12 +26,12 @@ class _AlarmsState extends State<Alarms> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Alarmas")),
+      appBar: AppBar(title: const Text("Alarmas")),
       body: Container(child: main()),
       floatingActionButton: SizedBox(
         child: FloatingActionButton(
           onPressed: addAlarm,
-          child: Icon(Icons.add),
+          child: const Icon(Icons.add),
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
@@ -41,17 +40,17 @@ class _AlarmsState extends State<Alarms> {
 
   Widget main() {
     return isLoader
-        ? Loader()
+        ? loader()
         : alarmsControllers.alarms != null
-            ? ListAlarm()
+            ? listAlarm()
             : Container();
   }
 
-  Widget Loader() {
-    return Center(child: CircularProgressIndicator());
+  Widget loader() {
+    return const Center(child: CircularProgressIndicator());
   }
 
-  ListView ListAlarm() {
+  ListView listAlarm() {
     return ListView.builder(
       itemCount: alarmsControllers.alarms?.length,
       itemBuilder: (context, index) {
@@ -66,7 +65,7 @@ class _AlarmsState extends State<Alarms> {
                 child: ListTile(
                   title: Text(
                     alarmsControllers.getTitle(index),
-                    style: TextStyle(fontSize: 21),
+                    style: const TextStyle(fontSize: 21),
                   ),
                   subtitle: Text(alarmsControllers.getDays(index)),
                   trailing: Switch(

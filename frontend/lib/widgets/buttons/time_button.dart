@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-FractionallySizedBox TimeButton(
+FractionallySizedBox timeButton(
     {required String name, required String time, required Function onPressed}) {
   return FractionallySizedBox(
     widthFactor: .98,

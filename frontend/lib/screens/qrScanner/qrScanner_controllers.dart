@@ -1,7 +1,6 @@
-import 'dart:async';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:frontend/widgets/alert/info.dart';
-import 'package:flutter/material.dart' show Navigator, Widget;
+import 'package:flutter/material.dart' show Navigator;
 import 'package:frontend/services/localStorage/toke.dart';
 
 class QrScannerControllers {
@@ -18,7 +17,7 @@ class QrScannerControllers {
     Navigator.of(context).popAndPushNamed("/alarms");
   }
 
-  static Future<bool> has_token() async {
+  static Future<bool> hasToken() async {
     String? token = await LocalSecureDBToken.get();
     return token != null ? true : false;
   }

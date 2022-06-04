@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/screens/addOrEditAlarm/utils/parseAlarm.dart';
-import 'package:frontend/services/api/alarms.dart' as AlarmHttp;
+import 'package:frontend/screens/addOrEditAlarm/utils/parse_alarm.dart';
+import 'package:frontend/services/api/alarms.dart' as alarm_http;
 import 'package:frontend/widgets/alert/error.dart';
-import 'package:frontend/Mixins/arrayToString.dart';
-import 'package:frontend/utils/parseDays.dart';
-import 'package:frontend/Mixins/loadingDialog.dart';
+import 'package:frontend/Mixins/array_to_string.dart';
+import 'package:frontend/utils/parse_days.dart';
+import 'package:frontend/Mixins/loading_dialog.dart';
 
 class AddOrEditAlarmController with ArrayToString, LoadingDialog {
   ParseDays parseDays = ParseDays();
@@ -61,9 +61,9 @@ class AddOrEditAlarmController with ArrayToString, LoadingDialog {
     Map newAlarm = parseAlarm(alarm);
     Map res = {};
     if (alarm["isEdit"] == null) {
-      res = await AlarmHttp.add(newAlarm);
+      res = await alarm_http.add(newAlarm);
     } else {
-      res = await AlarmHttp.update(newAlarm, alarm["_id"]);
+      res = await alarm_http.update(newAlarm, alarm["_id"]);
     }
     if (res["error"] != null) {
       hiddenLoadingDialog(_keyLoader);

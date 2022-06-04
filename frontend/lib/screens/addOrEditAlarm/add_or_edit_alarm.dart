@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/screens/addOrEditAlarm/addOrEditAlarmController.dart';
-import 'package:frontend/screens/addOrEditAlarm/routerController.dart';
-import 'package:frontend/widgets/buttons/timeButton.dart';
+import 'package:frontend/screens/addOrEditAlarm/add_or_edit_alarm_controller.dart';
+import 'package:frontend/screens/addOrEditAlarm/router_controller.dart';
+import 'package:frontend/widgets/buttons/time_button.dart';
 
 class AddOrEditAlarm extends StatefulWidget {
   const AddOrEditAlarm({Key? key}) : super(key: key);
@@ -57,7 +57,7 @@ class _AddOrEditAlarmState extends State<AddOrEditAlarm> {
                 addOrEditAlarmController.saveOrEditAlarm(
                     context, alarm, _keyLoader);
               },
-              child: Text("Guardar"),
+              child: const Text("Guardar"),
               style: ButtonStyle(
                 backgroundColor:
                     MaterialStateProperty.all<Color>(Colors.orangeAccent),
@@ -68,34 +68,34 @@ class _AddOrEditAlarmState extends State<AddOrEditAlarm> {
       ),
       body: Column(
         children: [
-          TimeButton(
+          timeButton(
               name: "Comienza la alarma",
               time: addOrEditAlarmController.processTime(
                   alarm["startAlarm"], context),
               onPressed: () async {
                 setTimeInTimeButton("startAlarm");
               }),
-          TimeButton(
+          timeButton(
               name: "Termina la alarma",
               time: addOrEditAlarmController.processTime(
                   alarm["endAlarm"], context),
               onPressed: () async {
                 setTimeInTimeButton("endAlarm");
               }),
-          Options()
+          options()
         ],
       ),
     );
   }
 
-  Expanded Options() {
+  Expanded options() {
     return Expanded(
       child: ListView(
         padding: const EdgeInsets.all(8),
         children: <Widget>[
           InkWell(
             child: ListTile(
-              title: Text("DIAS DE ALARMAS"),
+              title: const Text("DIAS DE ALARMAS"),
               subtitle: Text(
                   addOrEditAlarmController.arrayToString(alarm["alarmDays"])),
             ),

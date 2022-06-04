@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'qrScannerControllers.dart';
+import 'qrScanner_controllers.dart';
 import 'package:frontend/screens/alarms/alarms.dart';
 
 class QrScanner extends StatefulWidget {
@@ -13,7 +13,7 @@ class _QrScannerState extends State<QrScanner> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: QrScannerControllers.has_token(),
+      future: QrScannerControllers.hasToken(),
       builder: (BuildContext context, snapshot) {
         if (!snapshot.hasData) {
           return const Center(child: CircularProgressIndicator());
@@ -21,30 +21,30 @@ class _QrScannerState extends State<QrScanner> {
         if (snapshot.data == true) {
           return const Alarms();
         }
-        return QrScannerPage(context);
+        return qrScannerPage(context);
       },
     );
   }
 
-  Widget QrScannerPage(BuildContext context) {
+  Widget qrScannerPage(BuildContext context) {
     return Scaffold(
       body: Center(
         child: Container(
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.height,
-          padding: EdgeInsets.all(20.0),
+          padding: const EdgeInsets.all(20.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image(
-                image: AssetImage("assets/images/qr_code_app.jpg"),
+                image: const AssetImage("assets/images/qr_code_app.jpg"),
                 width: (MediaQuery.maybeOf(context)?.size.width ?? 1) / 3,
               ),
               ElevatedButton(
                   onPressed: () {
                     QrScannerControllers.scanQRCode(mounted, context);
                   },
-                  child: Text("Scan QR CODE"))
+                  child: const Text("Scan QR CODE"))
             ],
           ),
         ),

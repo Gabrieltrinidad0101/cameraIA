@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart' show Navigator;
 import 'package:flutter/material.dart';
 
 class ObjectToDetectController {
@@ -41,7 +40,6 @@ class ObjectToDetectController {
         objects.add(object["name"]);
       }
     });
-    print("objects = $objects");
     return objects;
   }
 
