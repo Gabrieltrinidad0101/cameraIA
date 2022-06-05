@@ -28,6 +28,7 @@ class _QrScannerState extends State<QrScanner> {
 
   Widget qrScannerPage(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(title: const Text("Scan QR CODE")),
       body: Center(
         child: Container(
           height: MediaQuery.of(context).size.height,

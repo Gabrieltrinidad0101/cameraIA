@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/screens/home/home_controllers.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -15,7 +16,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text("Home"),
+          title: Text(AppLocalizations.of(context)!.home),
           actions: [
             IconButton(
                 onPressed: () {
@@ -32,13 +33,21 @@ class _HomeState extends State<Home> {
           ),
           onPressed: () {},
         ),
-        body: Center(
-          child: ElevatedButton(
-            onPressed: () {
-              homeController.testStartRunning();
-            },
-            child: const Text("click"),
-          ),
+        body: Column(
+          children: [
+            Center(
+              child: ElevatedButton(
+                onPressed: () {
+                  homeController.testStartRunning();
+                },
+                child: const Text("click"),
+              ),
+            ),
+            ElevatedButton(
+              onPressed: () {},
+              child: const Text("change"),
+            )
+          ],
         ));
   }
 
@@ -54,7 +63,7 @@ class _HomeState extends State<Home> {
                 decoration: BoxDecoration(
                   color: Colors.blue,
                 ),
-                child: Text('Drawer Header'),
+                child: Text('Camara IA'),
               ),
             ),
             SizedBox(height: homeController.setPositionToLogoutButton(context)),

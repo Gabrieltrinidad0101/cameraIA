@@ -31,6 +31,7 @@ class CameraSocket(Namespace):
         pass
 
     def on_cameras_video(self, message):
+        print("Start processs camera")
         self.process_camera()
 
     def process_camera(self):
