@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/main.dart';
 import 'package:frontend/screens/home/home_controllers.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import '../../widgets/alert/alert_question.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -9,9 +12,11 @@ class Home extends StatefulWidget {
   State<Home> createState() => _HomeState();
 }
 
+enum SingingCharacter { lafayette, jefferson }
+
 class _HomeState extends State<Home> {
   HomeController homeController = HomeController();
-
+  SingingCharacter? _character = SingingCharacter.lafayette;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,11 +71,32 @@ class _HomeState extends State<Home> {
                 child: Text('Camara IA'),
               ),
             ),
+            languajes(),
             SizedBox(height: homeController.setPositionToLogoutButton(context)),
             logoutButton()
           ],
         ),
       ),
+    );
+  }
+
+  FractionallySizedBox languajes() {
+    return FractionallySizedBox(
+      widthFactor: .9,
+      child: ElevatedButton(
+          onPressed: () {},
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                AppLocalizations.of(context)!.languages,
+                style: const TextStyle(fontSize: 20),
+              ),
+              const Icon(
+                Icons.language,
+              )
+            ],
+          )),
     );
   }
 

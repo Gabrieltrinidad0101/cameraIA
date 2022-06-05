@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart' show Navigator;
+import 'package:flutter/material.dart' show Navigator, Text;
 import 'package:frontend/widgets/alert/error.dart';
 import 'package:frontend/widgets/alert/info.dart';
-import 'package:frontend/widgets/alert/alert_warning.dart';
+import 'package:frontend/widgets/alert/alert_question.dart';
 import 'utils/parser_alarm.dart';
 import 'package:frontend/Mixins/array_to_string.dart';
 import 'package:frontend/utils/parse_days.dart';
@@ -79,10 +79,10 @@ class AlarmsControllers with ArrayToString, LoadingDialog {
 
   Future<void> deleteAlarm(
       context, int index, _keyLoader, Function callBack) async {
-    await alertWarning(
+    await alertQuestion(
         context: context,
         title: "Elimar",
-        description: "Deseas eliminar esta alarma",
+        content: const Text("Deseas eliminar esta alarma"),
         callBack: () async {
           showLoadingDialog(context, _keyLoader);
           Map res = await alarm_http.delete(alarms?[index]["_id"]);

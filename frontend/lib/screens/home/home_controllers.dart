@@ -1,9 +1,10 @@
 import 'package:frontend/constants/socket_path_url.dart';
 import 'package:frontend/services/notification/notification_object_detect.dart';
-import 'package:frontend/widgets/alert/alert_warning.dart';
+import 'package:frontend/widgets/alert/alert_question.dart';
 import 'package:socket_io_client/socket_io_client.dart' as io;
 import 'package:flutter/material.dart' show BuildContext, MediaQuery, Navigator;
-import 'package:frontend/services/localStorage/toke.dart';
+import 'package:frontend/services/localSecureStorage/toke.dart';
+import 'package:flutter/material.dart';
 
 class HomeController {
   io.Socket? socket;
@@ -15,19 +16,23 @@ class HomeController {
   }
 
   Future<void> deleteSession(BuildContext context) async {
-    alertWarning(
+    alertQuestion(
         context: context,
         title: "Eliminar sesión del servidor",
-        description:
-            """Estas seguro de eliminar la sesión del servidor no podras ver, agregar modificar y eliminar alarmas""",
+        content: const Text(
+            """Estas seguro de eliminar la sesión del servidor no podras ver, agregar modificar y eliminar alarmas"""),
         callBack: () {
           LocalSecureDBToken.delete();
         });
   }
 
+  changeLanguages(BuildContext context) {}
+
   double setPositionToLogoutButton(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
-    return height - (height / 4) - 5;
+    int paddingTop = 5;
+    int buttonLanguage = 50;
+    return height - (height / 4) - paddingTop - buttonLanguage;
   }
 
   connectToServerWithSocketIo() async {

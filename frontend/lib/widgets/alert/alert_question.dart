@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 
-alertWarning(
+alertQuestion(
     {required context,
     required title,
-    required description,
+    required Widget content,
     required Function callBack}) {
   showDialog(
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
         title: Text(title),
-        content: Text(description),
+        content: content,
         actions: <Widget>[
           TextButton(
             child: const Text("cancelar"),
