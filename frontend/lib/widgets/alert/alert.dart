@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-alertInfo({required context, required title, required description}) {
+alert({required context, required title, required Widget content}) {
   showDialog(
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
         title: Text(title),
-        content: Text(description),
+        content: content,
         actions: <Widget>[
           TextButton(
             child: const Text("accept"),

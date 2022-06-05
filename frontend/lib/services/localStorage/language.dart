@@ -8,5 +8,5 @@ save(String language) async {
 Future<String> get() async {
   final prefs = await SharedPreferences.getInstance();
   final String? language = prefs.getString('language');
-  return language ?? "en";
+  return language ?? "es";
 }

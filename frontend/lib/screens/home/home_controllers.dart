@@ -2,7 +2,6 @@ import 'package:frontend/constants/socket_path_url.dart';
 import 'package:frontend/services/notification/notification_object_detect.dart';
 import 'package:frontend/widgets/alert/alert_question.dart';
 import 'package:socket_io_client/socket_io_client.dart' as io;
-import 'package:flutter/material.dart' show BuildContext, MediaQuery, Navigator;
 import 'package:frontend/services/localSecureStorage/toke.dart';
 import 'package:flutter/material.dart';
 

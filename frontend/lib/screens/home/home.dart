@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/main.dart';
 import 'package:frontend/screens/home/home_controllers.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
-import '../../widgets/alert/alert_question.dart';
+import 'package:frontend/languages/laguages.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -12,16 +9,26 @@ class Home extends StatefulWidget {
   State<Home> createState() => _HomeState();
 }
 
-enum SingingCharacter { lafayette, jefferson }
-
 class _HomeState extends State<Home> {
   HomeController homeController = HomeController();
-  SingingCharacter? _character = SingingCharacter.lafayette;
+  Languages languages = Languages();
+
   @override
   Widget build(BuildContext context) {
+    return FutureBuilder(
+        future: languages.getLanguageCode(),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (!snapshot.hasData) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          return appMain(context);
+        });
+  }
+
+  Scaffold appMain(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text(AppLocalizations.of(context)!.home),
+          title: Text(languages.get("home")),
           actions: [
             IconButton(
                 onPressed: () {
@@ -32,27 +39,16 @@ class _HomeState extends State<Home> {
         ),
         drawer: menu(context),
         floatingActionButton: FloatingActionButton(
-          child: IconButton(
-            icon: const Icon(Icons.camera_enhance),
-            onPressed: () {},
-          ),
+          child: const Icon((Icons.camera_enhance)),
           onPressed: () {},
         ),
-        body: Column(
-          children: [
-            Center(
-              child: ElevatedButton(
-                onPressed: () {
-                  homeController.testStartRunning();
-                },
-                child: const Text("click"),
-              ),
-            ),
-            ElevatedButton(
-              onPressed: () {},
-              child: const Text("change"),
-            )
-          ],
+        body: Center(
+          child: ElevatedButton(
+            onPressed: () {
+              homeController.testStartRunning();
+            },
+            child: const Text("click"),
+          ),
         ));
   }
 
@@ -71,7 +67,7 @@ class _HomeState extends State<Home> {
                 child: Text('Camara IA'),
               ),
             ),
-            languajes(),
+            languagesButton(),
             SizedBox(height: homeController.setPositionToLogoutButton(context)),
             logoutButton()
           ],
@@ -80,16 +76,64 @@ class _HomeState extends State<Home> {
     );
   }
 
-  FractionallySizedBox languajes() {
+  void setLanguageInState(languageCode) {
+    languages.setLanguageCode(languageCode);
+    setState(() {
+      languages.languageCode = languageCode;
+    });
+  }
+
+  selectLanguages() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+              title: Text(languages.get("chooseYourLanguage")),
+              content: FractionallySizedBox(
+                heightFactor: .35,
+                child: Column(
+                  children: [
+                    FractionallySizedBox(
+                      widthFactor: 1,
+                      child: ElevatedButton(
+                          onPressed: () {
+                            setLanguageInState("es");
+                            Navigator.pop(context);
+                          },
+                          child: const Text(
+                            "Español",
+                          )),
+                    ),
+                    const Divider(
+                      color: Color.fromARGB(204, 0, 0, 0),
+                    ),
+                    FractionallySizedBox(
+                      widthFactor: 1,
+                      child: ElevatedButton(
+                          onPressed: () {
+                            setLanguageInState("en");
+                            Navigator.pop(context);
+                          },
+                          child: const Text("English")),
+                    ),
+                  ],
+                ),
+              ));
+        });
+  }
+
+  FractionallySizedBox languagesButton() {
     return FractionallySizedBox(
       widthFactor: .9,
       child: ElevatedButton(
-          onPressed: () {},
+          onPressed: () {
+            selectLanguages();
+          },
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                AppLocalizations.of(context)!.languages,
+                languages.get("languages"),
                 style: const TextStyle(fontSize: 20),
               ),
               const Icon(
@@ -109,12 +153,12 @@ class _HomeState extends State<Home> {
           },
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
+            children: [
               Text(
-                "Log out ",
-                style: TextStyle(fontSize: 20),
+                languages.get("logout"),
+                style: const TextStyle(fontSize: 20),
               ),
-              Icon(
+              const Icon(
                 Icons.logout,
               )
             ],

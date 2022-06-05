@@ -3,6 +3,8 @@ import 'package:frontend/screens/addOrEditAlarm/add_or_edit_alarm_controller.dar
 import 'package:frontend/screens/addOrEditAlarm/router_controller.dart';
 import 'package:frontend/widgets/buttons/time_button.dart';
 
+import '../../languages/laguages.dart';
+
 class AddOrEditAlarm extends StatefulWidget {
   const AddOrEditAlarm({Key? key}) : super(key: key);
 
@@ -14,20 +16,13 @@ class _AddOrEditAlarmState extends State<AddOrEditAlarm> {
   String title = "Agregar Alarma";
   AddOrEditAlarmController addOrEditAlarmController =
       AddOrEditAlarmController();
+  Languages languages = Languages();
   Map alarm = {
     "time": {
       "start_alarm": {"hour": 18, "minute": 15},
       "end_alarm": {"hour": 7, "minute": 45}
     },
-    "alarm_days": [
-      "Domigo",
-      "Lunes",
-      "Marte",
-      "Miércoles",
-      "Jueve",
-      "Viernes",
-      "Sábado",
-    ],
+    "alarm_days": [],
     "objects": ["person"],
     "status": true
   };
@@ -46,6 +41,19 @@ class _AddOrEditAlarmState extends State<AddOrEditAlarm> {
 
   @override
   Widget build(BuildContext context) {
+    return FutureBuilder(
+        future: languages.getLanguageCode(),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (!snapshot.hasData) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          alarm["alarmDays"] =
+              addOrEditAlarmController.getDaysName(languages.get("alarmDays"));
+          return appMain(context);
+        });
+  }
+
+  Scaffold appMain(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(title),

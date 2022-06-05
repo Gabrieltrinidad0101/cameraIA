@@ -32,6 +32,10 @@ class _SelectDaysState extends State<SelectDays> {
 
   @override
   Widget build(BuildContext context) {
+    return appMain(context);
+  }
+
+  Scaffold appMain(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text("DIAS DE ALARMAS"),

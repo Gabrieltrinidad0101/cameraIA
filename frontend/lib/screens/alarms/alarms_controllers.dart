@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart' show Navigator, Text;
 import 'package:frontend/widgets/alert/error.dart';
-import 'package:frontend/widgets/alert/info.dart';
+import 'package:frontend/widgets/alert/alert.dart';
 import 'package:frontend/widgets/alert/alert_question.dart';
 import 'utils/parser_alarm.dart';
 import 'package:frontend/Mixins/array_to_string.dart';
@@ -16,10 +16,10 @@ class AlarmsControllers with ArrayToString, LoadingDialog {
   Future<List?> getAlarms(context) async {
     Map<String, dynamic> getAlarms = await alarm_http.get();
     if (getAlarms["error"] != null) {
-      alertInfo(
+      alert(
         context: context,
         title: "Error",
-        description: getAlarms["error"],
+        content: Text(getAlarms["error"]),
       );
       return null;
     }

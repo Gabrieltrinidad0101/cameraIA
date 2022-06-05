@@ -1,9 +1,10 @@
-import 'package:frontend/widgets/alert/info.dart';
+import 'package:flutter/material.dart';
+import 'package:frontend/widgets/alert/alert.dart';
 
-alertError(context, String messageError) {
-  alertInfo(
+alertError(context, Widget content) {
+  alert(
     context: context,
     title: "Error",
-    description: messageError,
+    content: content,
   );
 }

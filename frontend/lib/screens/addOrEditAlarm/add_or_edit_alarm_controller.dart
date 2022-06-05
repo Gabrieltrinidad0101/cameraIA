@@ -75,4 +75,12 @@ class AddOrEditAlarmController with ArrayToString, LoadingDialog {
     hiddenLoadingDialog(_keyLoader);
     Navigator.pop(context, newAlarm);
   }
+
+  List getDaysName(List alarmDays) {
+    List days = [];
+    for (Map alarmDay in alarmDays) {
+      days.add(alarmDay["name"]);
+    }
+    return days;
+  }
 }
