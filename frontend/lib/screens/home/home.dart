@@ -15,14 +15,7 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-        future: languages.getLanguageCode(),
-        builder: (BuildContext context, AsyncSnapshot snapshot) {
-          if (!snapshot.hasData) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          return appMain(context);
-        });
+    return appMain(context);
   }
 
   Scaffold appMain(BuildContext context) {

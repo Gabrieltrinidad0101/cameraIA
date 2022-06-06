@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/screens/addOrEditAlarm/add_or_edit_alarm_controller.dart';
 import 'package:frontend/screens/addOrEditAlarm/router_controller.dart';
+import 'package:frontend/screens/addOrEditAlarm/utils/default_alarm.dart';
 import 'package:frontend/widgets/buttons/time_button.dart';
 
-import '../../languages/laguages.dart';
+import 'package:frontend/languages/laguages.dart';
 
 class AddOrEditAlarm extends StatefulWidget {
   const AddOrEditAlarm({Key? key}) : super(key: key);
@@ -17,15 +18,7 @@ class _AddOrEditAlarmState extends State<AddOrEditAlarm> {
   AddOrEditAlarmController addOrEditAlarmController =
       AddOrEditAlarmController();
   Languages languages = Languages();
-  Map alarm = {
-    "time": {
-      "start_alarm": {"hour": 18, "minute": 15},
-      "end_alarm": {"hour": 7, "minute": 45}
-    },
-    "alarm_days": [],
-    "objects": ["person"],
-    "status": true
-  };
+  Map alarm = defaultAlarm();
   RouterController routerController = RouterController();
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
 
@@ -41,16 +34,7 @@ class _AddOrEditAlarmState extends State<AddOrEditAlarm> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-        future: languages.getLanguageCode(),
-        builder: (BuildContext context, AsyncSnapshot snapshot) {
-          if (!snapshot.hasData) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          alarm["alarmDays"] =
-              addOrEditAlarmController.getDaysName(languages.get("alarmDays"));
-          return appMain(context);
-        });
+    return appMain(context);
   }
 
   Scaffold appMain(BuildContext context) {
@@ -77,14 +61,14 @@ class _AddOrEditAlarmState extends State<AddOrEditAlarm> {
       body: Column(
         children: [
           timeButton(
-              name: "Comienza la alarma",
+              name: languages.get("startAlarm"),
               time: addOrEditAlarmController.processTime(
                   alarm["startAlarm"], context),
               onPressed: () async {
                 setTimeInTimeButton("startAlarm");
               }),
           timeButton(
-              name: "Termina la alarma",
+              name: languages.get("endAlarm"),
               time: addOrEditAlarmController.processTime(
                   alarm["endAlarm"], context),
               onPressed: () async {
@@ -103,7 +87,7 @@ class _AddOrEditAlarmState extends State<AddOrEditAlarm> {
         children: <Widget>[
           InkWell(
             child: ListTile(
-              title: const Text("DIAS DE ALARMAS"),
+              title: Text(languages.get("alarmOfDays")),
               subtitle: Text(
                   addOrEditAlarmController.arrayToString(alarm["alarmDays"])),
             ),
@@ -113,7 +97,7 @@ class _AddOrEditAlarmState extends State<AddOrEditAlarm> {
           ),
           InkWell(
               child: ListTile(
-                title: const Text("OBJECTOS A DETECTAR"),
+                title: Text(languages.get("objectToDetectText")),
                 subtitle: Text(
                     addOrEditAlarmController.arrayToString(alarm["objects"])),
               ),

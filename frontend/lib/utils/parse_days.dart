@@ -1,4 +1,7 @@
+import 'package:frontend/languages/laguages.dart';
+
 class ParseDays {
+  Languages languages = Languages();
   Map spanishToEnglish = {
     "Domigo": "Sunday",
     "Lunes": "Monday",
@@ -20,6 +23,7 @@ class ParseDays {
   };
 
   daysEncode(List alarmDays) {
+    if (languages.languageCode == "en") return alarmDays;
     List<String> englishDays = [];
     for (var dayByName in alarmDays) {
       String englishDay = spanishToEnglish[dayByName];
@@ -29,6 +33,7 @@ class ParseDays {
   }
 
   daysDecode(List alarmDays) {
+    if (languages.languageCode == "en") return alarmDays;
     List<String> spanishDays = [];
     for (var dayByName in alarmDays) {
       String englishDay = englishToSpanish[dayByName];

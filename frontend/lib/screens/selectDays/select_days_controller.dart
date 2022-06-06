@@ -17,6 +17,7 @@ class SelectDaysController {
     List? selectObjects = arguments as List;
     List<Map> alarmDays =
         setSeletedcObjectsInAlarmDays(_alarmDays, selectObjects);
+
     return alarmDays;
   }
 

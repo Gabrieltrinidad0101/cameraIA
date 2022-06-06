@@ -5,6 +5,7 @@ import 'package:frontend/screens/alarms/alarms.dart';
 import 'package:frontend/screens/addOrEditAlarm/add_or_edit_alarm.dart';
 import 'package:frontend/screens/selectDays/select_days.dart';
 import 'package:frontend/screens/objectToDetect/object_to_detect.dart';
+import 'languages/laguages.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,15 +19,20 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    print("okkkkkkk");
-  }
-
+  Languages languages = Languages();
   @override
   Widget build(BuildContext context) {
+    return FutureBuilder(
+        future: languages.getLanguageCode(),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (!snapshot.hasData) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          return appMain(context);
+        });
+  }
+
+  MaterialApp appMain(context) {
     return MaterialApp(
       title: 'Camara IA',
       theme: ThemeData(

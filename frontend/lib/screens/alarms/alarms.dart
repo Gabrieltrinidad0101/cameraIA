@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/languages/laguages.dart';
 import 'package:frontend/screens/alarms/alarms_controllers.dart';
 
 class Alarms extends StatefulWidget {
@@ -10,6 +11,7 @@ class Alarms extends StatefulWidget {
 
 class _AlarmsState extends State<Alarms> {
   AlarmsControllers alarmsControllers = AlarmsControllers();
+  Languages languages = Languages();
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
   bool isLoader = true;
   @override
@@ -26,7 +28,7 @@ class _AlarmsState extends State<Alarms> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Alarmas")),
+      appBar: AppBar(title: Text(languages.get("alarms"))),
       body: Container(child: main()),
       floatingActionButton: SizedBox(
         child: FloatingActionButton(

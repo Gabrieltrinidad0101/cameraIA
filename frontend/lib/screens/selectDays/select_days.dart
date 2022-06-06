@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:frontend/screens/selectDays/select_days_controller.dart';
+import 'package:frontend/screens/selectDays/utils/getDays.dart';
 
 class SelectDays extends StatefulWidget {
   const SelectDays({Key? key}) : super(key: key);
@@ -11,15 +13,7 @@ class SelectDays extends StatefulWidget {
 class _SelectDaysState extends State<SelectDays> {
   Map makeDay(day, bool status) => {"day": day, "status": status};
 
-  List<Map> alarmDays = [
-    {"name": "Domigo", "status": false},
-    {"name": "Lunes", "status": false},
-    {"name": "Marte", "status": false},
-    {"name": "Miércoles", "status": false},
-    {"name": "Jueve", "status": false},
-    {"name": "Viernes", "status": false},
-    {"name": "Sábado", "status": false},
-  ];
+  List<Map> alarmDays = ListOfDays();
 
   SelectDaysController selectDaysController = SelectDaysController();
 

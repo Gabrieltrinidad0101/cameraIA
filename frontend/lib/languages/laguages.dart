@@ -1,50 +1,32 @@
+import 'package:frontend/languages/english.dart';
+import 'package:frontend/languages/spanish.dart';
 import 'package:frontend/services/localStorage/language.dart'
     as local_db_language;
 
-const Map<String, Map<String, dynamic>> languages = {
-  "en": {
-    "home": "Home",
-    "languages": "languages",
-    "chooseYourLanguage": "Choose your language",
-    "logout": "Log out ",
-    "alarmDays": [
-      {"name": "Sunday", "status": false},
-      {"name": "Monday", "status": false},
-      {"name": "Tuesday", "status": false},
-      {"name": "Wednesday", "status": false},
-      {"name": "Thursday", "status": false},
-      {"name": "Friday", "status": false},
-      {"name": "Satuday", "status": false},
-    ]
-  },
-  "es": {
-    "home": "inicio",
-    "languages": "lenguajes",
-    "chooseYourLanguage": "Elige tú idioma",
-    "logout": "cerrar sesión ",
-    "alarmDays": [
-      {"name": "Domigo", "status": false},
-      {"name": "Lunes", "status": false},
-      {"name": "Marte", "status": false},
-      {"name": "Miércoles", "status": false},
-      {"name": "Jueve", "status": false},
-      {"name": "Viernes", "status": false},
-      {"name": "Sábado", "status": false},
-    ]
-  }
-};
+Map<String, Map<String, dynamic>> languages = {"en": english, "es": spanish};
+
+String? languageCodeOldState;
 
 class Languages {
   String? languageCode;
+  Languages() {
+    if (languageCodeOldState == null) {
+      languageCode = languageCodeOldState;
+    } else {
+      languageCode = languageCodeOldState;
+    }
+  }
 
   Future<String?> getLanguageCode() async {
     languageCode = await local_db_language.get();
+    languageCodeOldState = languageCode;
     return languageCode;
   }
 
   setLanguageCode(String language) async {
     await local_db_language.save(language);
     languageCode = language;
+    languageCodeOldState = language;
   }
 
   get(String key) {
