@@ -1,6 +1,6 @@
 import 'package:frontend/languages/laguages.dart';
 
-List<Map> ListOfDays() {
+List<Map> listOfDays() {
   Languages languages = Languages();
   List<Map> alarmDays = [];
   for (Map alarmDay in languages.get("alarmDays")) {

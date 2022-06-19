@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/widgets/text/text_language.dart';
 
 Future<void> showLoadingDialog(BuildContext context, GlobalKey key) async {
   return showDialog<void>(
@@ -12,14 +13,14 @@ Future<void> showLoadingDialog(BuildContext context, GlobalKey key) async {
                 backgroundColor: Colors.black54,
                 children: <Widget>[
                   Center(
-                    child: Column(children: const [
-                      CircularProgressIndicator(),
-                      SizedBox(
+                    child: Column(children: [
+                      const CircularProgressIndicator(),
+                      const SizedBox(
                         height: 10,
                       ),
-                      Text(
-                        "Please Wait....",
-                        style: TextStyle(color: Colors.blueAccent),
+                      TextLanguage(
+                        "wait",
+                        style: const TextStyle(color: Colors.blueAccent),
                       )
                     ]),
                   )

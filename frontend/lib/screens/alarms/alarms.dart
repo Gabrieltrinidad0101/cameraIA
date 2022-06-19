@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/languages/laguages.dart';
 import 'package:frontend/screens/alarms/alarms_controllers.dart';
+import 'package:frontend/widgets/text/text_language.dart';
 
 class Alarms extends StatefulWidget {
   const Alarms({Key? key}) : super(key: key);
@@ -28,7 +29,7 @@ class _AlarmsState extends State<Alarms> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(languages.get("alarms"))),
+      appBar: AppBar(title: TextLanguage("alarms")),
       body: Container(child: main()),
       floatingActionButton: SizedBox(
         child: FloatingActionButton(

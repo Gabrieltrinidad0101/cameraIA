@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/screens/home/home_controllers.dart';
 import 'package:frontend/languages/laguages.dart';
+import 'package:frontend/widgets/text/text_language.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -12,7 +13,6 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   HomeController homeController = HomeController();
   Languages languages = Languages();
-
   @override
   Widget build(BuildContext context) {
     return appMain(context);
@@ -21,7 +21,7 @@ class _HomeState extends State<Home> {
   Scaffold appMain(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text(languages.get("home")),
+          title: TextLanguage("home"),
           actions: [
             IconButton(
                 onPressed: () {
@@ -33,7 +33,9 @@ class _HomeState extends State<Home> {
         drawer: menu(context),
         floatingActionButton: FloatingActionButton(
           child: const Icon((Icons.camera_enhance)),
-          onPressed: () {},
+          onPressed: () {
+            homeController.addCamera(mounted, context);
+          },
         ),
         body: Center(
           child: ElevatedButton(
@@ -69,8 +71,8 @@ class _HomeState extends State<Home> {
     );
   }
 
-  void setLanguageInState(languageCode) {
-    languages.setLanguageCode(languageCode);
+  Future<void> setLanguageInState(languageCode) async {
+    await languages.setLanguageCode(languageCode);
     setState(() {
       languages.languageCode = languageCode;
     });
@@ -81,7 +83,7 @@ class _HomeState extends State<Home> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-              title: Text(languages.get("chooseYourLanguage")),
+              title: TextLanguage("chooseYourLanguage"),
               content: FractionallySizedBox(
                 heightFactor: .35,
                 child: Column(
@@ -89,8 +91,8 @@ class _HomeState extends State<Home> {
                     FractionallySizedBox(
                       widthFactor: 1,
                       child: ElevatedButton(
-                          onPressed: () {
-                            setLanguageInState("es");
+                          onPressed: () async {
+                            await setLanguageInState("es");
                             Navigator.pop(context);
                           },
                           child: const Text(
@@ -103,8 +105,8 @@ class _HomeState extends State<Home> {
                     FractionallySizedBox(
                       widthFactor: 1,
                       child: ElevatedButton(
-                          onPressed: () {
-                            setLanguageInState("en");
+                          onPressed: () async {
+                            await setLanguageInState("en");
                             Navigator.pop(context);
                           },
                           child: const Text("English")),
@@ -125,8 +127,8 @@ class _HomeState extends State<Home> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                languages.get("languages"),
+              TextLanguage(
+                "languages",
                 style: const TextStyle(fontSize: 20),
               ),
               const Icon(
@@ -147,8 +149,8 @@ class _HomeState extends State<Home> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                languages.get("logout"),
+              TextLanguage(
+                "logout",
                 style: const TextStyle(fontSize: 20),
               ),
               const Icon(

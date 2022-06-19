@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:frontend/screens/selectDays/select_days_controller.dart';
-import 'package:frontend/screens/selectDays/utils/getDays.dart';
+import 'package:frontend/screens/selectDays/utils/get_days.dart';
+import 'package:frontend/widgets/text/text_language.dart';
 
 class SelectDays extends StatefulWidget {
   const SelectDays({Key? key}) : super(key: key);
@@ -13,7 +13,7 @@ class SelectDays extends StatefulWidget {
 class _SelectDaysState extends State<SelectDays> {
   Map makeDay(day, bool status) => {"day": day, "status": status};
 
-  List<Map> alarmDays = ListOfDays();
+  List<Map> alarmDays = listOfDays();
 
   SelectDaysController selectDaysController = SelectDaysController();
 
@@ -32,7 +32,7 @@ class _SelectDaysState extends State<SelectDays> {
   Scaffold appMain(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("DIAS DE ALARMAS"),
+        title: TextLanguage("dayAlarms"),
         leading: IconButton(
           icon: const Icon(Icons.close),
           onPressed: () => selectDaysController.goToBack(context),
@@ -44,7 +44,7 @@ class _SelectDaysState extends State<SelectDays> {
               onPressed: () {
                 selectDaysController.goToBack(context, alarmDays);
               },
-              child: const Text("Guardar"),
+              child: TextLanguage("save"),
               style: ButtonStyle(
                 backgroundColor:
                     MaterialStateProperty.all<Color>(Colors.orangeAccent),

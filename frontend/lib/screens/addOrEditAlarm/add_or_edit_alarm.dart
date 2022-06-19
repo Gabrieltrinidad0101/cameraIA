@@ -5,6 +5,7 @@ import 'package:frontend/screens/addOrEditAlarm/utils/default_alarm.dart';
 import 'package:frontend/widgets/buttons/time_button.dart';
 
 import 'package:frontend/languages/laguages.dart';
+import 'package:frontend/widgets/text/text_language.dart';
 
 class AddOrEditAlarm extends StatefulWidget {
   const AddOrEditAlarm({Key? key}) : super(key: key);
@@ -14,7 +15,7 @@ class AddOrEditAlarm extends StatefulWidget {
 }
 
 class _AddOrEditAlarmState extends State<AddOrEditAlarm> {
-  String title = "Agregar Alarma";
+  String title = "addAlarm";
   AddOrEditAlarmController addOrEditAlarmController =
       AddOrEditAlarmController();
   Languages languages = Languages();
@@ -40,7 +41,7 @@ class _AddOrEditAlarmState extends State<AddOrEditAlarm> {
   Scaffold appMain(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(title),
+        title: TextLanguage(title),
         actions: [
           FractionallySizedBox(
             heightFactor: 0.7,
@@ -49,7 +50,7 @@ class _AddOrEditAlarmState extends State<AddOrEditAlarm> {
                 addOrEditAlarmController.saveOrEditAlarm(
                     context, alarm, _keyLoader);
               },
-              child: const Text("Guardar"),
+              child: TextLanguage("save"),
               style: ButtonStyle(
                 backgroundColor:
                     MaterialStateProperty.all<Color>(Colors.orangeAccent),
@@ -87,7 +88,7 @@ class _AddOrEditAlarmState extends State<AddOrEditAlarm> {
         children: <Widget>[
           InkWell(
             child: ListTile(
-              title: Text(languages.get("alarmOfDays")),
+              title: TextLanguage("dayAlarms"),
               subtitle: Text(
                   addOrEditAlarmController.arrayToString(alarm["alarmDays"])),
             ),
@@ -97,7 +98,7 @@ class _AddOrEditAlarmState extends State<AddOrEditAlarm> {
           ),
           InkWell(
               child: ListTile(
-                title: Text(languages.get("objectToDetectText")),
+                title: TextLanguage("objectToDetectText"),
                 subtitle: Text(
                     addOrEditAlarmController.arrayToString(alarm["objects"])),
               ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart' show Navigator, Text;
 import 'package:frontend/widgets/alert/error.dart';
 import 'package:frontend/widgets/alert/alert.dart';
 import 'package:frontend/widgets/alert/alert_question.dart';
+import 'package:frontend/widgets/text/text_language.dart';
 import 'utils/parser_alarm.dart';
 import 'package:frontend/Mixins/array_to_string.dart';
 import 'package:frontend/utils/parse_days.dart';
@@ -19,7 +20,7 @@ class AlarmsControllers with ArrayToString, LoadingDialog {
       alert(
         context: context,
         title: "Error",
-        content: Text(getAlarms["error"]),
+        content: TextLanguage(getAlarms["error"]),
       );
       return null;
     }
@@ -66,7 +67,7 @@ class AlarmsControllers with ArrayToString, LoadingDialog {
   Future<Map?> gotToEditAlarm(context, index) async {
     var data =
         await Navigator.pushNamed(context, "/addOrEditAlarm", arguments: {
-      "title": "Editar Alarma",
+      "title": "editAlarm",
       "alarm": alarms?[index],
     });
     return data == null ? null : data as Map;
@@ -81,8 +82,8 @@ class AlarmsControllers with ArrayToString, LoadingDialog {
       context, int index, _keyLoader, Function callBack) async {
     await alertQuestion(
         context: context,
-        title: "Elimar",
-        content: const Text("Deseas eliminar esta alarma"),
+        title: "delete",
+        content: TextLanguage("deleteMessage"),
         callBack: () async {
           showLoadingDialog(context, _keyLoader);
           Map res = await alarm_http.delete(alarms?[index]["_id"]);

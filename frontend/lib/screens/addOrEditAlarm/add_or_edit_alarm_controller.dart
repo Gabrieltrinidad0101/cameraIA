@@ -5,6 +5,7 @@ import 'package:frontend/widgets/alert/error.dart';
 import 'package:frontend/Mixins/array_to_string.dart';
 import 'package:frontend/utils/parse_days.dart';
 import 'package:frontend/Mixins/loading_dialog.dart';
+import 'package:frontend/widgets/text/text_language.dart';
 
 class AddOrEditAlarmController with ArrayToString, LoadingDialog {
   ParseDays parseDays = ParseDays();
@@ -67,7 +68,7 @@ class AddOrEditAlarmController with ArrayToString, LoadingDialog {
     }
     if (res["error"] != null) {
       hiddenLoadingDialog(_keyLoader);
-      alertError(context, res["error"]);
+      alertError(context, TextLanguage(res["error"]));
       return;
     }
     newAlarm["alarm_days"] = parseDays.daysDecode(newAlarm["alarm_days"]);

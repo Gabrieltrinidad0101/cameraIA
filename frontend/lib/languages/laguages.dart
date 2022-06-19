@@ -23,9 +23,8 @@ class Languages {
     return languageCode;
   }
 
-  setLanguageCode(String language) async {
+  Future setLanguageCode(String language) async {
     await local_db_language.save(language);
-    languageCode = language;
     languageCodeOldState = language;
   }
 

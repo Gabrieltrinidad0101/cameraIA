@@ -1,3 +1,5 @@
-import 'ip.dart';
+import 'package:frontend/services/localStorage/server_url.dart' as server_url;
 
-String url = "http://$ip:8080";
+Future<String> serverUrl() async {
+  return "http://${await server_url.get()}";
+}

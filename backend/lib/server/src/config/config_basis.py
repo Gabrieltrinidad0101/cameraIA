@@ -1,7 +1,6 @@
-from distutils.debug import DEBUG
-
+from server.src.scripts.qr_code.get_IPv4 import IPv4
 
 class Config:
     DATABASE_NAME = "camera_ia"
-    HOST = "10.0.0.12"
+    HOST = IPv4()
     PORT = "8080"

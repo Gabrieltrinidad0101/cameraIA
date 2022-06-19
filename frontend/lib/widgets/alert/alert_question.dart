@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/widgets/text/text_language.dart';
 
 alertQuestion(
     {required context,
@@ -9,17 +10,17 @@ alertQuestion(
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
-        title: Text(title),
+        title: TextLanguage(title),
         content: content,
         actions: <Widget>[
           TextButton(
-            child: const Text("cancelar"),
+            child: TextLanguage("cancel"),
             onPressed: () {
               Navigator.of(context).pop();
             },
           ),
           TextButton(
-            child: const Text("aceptar"),
+            child: TextLanguage("accept"),
             onPressed: () {
               Navigator.of(context).pop();
               callBack();

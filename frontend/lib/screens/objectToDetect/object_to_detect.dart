@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/languages/laguages.dart';
+import 'package:frontend/widgets/text/text_language.dart';
 import 'object_to_detect_controller.dart';
 
 class ObjectToDetect extends StatefulWidget {
@@ -12,6 +14,7 @@ class _ObjectToDetectState extends State<ObjectToDetect> {
   ObjectToDetectController objectToDetectController =
       ObjectToDetectController();
   final searchController = TextEditingController();
+  Languages languages = Languages();
   List searchResult = [];
   List listOfObjectToDetect = [
     {"name": "person", "status": false},
@@ -107,7 +110,7 @@ class _ObjectToDetectState extends State<ObjectToDetect> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("OBJECTOS A DETECTAR"),
+        title: TextLanguage("objectToDetectText"),
         leading: IconButton(
           icon: const Icon(Icons.close),
           onPressed: () => objectToDetectController.goToBack(context),
@@ -120,7 +123,7 @@ class _ObjectToDetectState extends State<ObjectToDetect> {
                 objectToDetectController.goToBack(
                     context, listOfObjectToDetect);
               },
-              child: const Text("Guardar"),
+              child: TextLanguage("save"),
               style: ButtonStyle(
                 backgroundColor:
                     MaterialStateProperty.all<Color>(Colors.orangeAccent),
@@ -140,11 +143,8 @@ class _ObjectToDetectState extends State<ObjectToDetect> {
                     controller: searchController,
                     style: const TextStyle(fontSize: 20),
                     decoration: InputDecoration(
-                      hintText: 'Enter a message',
-                      suffixIcon: IconButton(
-                        onPressed: () {},
-                        icon: const Icon(Icons.search),
-                      ),
+                      hintText: languages.get("search"),
+                      suffixIcon: const Icon(Icons.search),
                     ),
                     onChanged: (value) {
                       setState(() {

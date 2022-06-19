@@ -1,6 +1,6 @@
 Map<String, dynamic> english = {
   "home": "Home",
-  "languages": "languages",
+  "languages": "Languages(English)",
   "chooseYourLanguage": "Choose your language",
   "logout": "Log out ",
   "alarmDays": [
@@ -15,7 +15,19 @@ Map<String, dynamic> english = {
   "alarms": "Alarms",
   "startAlarm": "start alarm",
   "endAlarm": "end alarm",
-  "alarmOfDays": "DAYS OF ALARMS",
+  "dayAlarms": "DAYS ALARMS",
   "objectToDetectText": "OBJECT TO DETECT",
-  "editAlarm": "Editar Alarm"
+  "editAlarm": "Edit Alarm",
+  "addAlarm": "Add Alarm",
+  "save": "Save",
+  "errorHandle": "There was some kind of error please try again later",
+  "wait": "Please wait...",
+  "delete": "Delete",
+  "deleteMessage": "Do you want to delete this alarm",
+  "cancel": "cancel",
+  "accept": "accept",
+  "logOutTitle": "Delete server session",
+  "logOutMessage":
+      "Are you sure to delete the server session that you will not be able to view, add, modify and delete alarms?",
+  "search": "Search"
 };

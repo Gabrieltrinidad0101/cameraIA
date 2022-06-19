@@ -1,6 +1,6 @@
 Map<String, dynamic> spanish = {
   "home": "Inicio",
-  "languages": "lenguajes",
+  "languages": "Lenguajes(Español)",
   "chooseYourLanguage": "Elige tú idioma",
   "logout": "cerrar sesión ",
   "alarmDays": [
@@ -15,7 +15,19 @@ Map<String, dynamic> spanish = {
   "alarms": "Alarmas",
   "startAlarm": "comienza la alarma",
   "endAlarm": "termina la alarma",
-  "alarmOfDays": "DIAS DE ALARMAS",
+  "dayAlarms": "DIAS DE ALARMAS",
   "objectToDetectText": "OBJECTOS A DETECTAR",
-  "editAlarm": "Editar Alarma"
+  "editAlarm": "Editar Alarma",
+  "addAlarm": "Agregar Alarma",
+  "save": "Guardar",
+  "errorHandle": "Habido algún tipo de error por favor intente más tarde",
+  "wait": "Espera por favor",
+  "delete": "Elimar",
+  "deleteMessage": "Deseas eliminar esta alarma",
+  "cancel": "cencelar",
+  "accept": "aceptar",
+  "logOutTitle": "Eliminar sesión del servidor",
+  "logOutMessage":
+      "¿Está seguro de eliminar la sesión del servidor que no podrá ver, agregar, modificar y eliminar alarmas?",
+  "search": "Buscar"
 };

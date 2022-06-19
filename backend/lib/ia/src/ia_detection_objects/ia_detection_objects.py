@@ -50,4 +50,3 @@ class DetectionObjects:
     
 if __name__ == "__main__":
     detectionObject = DetectionObjects()
-    print(detectionObject.detect())
