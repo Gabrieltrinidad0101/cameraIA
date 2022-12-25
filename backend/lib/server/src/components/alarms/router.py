@@ -25,7 +25,6 @@ def add_new_alarm():
         _id = database_alarm.save(alarm_data_filter)
         return jsonify({"message": "Alarm add succcessful","_id": _id}), 200
     except Exception as e:
-        print(e)
         return jsonify({"error": "Error adding alarm"}), 500
 
 @alarm.route("/get",methods=["GET"])

@@ -29,7 +29,6 @@ class Languages {
   }
 
   get(String key) {
-    var a = languages[languageCode]?[key] ?? "Error in language code";
-    return a;
+    return languages[languageCode]?[key] ?? "Error in language code";
   }
 }

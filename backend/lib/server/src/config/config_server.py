@@ -18,7 +18,6 @@ class ConfigServer:
                 env = Production()
             elif environment == "test":
                 env = Test()
-            
             return env
         except IndexError:
             raise Exception("is the required environment")

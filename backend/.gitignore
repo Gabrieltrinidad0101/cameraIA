@@ -4,4 +4,4 @@ __pycache__
 run_basic_script.py
 index.html
 .env
-.pyc
+*.pyc

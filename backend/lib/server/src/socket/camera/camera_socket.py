@@ -6,12 +6,14 @@ from .utils.alarm import Alarm
 from server.src.services.database.alarms import DatabaseAlarm
 from  .utils.return_repeat_elements import return_repeat_elements
 import server.src.services.database.token as DatabaseToken
+from server.src.config.config_server import ConfigServer
 from concurrent.futures import ThreadPoolExecutor
 import json
 
 detectionObjects = DetectionObjects()
 databaseAlarm = DatabaseAlarm()
-camera = Camera("http://10.0.0.12:3000/videoplayback.mp4")
+camera_url_test = ConfigServer.get().HOST
+camera = Camera(f"http://{camera_url_test}:3000/videoplayback.mp4")
 executor = ThreadPoolExecutor(max_workers=10)
 
 class CameraSocket(Namespace):
